@@ -37,7 +37,7 @@ import Rebate from './src/pages/rebate/rebate';
 
 import TabNav from './src/navigator/MainTabNavigator';
 
-import Stack from './src/navigator/StackNavigator';
+import RootStack from './src/navigator/AppNavigator';
 
 // 侧边抽屉导航
 const Drawer = createDrawerNavigator();
@@ -47,24 +47,22 @@ const DrawerNav = (props) => {
             drawerContent={props => <DrawerContent {...props} />}
         >
             {/* <Drawer.Screen name='TabNav' component={TabNav} options={{ title: 'home' }} /> */}
-            <Drawer.Screen name='Mine' component={Mine} options={{ title: 'mine' }} />
+            <Drawer.Screen name="Mine" component={Mine} options={{ title: 'mine' }} />
         </Drawer.Navigator>
-    )
-}
+    );
+};
 
 const DrawerContent = (props) => {
     return (
         <>
-            <View style={styles.drawerHeader}>
-
-            </View>
+            <View style={styles.drawerHeader} />
             <DrawerContentScrollView {...props}>
                 <DrawerItemList activeBackgroundColor={'transparent'} {...props} />
                 <DrawerItem label="about" onPress={() => Linking.openURL('https:')} />
             </DrawerContentScrollView>
         </>
-    )
-}
+    );
+};
 
 
 
@@ -72,17 +70,17 @@ class App extends React.Component {
     render() {
         return (
             <NavigationContainer>
-                <TabNav />
+                <RootStack />
             </NavigationContainer>
-        )
+        );
     }
 }
 
 const styles = StyleSheet.create({
     drawerHeader: {
         height: 100,
-        backgroundColor: 'red'
-    }
+        backgroundColor: 'red',
+    },
 });
 
 export default App;
