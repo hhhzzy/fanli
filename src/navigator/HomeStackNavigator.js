@@ -8,7 +8,8 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import HomeScreen from '../pages/home/home';
 import DetailScreen from '../pages/home/detail';
-
+Icon.loadFont();
+AntDesignIcon.loadFont();
 const Stack = createStackNavigator();
 
 export default class HomeStackScreen extends React.Component {

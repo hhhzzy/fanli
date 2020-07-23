@@ -3,7 +3,7 @@ import {Animated} from 'react-native';
 import * as React from 'react';
 
 import MineScreen from '../pages/mine/mine';
-
+import LinearGradient from 'react-native-linear-gradient';
 const Stack = createStackNavigator();
 
 export default class HomeStackScreen extends React.Component {
@@ -11,12 +11,22 @@ export default class HomeStackScreen extends React.Component {
     return (
       <Stack.Navigator initialRouteName="Mine" mode="modal">
         <Stack.Screen
-          name="Mine"
+          name="我的"
           component={MineScreen}
           options={{
             headerTintColor: '#000',
             headerStyle: {
               backgroundColor: 'red',
+            },
+            headerBackground: () => {
+              return (
+                <LinearGradient
+                  start={{x: 0, y: 0}}
+                  end={{x: 0, y: 1}}
+                  style={{flex: 1}}
+                  colors={['#9BD6D2', '#4CDBC5']}
+                />
+              );
             },
           }}
         />

@@ -16,14 +16,16 @@ export default class TabNav extends React.Component {
         screenOptions={({route}) => ({
           tabBarIcon: ({focused, color, size}) => {
             let iconName = 'logo-react';
-            if (route.name === 'Home') {
+            if (route.name === '首页') {
               iconName = focused ? 'home' : 'home-outline';
-            } else if (route.name === 'Mine') {
+            } else if (route.name === '我的') {
+              iconName = focused
+                ? 'ios-person-circle-outline'
+                : 'ios-person-circle-sharp';
+            } else if (route.name === '挖玉石') {
               iconName = focused ? 'add-circle' : 'add-circle-outline';
-            } else if (route.name === 'Rebate') {
-              iconName = focused ? 'add-circle' : 'add-circle-outline';
-            } else if (route.name === 'Goods') {
-              iconName = focused ? 'add-circle' : 'add-circle-outline';
+            } else if (route.name === '商品') {
+              iconName = focused ? 'copy' : 'copy-outline';
             }
             return <Icon name={iconName} size={size} color={color} />;
           },
@@ -36,10 +38,10 @@ export default class TabNav extends React.Component {
           style: {height: 70},
           tabStyle: {paddingBottom: 15},
         }}>
-        <Tab.Screen name="Home" component={HomeStackScreen} />
-        <Tab.Screen name="Goods" component={GoodsStackScreen} />
-        <Tab.Screen name="Rebate" component={RebateStackScreen} />
-        <Tab.Screen name="Mine" component={MineStackScrenn} />
+        <Tab.Screen name="首页" component={HomeStackScreen} />
+        <Tab.Screen name="商品" component={GoodsStackScreen} />
+        <Tab.Screen name="挖玉石" component={RebateStackScreen} />
+        <Tab.Screen name="我的" component={MineStackScrenn} />
       </Tab.Navigator>
     );
   }
