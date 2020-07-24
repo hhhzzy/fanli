@@ -17,9 +17,10 @@ export default class HomeStackScreen extends React.Component {
     return (
       <Stack.Navigator initialRouteName="Home" mode="modal">
         <Stack.Screen
-          name="玉汇缘"
+          name="Home"
           component={HomeScreen}
           options={{
+            headerTitle: '玉汇缘',
             headerTintColor: '#fff',
             headerTitleAlign: 'left',
             headerBackground: () => {

@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   ScrollView,
   Image,
+  TouchableHighlight,
 } from 'react-native';
 import React from 'react';
 
@@ -12,6 +13,9 @@ import pxSize from '../../assets/js/pxSize';
 
 import Swiper from 'react-native-swiper';
 export default class Goods extends React.Component {
+  GotoDetail = () => {
+    this.props.navigation.navigate('GoodsDetailScreen');
+  };
   render() {
     return (
       <SafeAreaView>
@@ -77,20 +81,22 @@ export default class Goods extends React.Component {
           </ScrollView>
           <View style={styles.goodsBox}>
             <View style={styles.goodsList}>
-              <View style={styles.goods}>
-                <Image
-                  style={styles.goodsImg}
-                  source={require('../../assets/image/1.jpeg')}
-                />
-                <Text style={styles.goodsName}>biaoti</Text>
-                <Text
-                  style={[
-                    styles.goodsName,
-                    {color: '#F12210', fontWeight: 'bold'},
-                  ]}>
-                  biaoti
-                </Text>
-              </View>
+              <TouchableHighlight onPress={() => this.GotoDetail()}>
+                <View style={styles.goods}>
+                  <Image
+                    style={styles.goodsImg}
+                    source={require('../../assets/image/1.jpeg')}
+                  />
+                  <Text style={styles.goodsName}>biaoti</Text>
+                  <Text
+                    style={[
+                      styles.goodsName,
+                      {color: '#F12210', fontWeight: 'bold'},
+                    ]}>
+                    biaoti
+                  </Text>
+                </View>
+              </TouchableHighlight>
               <View style={styles.goods}>
                 <Image
                   style={styles.goodsImg}

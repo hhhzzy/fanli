@@ -11,13 +11,13 @@ export default class HomeStackScreen extends React.Component {
     return (
       <Stack.Navigator initialRouteName="Mine" mode="modal">
         <Stack.Screen
-          name="我的"
+          name="Mine"
           component={MineScreen}
           options={{
-            headerTintColor: '#000',
-            headerStyle: {
-              backgroundColor: 'red',
-            },
+            headerTitle: '',
+            headerTintColor: '#fff',
+            headerTitleAlign: 'center',
+            headerStyle: {},
             headerBackground: () => {
               return (
                 <LinearGradient

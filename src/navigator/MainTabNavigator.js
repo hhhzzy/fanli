@@ -16,19 +16,20 @@ export default class TabNav extends React.Component {
         screenOptions={({route}) => ({
           tabBarIcon: ({focused, color, size}) => {
             let iconName = 'logo-react';
-            if (route.name === '首页') {
+            if (route.name === 'Home') {
               iconName = focused ? 'home' : 'home-outline';
-            } else if (route.name === '我的') {
+            } else if (route.name === 'Mine') {
               iconName = focused
                 ? 'ios-person-circle-outline'
                 : 'ios-person-circle-sharp';
-            } else if (route.name === '挖玉石') {
-              iconName = focused ? 'add-circle' : 'add-circle-outline';
-            } else if (route.name === '商品') {
+            } else if (route.name === 'Rebate') {
+              iconName = focused ? 'md-cube-outline' : 'md-cube-sharp';
+            } else if (route.name === 'Goods') {
               iconName = focused ? 'copy' : 'copy-outline';
             }
             return <Icon name={iconName} size={size} color={color} />;
           },
+          tabBarLabel: () => {},
         })}
         tabBarOptions={{
           activeTintColor: '#2B7E4B',
@@ -38,10 +39,26 @@ export default class TabNav extends React.Component {
           style: {height: 70},
           tabStyle: {paddingBottom: 15},
         }}>
-        <Tab.Screen name="首页" component={HomeStackScreen} />
-        <Tab.Screen name="商品" component={GoodsStackScreen} />
-        <Tab.Screen name="挖玉石" component={RebateStackScreen} />
-        <Tab.Screen name="我的" component={MineStackScrenn} />
+        <Tab.Screen
+          name="Home"
+          options={{tabBarLabel: '首页'}}
+          component={HomeStackScreen}
+        />
+        <Tab.Screen
+          name="Goods"
+          options={{tabBarLabel: '商品'}}
+          component={GoodsStackScreen}
+        />
+        <Tab.Screen
+          name="Rebate"
+          options={{tabBarLabel: '返利'}}
+          component={RebateStackScreen}
+        />
+        <Tab.Screen
+          name="Mine"
+          options={{tabBarLabel: '我的'}}
+          component={MineStackScrenn}
+        />
       </Tab.Navigator>
     );
   }
