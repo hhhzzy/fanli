@@ -6,7 +6,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import TabNav from './MainTabNavigator';
 import Login from '../pages/login/login';
 import GoodsDetailScreen from '../pages/goods/goodsDetail'; // 商品详情
-
+import OrderListScreen from '../pages/mine/orderList'; // 订单列表
+import OrderDetailScreen from '../pages/mine/orderInfo'; // 订单列表
+import MoneyListScreen from '../pages/mine/moneyList'; // 银行流水
+import RechargeScreen from '../pages/mine/recharge'; // 在线充值
 const Stack = createStackNavigator();
 
 export default class RootStack extends React.Component {
@@ -24,7 +27,20 @@ export default class RootStack extends React.Component {
             headerTitle: '详情',
             headerTintColor: '#fff',
             headerTitleAlign: 'center',
-            headerShown: true,
+            headerTransparent: true,
+
+            headerBackImage: () => (
+              <Icon name="chevron-back" size={40} color="white" />
+            ),
+          }}
+          component={GoodsDetailScreen}
+        />
+        <Stack.Screen
+          name="OrderListScreen"
+          options={{
+            headerTitle: '订单列表',
+            headerTintColor: '#fff',
+            headerTitleAlign: 'center',
             headerBackground: () => {
               return (
                 <LinearGradient
@@ -39,7 +55,73 @@ export default class RootStack extends React.Component {
               <Icon name="chevron-back" size={40} color="white" />
             ),
           }}
-          component={GoodsDetailScreen}
+          component={OrderListScreen}
+        />
+        <Stack.Screen
+          name="OrderDetailScreen"
+          options={{
+            headerTitle: '订单详情',
+            headerTintColor: '#fff',
+            headerTitleAlign: 'center',
+            headerBackground: () => {
+              return (
+                <LinearGradient
+                  start={{x: 0, y: 0}}
+                  end={{x: 0, y: 1}}
+                  style={{flex: 1}}
+                  colors={['#9BD6D2', '#4CDBC5']}
+                />
+              );
+            },
+            headerBackImage: () => (
+              <Icon name="chevron-back" size={40} color="white" />
+            ),
+          }}
+          component={OrderDetailScreen}
+        />
+        <Stack.Screen
+          name="MoneyListScreen"
+          options={{
+            headerTitle: '银行流水',
+            headerTintColor: '#fff',
+            headerTitleAlign: 'center',
+            headerBackground: () => {
+              return (
+                <LinearGradient
+                  start={{x: 0, y: 0}}
+                  end={{x: 0, y: 1}}
+                  style={{flex: 1}}
+                  colors={['#9BD6D2', '#4CDBC5']}
+                />
+              );
+            },
+            headerBackImage: () => (
+              <Icon name="chevron-back" size={40} color="white" />
+            ),
+          }}
+          component={MoneyListScreen}
+        />
+        <Stack.Screen
+          name="RechargeScreen"
+          options={{
+            headerTitle: '在线充值',
+            headerTintColor: '#fff',
+            headerTitleAlign: 'center',
+            headerBackground: () => {
+              return (
+                <LinearGradient
+                  start={{x: 0, y: 0}}
+                  end={{x: 0, y: 1}}
+                  style={{flex: 1}}
+                  colors={['#9BD6D2', '#4CDBC5']}
+                />
+              );
+            },
+            headerBackImage: () => (
+              <Icon name="chevron-back" size={40} color="white" />
+            ),
+          }}
+          component={RechargeScreen}
         />
         <Stack.Screen
           name="Login"

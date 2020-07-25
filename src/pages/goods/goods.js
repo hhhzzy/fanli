@@ -66,7 +66,12 @@ export default class Goods extends React.Component {
               </Swiper>
             </View>
           </View>
-          <ScrollView horizontal={true}>
+          <ScrollView
+            horizontal={true}
+            style={{
+              marginLeft: pxSize(15),
+              marginRight: pxSize(15),
+            }}>
             <View style={styles.navBox}>
               <Text style={[styles.navTxt, styles.textCurrent]}>全部</Text>
               <Text style={styles.navTxt}>类别一</Text>
@@ -137,8 +142,6 @@ const styles = StyleSheet.create({
     height: pxSize(100),
   },
   navBox: {
-    marginLeft: pxSize(15),
-    marginRight: pxSize(15),
     flexDirection: 'row',
     marginTop: pxSize(15),
     height: pxSize(28),

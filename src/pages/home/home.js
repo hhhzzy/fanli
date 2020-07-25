@@ -15,6 +15,7 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import pxSize from '../../assets/js/pxSize';
 
 Icon.loadFont();
+AntDesignIcon.loadFont();
 export default class Home extends React.Component {
   render() {
     return (

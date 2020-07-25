@@ -6,12 +6,26 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  TouchableHighlight,
 } from 'react-native';
 import React from 'react';
 import pxSize from '../../assets/js/pxSize';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
+Icon.loadFont();
 export default class Mine extends React.Component {
+  // 进入订单列表
+  GotoOrderList = () => {
+    this.props.navigation.navigate('OrderListScreen');
+  };
+  // 进入明细
+  GotoMoneyList = () => {
+    this.props.navigation.navigate('MoneyListScreen');
+  };
+  // 在线充值
+  GotoRecharge = () => {
+    this.props.navigation.navigate('RechargeScreen');
+  };
   render() {
     return (
       <SafeAreaView>
@@ -51,15 +65,23 @@ export default class Mine extends React.Component {
                 />
               </View>
               <View style={styles.topList}>
-                <View style={styles.listView}>
-                  <Image
-                    style={styles.topListImg}
-                    source={require('../../assets/image/top_list_1.png')}
-                  />
-                  <Text style={{marginTop: 8, justifyContent: 'space-around'}}>
-                    充值
-                  </Text>
-                </View>
+                <TouchableHighlight
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                  onPress={() => this.GotoRecharge()}>
+                  <View style={styles.listView}>
+                    <Image
+                      style={styles.topListImg}
+                      source={require('../../assets/image/top_list_1.png')}
+                    />
+                    <Text
+                      style={{marginTop: 8, justifyContent: 'space-around'}}>
+                      充值
+                    </Text>
+                  </View>
+                </TouchableHighlight>
                 <View style={styles.listView}>
                   <Image
                     style={styles.topListImg}
@@ -67,13 +89,20 @@ export default class Mine extends React.Component {
                   />
                   <Text style={{marginTop: 8}}>提现</Text>
                 </View>
-                <View style={styles.listView}>
-                  <Image
-                    style={styles.topListImg}
-                    source={require('../../assets/image/top_list_3.png')}
-                  />
-                  <Text style={{marginTop: 8}}>明细</Text>
-                </View>
+                <TouchableHighlight
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                  onPress={() => this.GotoMoneyList()}>
+                  <View style={styles.listView}>
+                    <Image
+                      style={styles.topListImg}
+                      source={require('../../assets/image/top_list_3.png')}
+                    />
+                    <Text style={{marginTop: 8}}>明细</Text>
+                  </View>
+                </TouchableHighlight>
                 <View style={styles.listView}>
                   <Image
                     style={styles.topListImg}
@@ -89,13 +118,15 @@ export default class Mine extends React.Component {
           <View style={[styles.otherBox, {marginTop: pxSize(60)}]}>
             <Text style={styles.otherTitle}>我的订单</Text>
             <View style={styles.otherList}>
-              <View style={styles.list}>
-                <Image
-                  style={styles.listImg}
-                  source={require('../../assets/image/1_1.png')}
-                />
-                <Text style={{fontSize: 11}}>已付款</Text>
-              </View>
+              <TouchableHighlight onPress={() => this.GotoOrderList()}>
+                <View style={styles.list}>
+                  <Image
+                    style={styles.listImg}
+                    source={require('../../assets/image/1_1.png')}
+                  />
+                  <Text style={{fontSize: 11}}>已付款</Text>
+                </View>
+              </TouchableHighlight>
               <View style={styles.list}>
                 <Image
                   style={styles.listImg}
