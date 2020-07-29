@@ -27,7 +27,7 @@ export default class Address extends React.Component {
 
 	render() {
 		return (
-			<SafeAreaView style={{flex: 1}}>
+			<View style={{flex: 1}}>
 				<ScrollView>
 					<View style={styles.addressBox}>
 						<Text>姓名：</Text>
@@ -62,7 +62,7 @@ export default class Address extends React.Component {
 						<Text style={styles.footerBtn}>保存</Text>
 					</View>
 				</TouchableHighlight>
-			</SafeAreaView>
+			</View>
 		);
 	}
 }

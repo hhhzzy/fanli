@@ -14,6 +14,7 @@ import RechargeScreen from '../pages/mine/recharge'; // 在线充值
 import RechargeInfoScreen from '../pages/mine/rechargeInfo'; // 在线充值付款页
 import AddressScreen from '../pages/mine/address'; // 地址页
 import MessageScreen from '../pages/mine/message'; // 消息中心
+import InviteScreen from '../pages/mine/invite'; // 推荐好友
 const Stack = createStackNavigator();
 
 export default class RootStack extends React.Component {
@@ -29,11 +30,6 @@ export default class RootStack extends React.Component {
 			<Stack.Navigator initialRouteName="Home" mode="modal">
 				{this.state.userToken ? (
 					<>
-						<Stack.Screen
-							name="Home"
-							options={{headerShown: false}}
-							component={TabNav}
-						/>
 						<Stack.Screen
 							name="MessageScreen"
 							options={{
@@ -57,12 +53,18 @@ export default class RootStack extends React.Component {
 										color="white"
 									/>
 								),
+								headerBackTitleVisible: false,
 							}}
 							component={MessageScreen}
 						/>
 					</>
 				) : (
 					<>
+						<Stack.Screen
+							name="Home"
+							options={{headerShown: false}}
+							component={TabNav}
+						/>
 						<Stack.Screen
 							name="Login"
 							options={{headerTitle: '登录'}}
@@ -87,6 +89,7 @@ export default class RootStack extends React.Component {
 						headerBackImage: () => (
 							<Icon name="chevron-back" size={40} color="white" />
 						),
+						headerBackTitleVisible: false,
 					}}
 					component={GoodsDetailScreen}
 				/>
@@ -109,6 +112,7 @@ export default class RootStack extends React.Component {
 						headerBackImage: () => (
 							<Icon name="chevron-back" size={40} color="white" />
 						),
+						headerBackTitleVisible: false,
 					}}
 					component={OrderListScreen}
 				/>
@@ -131,6 +135,7 @@ export default class RootStack extends React.Component {
 						headerBackImage: () => (
 							<Icon name="chevron-back" size={40} color="white" />
 						),
+						headerBackTitleVisible: false,
 					}}
 					component={OrderDetailScreen}
 				/>
@@ -153,6 +158,7 @@ export default class RootStack extends React.Component {
 						headerBackImage: () => (
 							<Icon name="chevron-back" size={40} color="white" />
 						),
+						headerBackTitleVisible: false,
 					}}
 					component={MoneyListScreen}
 				/>
@@ -175,6 +181,7 @@ export default class RootStack extends React.Component {
 						headerBackImage: () => (
 							<Icon name="chevron-back" size={40} color="white" />
 						),
+						headerBackTitleVisible: false,
 					}}
 					component={RechargeScreen}
 				/>
@@ -197,6 +204,7 @@ export default class RootStack extends React.Component {
 						headerBackImage: () => (
 							<Icon name="chevron-back" size={40} color="white" />
 						),
+						headerBackTitleVisible: false,
 					}}
 					component={RechargeInfoScreen}
 				/>
@@ -219,8 +227,33 @@ export default class RootStack extends React.Component {
 						headerBackImage: () => (
 							<Icon name="chevron-back" size={40} color="white" />
 						),
+						headerBackTitleVisible: false,
 					}}
 					component={AddressScreen}
+				/>
+				<Stack.Screen
+					name="InviteScreen"
+					options={{
+						headerTitle: '邀请好友',
+						headerTintColor: '#fff',
+						headerTitleAlign: 'center',
+
+						headerBackground: () => {
+							return (
+								<LinearGradient
+									start={{x: 0, y: 0}}
+									end={{x: 0, y: 1}}
+									style={{flex: 1}}
+									colors={['#9BD6D2', '#4CDBC5']}
+								/>
+							);
+						},
+						headerBackImage: () => (
+							<Icon name="chevron-back" size={40} color="white" />
+						),
+						headerBackTitleVisible: false,
+					}}
+					component={InviteScreen}
 				/>
 			</Stack.Navigator>
 		);

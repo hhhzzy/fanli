@@ -41,201 +41,225 @@ export default class Mine extends React.Component {
 	GotoMessage = () => {
 		this.props.navigation.navigate('MessageScreen');
 	};
+	// 推荐好友
+	GotoTj = () => {
+		this.props.navigation.navigate('InviteScreen');
+	};
 	render() {
 		return (
-			<SafeAreaView>
+			<>
 				<View style={styles.top}>
-					<LinearGradient
-						start={{x: 0, y: 0}}
-						end={{x: 0, y: 1}}
-						style={{flex: 1}}
-						colors={['#4CDBC5', '#4edac4']}>
-						<View style={styles.topBox}>
-							<View style={styles.topHeader}>
-								<Image
-									style={styles.headerImg}
-									source={require('../../assets/image/header.png')}
-								/>
-								<View style={styles.headerName}>
-									<Text
-										style={{
-											fontSize: 20,
-											fontWeight: 'bold',
-											color: '#fff',
-											height: pxSize(28),
-											alignItems: 'center',
-											marginTop: pxSize(2),
-										}}>
-										我爱老虎油
-									</Text>
-									<Text style={{fontSize: 12, color: '#fff'}}>
-										我的元宝：1200个
-									</Text>
-								</View>
-								<Icon
-									style={{marginLeft: 'auto'}}
-									name="mail-sharp"
-									size={20}
-									color="#fff"
-								/>
-							</View>
-							<View style={styles.topList}>
-								<TouchableHighlight
-									style={{
-										justifyContent: 'center',
-										alignItems: 'center',
-									}}
-									onPress={() => this.GotoRecharge()}>
-									<View style={styles.listView}>
-										<Image
-											style={styles.topListImg}
-											source={require('../../assets/image/top_list_1.png')}
-										/>
+					<View style={{height: pxSize(140)}}>
+						<LinearGradient
+							start={{x: 0, y: 0}}
+							end={{x: 0, y: 1}}
+							style={{flex: 1}}
+							colors={['#4CDBC5', '#4edac4']}>
+							<View style={styles.topBox}>
+								<View style={styles.topHeader}>
+									<Image
+										style={styles.headerImg}
+										source={require('../../assets/image/header.png')}
+									/>
+									<View style={styles.headerName}>
 										<Text
 											style={{
-												marginTop: 8,
-												justifyContent: 'space-around',
+												fontSize: 20,
+												fontWeight: 'bold',
+												color: '#fff',
+												height: pxSize(28),
+												alignItems: 'center',
+												marginTop: pxSize(2),
 											}}>
-											充值
+											我爱老虎油
+										</Text>
+										<Text
+											style={{
+												fontSize: 12,
+												color: '#fff',
+											}}>
+											我的元宝：1200个
+										</Text>
+									</View>
+									<Icon
+										style={{marginLeft: 'auto'}}
+										name="mail-sharp"
+										size={20}
+										color="#fff"
+									/>
+								</View>
+							</View>
+						</LinearGradient>
+					</View>
+					<View style={styles.topList}>
+						<TouchableHighlight
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}
+							onPress={() => this.GotoRecharge()}>
+							<View style={styles.listView}>
+								<Image
+									style={styles.topListImg}
+									source={require('../../assets/image/top_list_1.png')}
+								/>
+								<Text
+									style={{
+										marginTop: 8,
+										justifyContent: 'space-around',
+									}}>
+									充值
+								</Text>
+							</View>
+						</TouchableHighlight>
+						<View style={styles.listView}>
+							<Image
+								style={styles.topListImg}
+								source={require('../../assets/image/top_list_2.png')}
+							/>
+							<Text style={{marginTop: 8}}>提现</Text>
+						</View>
+						<TouchableHighlight
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}
+							onPress={() => this.GotoMoneyList()}>
+							<View style={styles.listView}>
+								<Image
+									style={styles.topListImg}
+									source={require('../../assets/image/top_list_3.png')}
+								/>
+								<Text style={{marginTop: 8}}>明细</Text>
+							</View>
+						</TouchableHighlight>
+						<View style={styles.listView}>
+							<Image
+								style={styles.topListImg}
+								source={require('../../assets/image/top_list_4.png')}
+							/>
+							<Text style={{marginTop: 8}}>我的钱包</Text>
+						</View>
+					</View>
+				</View>
+				<ScrollView style={{flex: 1}}>
+					<View style={{marginBottom: 20}}>
+						<View
+							style={[styles.otherBox, {marginTop: pxSize(60)}]}>
+							<Text style={styles.otherTitle}>我的订单</Text>
+							<View style={styles.otherList}>
+								<TouchableHighlight
+									onPress={() => this.GotoOrderList()}>
+									<View style={styles.list}>
+										<Image
+											style={styles.listImg}
+											source={require('../../assets/image/1_1.png')}
+										/>
+										<Text style={{fontSize: 11}}>
+											已付款
 										</Text>
 									</View>
 								</TouchableHighlight>
-								<View style={styles.listView}>
+								<View style={styles.list}>
 									<Image
-										style={styles.topListImg}
-										source={require('../../assets/image/top_list_2.png')}
+										style={styles.listImg}
+										source={require('../../assets/image/1_2.png')}
 									/>
-									<Text style={{marginTop: 8}}>提现</Text>
+									<Text style={{fontSize: 11}}>已完成</Text>
+								</View>
+								<View style={styles.list}>
+									<Image
+										style={styles.listImg}
+										source={require('../../assets/image/1_3.png')}
+									/>
+									<Text style={{fontSize: 11}}>返利单</Text>
+								</View>
+							</View>
+						</View>
+						<View style={styles.otherBox}>
+							<Text style={styles.otherTitle}>推广中心</Text>
+							<View style={styles.otherList}>
+								<View style={styles.list}>
+									<Image
+										style={styles.listImg}
+										source={require('../../assets/image/2_1.png')}
+									/>
+									<Text style={{fontSize: 11}}>我的推广</Text>
+								</View>
+								<View style={styles.list}>
+									<Image
+										style={styles.listImg}
+										source={require('../../assets/image/2_2.png')}
+									/>
+									<Text style={{fontSize: 11}}>团队佣金</Text>
+								</View>
+								<View style={styles.list}>
+									<Image
+										style={styles.listImg}
+										source={require('../../assets/image/2_3.png')}
+									/>
+									<Text style={{fontSize: 11}}>佣金政策</Text>
 								</View>
 								<TouchableHighlight
-									style={{
-										justifyContent: 'center',
-										alignItems: 'center',
-									}}
-									onPress={() => this.GotoMoneyList()}>
-									<View style={styles.listView}>
+									onPress={() => this.GotoTj()}>
+									<View style={styles.list}>
 										<Image
-											style={styles.topListImg}
-											source={require('../../assets/image/top_list_3.png')}
+											style={styles.listImg}
+											source={require('../../assets/image/2_4.png')}
 										/>
-										<Text style={{marginTop: 8}}>明细</Text>
+										<Text style={{fontSize: 11}}>
+											邀请好友
+										</Text>
 									</View>
 								</TouchableHighlight>
-								<View style={styles.listView}>
-									<Image
-										style={styles.topListImg}
-										source={require('../../assets/image/top_list_4.png')}
-									/>
-									<Text style={{marginTop: 8}}>我的钱包</Text>
-								</View>
 							</View>
 						</View>
-					</LinearGradient>
-				</View>
-				<ScrollView>
-					<View style={[styles.otherBox, {marginTop: pxSize(60)}]}>
-						<Text style={styles.otherTitle}>我的订单</Text>
-						<View style={styles.otherList}>
-							<TouchableHighlight
-								onPress={() => this.GotoOrderList()}>
+						<View style={[styles.otherBox]}>
+							<Text style={styles.otherTitle}>个人面板</Text>
+							<View style={styles.otherList}>
 								<View style={styles.list}>
 									<Image
 										style={styles.listImg}
-										source={require('../../assets/image/1_1.png')}
+										source={require('../../assets/image/3_1.png')}
 									/>
-									<Text style={{fontSize: 11}}>已付款</Text>
+									<Text style={{fontSize: 11}}>账号设置</Text>
 								</View>
-							</TouchableHighlight>
-							<View style={styles.list}>
-								<Image
-									style={styles.listImg}
-									source={require('../../assets/image/1_2.png')}
-								/>
-								<Text style={{fontSize: 11}}>已完成</Text>
-							</View>
-							<View style={styles.list}>
-								<Image
-									style={styles.listImg}
-									source={require('../../assets/image/1_3.png')}
-								/>
-								<Text style={{fontSize: 11}}>返利单</Text>
-							</View>
-						</View>
-					</View>
-					<View style={styles.otherBox}>
-						<Text style={styles.otherTitle}>推广中心</Text>
-						<View style={styles.otherList}>
-							<View style={styles.list}>
-								<Image
-									style={styles.listImg}
-									source={require('../../assets/image/2_1.png')}
-								/>
-								<Text style={{fontSize: 11}}>我的推广</Text>
-							</View>
-							<View style={styles.list}>
-								<Image
-									style={styles.listImg}
-									source={require('../../assets/image/2_2.png')}
-								/>
-								<Text style={{fontSize: 11}}>团队佣金</Text>
-							</View>
-							<View style={styles.list}>
-								<Image
-									style={styles.listImg}
-									source={require('../../assets/image/2_3.png')}
-								/>
-								<Text style={{fontSize: 11}}>佣金政策</Text>
-							</View>
-							<View style={styles.list}>
-								<Image
-									style={styles.listImg}
-									source={require('../../assets/image/2_4.png')}
-								/>
-								<Text style={{fontSize: 11}}>邀请好友</Text>
-							</View>
-						</View>
-					</View>
-					<View style={[styles.otherBox]}>
-						<Text style={styles.otherTitle}>个人面板</Text>
-						<View style={styles.otherList}>
-							<View style={styles.list}>
-								<Image
-									style={styles.listImg}
-									source={require('../../assets/image/3_1.png')}
-								/>
-								<Text style={{fontSize: 11}}>账号设置</Text>
-							</View>
-							<TouchableHighlight
-								onPress={() => this.GotoMessage()}>
+								<TouchableHighlight
+									onPress={() => this.GotoMessage()}>
+									<View style={styles.list}>
+										<Image
+											style={styles.listImg}
+											source={require('../../assets/image/3_2.png')}
+										/>
+										<Text style={{fontSize: 11}}>
+											消息中心
+										</Text>
+									</View>
+								</TouchableHighlight>
+								<TouchableHighlight
+									onPress={() => this.GotoAddress()}>
+									<View style={styles.list}>
+										<Image
+											style={styles.listImg}
+											source={require('../../assets/image/3_3.png')}
+										/>
+										<Text style={{fontSize: 11}}>
+											收货地址
+										</Text>
+									</View>
+								</TouchableHighlight>
 								<View style={styles.list}>
 									<Image
 										style={styles.listImg}
-										source={require('../../assets/image/3_2.png')}
+										source={require('../../assets/image/3_4.png')}
 									/>
-									<Text style={{fontSize: 11}}>消息中心</Text>
+									<Text style={{fontSize: 11}}>帮助中心</Text>
 								</View>
-							</TouchableHighlight>
-							<TouchableHighlight
-								onPress={() => this.GotoAddress()}>
-								<View style={styles.list}>
-									<Image
-										style={styles.listImg}
-										source={require('../../assets/image/3_3.png')}
-									/>
-									<Text style={{fontSize: 11}}>收货地址</Text>
-								</View>
-							</TouchableHighlight>
-							<View style={styles.list}>
-								<Image
-									style={styles.listImg}
-									source={require('../../assets/image/3_4.png')}
-								/>
-								<Text style={{fontSize: 11}}>帮助中心</Text>
 							</View>
 						</View>
 					</View>
 				</ScrollView>
-			</SafeAreaView>
+			</>
 		);
 	}
 }
@@ -247,7 +271,7 @@ const styles = StyleSheet.create({
 		height: pxSize(140),
 		paddingLeft: pxSize(15),
 		paddingRight: pxSize(15),
-		marginTop: pxSize(5),
+		paddingTop: pxSize(5),
 	},
 	topHeader: {
 		flexDirection: 'row',
@@ -260,7 +284,7 @@ const styles = StyleSheet.create({
 		marginLeft: pxSize(10),
 	},
 	topList: {
-		marginTop: pxSize(25),
+		marginTop: pxSize(80),
 		flexDirection: 'row',
 		flexWrap: 'nowrap',
 		justifyContent: 'space-around',
@@ -269,6 +293,8 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		borderRadius: 10,
 		zIndex: 99,
+		position: 'absolute',
+		marginLeft: pxSize(15),
 	},
 	topListImg: {
 		width: pxSize(44),
