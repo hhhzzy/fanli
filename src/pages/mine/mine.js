@@ -14,6 +14,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 Icon.loadFont();
 export default class Mine extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			userToken: props.userToken,
+		};
+		console.log(this.state.userToken, '9999');
+	}
 	// 进入订单列表
 	GotoOrderList = () => {
 		this.props.navigation.navigate('OrderListScreen');

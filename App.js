@@ -9,21 +9,21 @@
 import React from 'react';
 
 import {
-    SafeAreaView,
-    StyleSheet,
-    ScrollView,
-    View,
-    Text,
-    StatusBar,
-    Linking,
+	SafeAreaView,
+	StyleSheet,
+	ScrollView,
+	View,
+	Text,
+	StatusBar,
+	Linking,
 } from 'react-native';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import {
-    Header,
-    LearnMoreLinks,
-    Colors,
-    DebugInstructions,
-    ReloadInstructions,
+	Header,
+	LearnMoreLinks,
+	Colors,
+	DebugInstructions,
+	ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -39,48 +39,123 @@ import TabNav from './src/navigator/MainTabNavigator';
 
 import RootStack from './src/navigator/AppNavigator';
 
+import {AuthContext} from './src/assets/js/Context'; // 权限认证context
+
 // 侧边抽屉导航
 const Drawer = createDrawerNavigator();
 const DrawerNav = (props) => {
-    return (
-        <Drawer.Navigator
-            drawerContent={props => <DrawerContent {...props} />}
-        >
-            {/* <Drawer.Screen name='TabNav' component={TabNav} options={{ title: 'home' }} /> */}
-            <Drawer.Screen name="Mine" component={Mine} options={{ title: 'mine' }} />
-        </Drawer.Navigator>
-    );
+	return (
+		<Drawer.Navigator
+			drawerContent={props => <DrawerContent {...props} />}
+		>
+			{/* <Drawer.Screen name='TabNav' component={TabNav} options={{ title: 'home' }} /> */}
+			<Drawer.Screen name="Mine" component={Mine} options={{ title: 'mine' }} />
+		</Drawer.Navigator>
+	);
 };
 
 const DrawerContent = (props) => {
-    return (
-        <>
-            <View style={styles.drawerHeader} />
-            <DrawerContentScrollView {...props}>
-                <DrawerItemList activeBackgroundColor={'transparent'} {...props} />
-                <DrawerItem label="about" onPress={() => Linking.openURL('https:')} />
-            </DrawerContentScrollView>
-        </>
-    );
+	return (
+		<>
+			<DrawerContentScrollView {...props}>
+				<DrawerItemList activeBackgroundColor={'transparent'} {...props} />
+				<DrawerItem label="about" onPress={() => Linking.openURL('https:')} />
+			</DrawerContentScrollView>
+		</>
+	);
 };
 
 
 
-class App extends React.Component {
-    render() {
-        return (
-            <NavigationContainer>
-                <RootStack />
-            </NavigationContainer>
-        );
-    }
+
+// export default class App extends React.Component {
+// 	render() {
+// 		return (
+// 			<NavigationContainer>
+// 				<RootStack />
+// 			</NavigationContainer>
+// 		);
+// 	}
+// }
+
+
+export default function App(){
+	const [userToken, setUserToken] = React.useState(null);
+	const [state, dispatch] = React.useReducer(
+		(prevState, action) => {
+			switch (action.type) {
+				case 'RESTORE_TOKEN':
+					return {
+						...prevState,
+						userToken: action.token,
+						isLoading: false,
+					};
+				case 'SIGN_IN':
+					return {
+						...prevState,
+						isSignout: false,
+						userToken: action.token,
+					};
+				case 'SIGN_OUT':
+					return {
+						...prevState,
+						isSignout: true,
+						userToken: null,
+					};
+			}
+		},
+		{
+			isLoading: true,
+			isSignout: false,
+			userToken: null,
+		}
+	);
+	React.useEffect(() => {
+		// 从本地存储中获取userToken
+		const bootstrapAsync = async () => {
+			let userToken;
+
+			try {
+				userToken = await AsyncStorage.getItem('userToken');
+			} catch (e) {
+				// Restoring token failed
+			}
+
+			// 对从本地存储中获取的userToken可以进行验证操作，操作成功后存储
+			dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+		};
+
+		bootstrapAsync();
+	}, []);
+
+	const authContext = React.useMemo(
+		() => ({
+			signIn: async data => {
+				//在生产应用中，我们需要向服务器发送一些数据（通常是用户名，密码）并获得令牌
+				//如果登录失败，我们还将需要处理错误
+				//获得令牌后，我们需要使用`AsyncStorage`来保留令牌
+				//在示例中，我们将使用虚拟令牌
+				console.log(data);
+				dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+				console.log(userToken,'999');
+			},
+			signOut: () => dispatch({ type: 'SIGN_OUT' }),
+			signUp: async data => {
+				//在生产应用中，我们需要将用户数据发送到服务器并获得令牌
+				//如果注册失败，我们还将需要处理错误
+				//获得令牌后，我们需要使用`AsyncStorage`来保留令牌
+				//在示例中，我们将使用虚拟令牌
+
+				dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+			},
+		}),
+		[]
+	);
+	return (
+		<AuthContext.Provider value={authContext}>
+			<NavigationContainer>
+				<RootStack  userToken={userToken}/>
+			</NavigationContainer>
+		</AuthContext.Provider>
+	);
 }
-
-const styles = StyleSheet.create({
-    drawerHeader: {
-        height: 100,
-        backgroundColor: 'red',
-    },
-});
-
-export default App;
