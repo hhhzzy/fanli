@@ -43,7 +43,15 @@ export default class Mine extends React.Component {
 	};
 	// 推荐好友
 	GotoTj = () => {
-		this.props.navigation.navigate('InviteScreen');
+		this.props.navigation.navigate('GameScreen');
+	};
+	// 我的推广
+	GotoPromote = () => {
+		this.props.navigation.navigate('PromoteScreen');
+	};
+	// 团队佣金
+	GotoCommission = () => {
+		this.props.navigation.navigate('CommissionScreen');
 	};
 	render() {
 		return (
@@ -143,7 +151,7 @@ export default class Mine extends React.Component {
 					</View>
 				</View>
 				<ScrollView style={{flex: 1}}>
-					<View style={{marginBottom: 20}}>
+					<View style={{marginBottom: pxSize(8)}}>
 						<View
 							style={[styles.otherBox, {marginTop: pxSize(60)}]}>
 							<Text style={styles.otherTitle}>我的订单</Text>
@@ -179,20 +187,30 @@ export default class Mine extends React.Component {
 						<View style={styles.otherBox}>
 							<Text style={styles.otherTitle}>推广中心</Text>
 							<View style={styles.otherList}>
-								<View style={styles.list}>
-									<Image
-										style={styles.listImg}
-										source={require('../../assets/image/2_1.png')}
-									/>
-									<Text style={{fontSize: 11}}>我的推广</Text>
-								</View>
-								<View style={styles.list}>
-									<Image
-										style={styles.listImg}
-										source={require('../../assets/image/2_2.png')}
-									/>
-									<Text style={{fontSize: 11}}>团队佣金</Text>
-								</View>
+								<TouchableHighlight
+									onPress={() => this.GotoPromote()}>
+									<View style={styles.list}>
+										<Image
+											style={styles.listImg}
+											source={require('../../assets/image/2_1.png')}
+										/>
+										<Text style={{fontSize: 11}}>
+											我的推广
+										</Text>
+									</View>
+								</TouchableHighlight>
+								<TouchableHighlight
+									onPress={() => this.GotoCommission()}>
+									<View style={styles.list}>
+										<Image
+											style={styles.listImg}
+											source={require('../../assets/image/2_2.png')}
+										/>
+										<Text style={{fontSize: 11}}>
+											团队佣金
+										</Text>
+									</View>
+								</TouchableHighlight>
 								<View style={styles.list}>
 									<Image
 										style={styles.listImg}

@@ -15,6 +15,9 @@ import RechargeInfoScreen from '../pages/mine/rechargeInfo'; // 在线充值付�
 import AddressScreen from '../pages/mine/address'; // 地址页
 import MessageScreen from '../pages/mine/message'; // 消息中心
 import InviteScreen from '../pages/mine/invite'; // 推荐好友
+import PromoteScreen from '../pages/mine/promote'; // 我的推广
+import CommissionScreen from '../pages/mine/commission'; // 团队佣金
+import GameScreen from '../pages/mine/game'; // 趣味游戏
 const Stack = createStackNavigator();
 
 export default class RootStack extends React.Component {
@@ -254,6 +257,75 @@ export default class RootStack extends React.Component {
 						headerBackTitleVisible: false,
 					}}
 					component={InviteScreen}
+				/>
+				<Stack.Screen
+					name="PromoteScreen"
+					options={{
+						headerTitle: '我的推广',
+						headerTintColor: '#fff',
+						headerTitleAlign: 'center',
+						headerBackground: () => {
+							return (
+								<LinearGradient
+									start={{x: 0, y: 0}}
+									end={{x: 0, y: 1}}
+									style={{flex: 1}}
+									colors={['#9BD6D2', '#4CDBC5']}
+								/>
+							);
+						},
+						headerBackImage: () => (
+							<Icon name="chevron-back" size={40} color="white" />
+						),
+						headerBackTitleVisible: false,
+					}}
+					component={PromoteScreen}
+				/>
+				<Stack.Screen
+					name="CommissionScreen"
+					options={{
+						headerTitle: '团队佣金',
+						headerTintColor: '#fff',
+						headerTitleAlign: 'center',
+						headerBackground: () => {
+							return (
+								<LinearGradient
+									start={{x: 0, y: 0}}
+									end={{x: 0, y: 1}}
+									style={{flex: 1}}
+									colors={['#9BD6D2', '#4CDBC5']}
+								/>
+							);
+						},
+						headerBackImage: () => (
+							<Icon name="chevron-back" size={40} color="white" />
+						),
+						headerBackTitleVisible: false,
+					}}
+					component={CommissionScreen}
+				/>
+				<Stack.Screen
+					name="GameScreen"
+					options={{
+						headerTitle: '趣味游戏',
+						headerTintColor: '#fff',
+						headerTitleAlign: 'center',
+						headerBackground: () => {
+							return (
+								<LinearGradient
+									start={{x: 0, y: 0}}
+									end={{x: 0, y: 1}}
+									style={{flex: 1}}
+									colors={['#9BD6D2', '#4CDBC5']}
+								/>
+							);
+						},
+						headerBackImage: () => (
+							<Icon name="chevron-back" size={40} color="white" />
+						),
+						headerBackTitleVisible: false,
+					}}
+					component={GameScreen}
 				/>
 			</Stack.Navigator>
 		);

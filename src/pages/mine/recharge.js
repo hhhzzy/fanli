@@ -37,7 +37,7 @@ export default class Recharge extends React.Component {
 	};
 	render() {
 		return (
-			<SafeAreaView style={{flex: 1}}>
+			<View style={{flex: 1}}>
 				<ScrollView>
 					<LinearGradient
 						start={{x: 0, y: 0}}
@@ -186,7 +186,7 @@ export default class Recharge extends React.Component {
 						<Text style={styles.footerBtn}>立即充值</Text>
 					</View>
 				</TouchableHighlight>
-			</SafeAreaView>
+			</View>
 		);
 	}
 }
