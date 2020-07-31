@@ -53,6 +53,10 @@ export default class Mine extends React.Component {
 	GotoCommission = () => {
 		this.props.navigation.navigate('CommissionScreen');
 	};
+	// 设置中心
+	GotoSetting = () => {
+		this.props.navigation.navigate('SettingScreen');
+	};
 	render() {
 		return (
 			<>
@@ -235,13 +239,18 @@ export default class Mine extends React.Component {
 						<View style={[styles.otherBox]}>
 							<Text style={styles.otherTitle}>个人面板</Text>
 							<View style={styles.otherList}>
-								<View style={styles.list}>
-									<Image
-										style={styles.listImg}
-										source={require('../../assets/image/3_1.png')}
-									/>
-									<Text style={{fontSize: 11}}>账号设置</Text>
-								</View>
+								<TouchableHighlight
+									onPress={() => this.GotoSetting()}>
+									<View style={styles.list}>
+										<Image
+											style={styles.listImg}
+											source={require('../../assets/image/3_1.png')}
+										/>
+										<Text style={{fontSize: 11}}>
+											账号设置
+										</Text>
+									</View>
+								</TouchableHighlight>
 								<TouchableHighlight
 									onPress={() => this.GotoMessage()}>
 									<View style={styles.list}>

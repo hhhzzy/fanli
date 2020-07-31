@@ -18,22 +18,27 @@ export default class OrderList extends React.Component {
 	render() {
 		return (
 			<SafeAreaView>
-				<ScrollView horizontal={true} style={{backgroundColor: '#fff'}}>
-					<View style={styles.navBox}>
-						<Text style={[styles.navTxt, styles.textCurrent]}>
-							全部
-						</Text>
-						<Text style={styles.navTxt}>已付款</Text>
-						<Text style={styles.navTxt}>已完成</Text>
-						<Text style={styles.navTxt}>返利单</Text>
-					</View>
-				</ScrollView>
+				<View style={styles.navBox}>
+					<Text style={[styles.navTxt, styles.textCurrent]}>
+						全部
+					</Text>
+					<Text style={styles.navTxt}>已付款</Text>
+					<Text style={styles.navTxt}>已完成</Text>
+					<Text style={styles.navTxt}>返利单</Text>
+				</View>
 				<ScrollView>
 					<TouchableHighlight onPress={() => this.GotoOrderInfo()}>
 						<View style={styles.orderList}>
 							<View>
-								<Text style={{fontSize: 16, color: '#000'}}>
-									BOSE音箱一对
+								<Text
+									style={{
+										fontSize: 16,
+										fontWeight: 'bold',
+										color: '#000',
+										width: pxSize(220),
+									}}>
+									BOSE音箱一对发冯绍峰是粉送祝福
+									BOSE音箱一对发冯绍峰是粉送祝福
 								</Text>
 								<Text
 									style={{
@@ -62,13 +67,19 @@ export default class OrderList extends React.Component {
 									}}>
 									800.00元
 								</Text>
-								<Text style={{color: '#666'}}>代发货</Text>
+								<Text style={{color: '#50DBC6'}}>代发货</Text>
 							</View>
 						</View>
 					</TouchableHighlight>
 					<View style={styles.orderList}>
 						<View>
-							<Text style={{fontSize: 16, color: '#000'}}>
+							<Text
+								style={{
+									fontSize: 16,
+									fontWeight: 'bold',
+									color: '#000',
+									width: pxSize(220),
+								}}>
 								BOSE音箱一对
 							</Text>
 							<Text
@@ -98,7 +109,7 @@ export default class OrderList extends React.Component {
 								}}>
 								800.00元
 							</Text>
-							<Text style={{color: '#666'}}>代发货</Text>
+							<Text style={{color: '#989898'}}>代发货</Text>
 						</View>
 					</View>
 					<View style={styles.orderList}>
@@ -389,29 +400,30 @@ export default class OrderList extends React.Component {
 const styles = StyleSheet.create({
 	navBox: {
 		flexDirection: 'row',
-		marginTop: pxSize(15),
-		marginBottom: pxSize(15),
-		height: pxSize(28),
+		height: pxSize(50),
 		alignItems: 'center',
-		marginLeft: pxSize(15),
-		marginRight: pxSize(15),
+		paddingLeft: pxSize(15),
+		paddingRight: pxSize(15),
+		backgroundColor: '#FCFCFC',
+		justifyContent: 'space-between',
 	},
 	navTxt: {
 		fontSize: 15,
-		color: '#4D4D4D',
+		color: '#989898',
 		fontWeight: 'bold',
-		marginRight: pxSize(28),
+		flex: 1,
+		textAlign: 'center',
 	},
 	textCurrent: {
-		fontSize: 20,
+		color: '#F12210',
 	},
 	orderList: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		backgroundColor: '#fff',
-		padding: pxSize(5),
-		paddingLeft: pxSize(15),
-		paddingRight: pxSize(15),
-		marginTop: pxSize(5),
+		padding: pxSize(15),
+		marginLeft: pxSize(15),
+		marginRight: pxSize(15),
+		marginTop: pxSize(12),
 	},
 });

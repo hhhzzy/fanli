@@ -80,7 +80,7 @@ const DrawerContent = (props) => {
 
 
 export default function App(){
-	const [userToken, setUserToken] = React.useState(null);
+	// const [userToken, setUserToken] = React.useState(null);
 	const [state, dispatch] = React.useReducer(
 		(prevState, action) => {
 			switch (action.type) {
@@ -117,6 +117,7 @@ export default function App(){
 
 			try {
 				userToken = await AsyncStorage.getItem('userToken');
+				console.log(userToken,'local');
 			} catch (e) {
 				// Restoring token failed
 			}
@@ -128,16 +129,17 @@ export default function App(){
 		bootstrapAsync();
 	}, []);
 
+	console.log(state.userToken,'app');
 	const authContext = React.useMemo(
 		() => ({
 			signIn: async data => {
-				//在生产应用中，我们需要向服务器发送一些数据（通常是用户名，密码）并获得令牌
+				//在生产应用中，这里获取从登录页面传过来的数据，向服务器发送一些数据（通常是用户名，密码）并获得令牌userToken
 				//如果登录失败，我们还将需要处理错误
 				//获得令牌后，我们需要使用`AsyncStorage`来保留令牌
 				//在示例中，我们将使用虚拟令牌
 				console.log(data);
+				AsyncStorage.setItem('userToken','dummy-auth-token');
 				dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
-				console.log(userToken,'999');
 			},
 			signOut: () => dispatch({ type: 'SIGN_OUT' }),
 			signUp: async data => {
@@ -154,7 +156,7 @@ export default function App(){
 	return (
 		<AuthContext.Provider value={authContext}>
 			<NavigationContainer>
-				<RootStack  userToken={userToken}/>
+				<RootStack  userToken={state.userToken}/>
 			</NavigationContainer>
 		</AuthContext.Provider>
 	);

@@ -18,6 +18,10 @@ import InviteScreen from '../pages/mine/invite'; // 推荐好友
 import PromoteScreen from '../pages/mine/promote'; // 我的推广
 import CommissionScreen from '../pages/mine/commission'; // 团队佣金
 import GameScreen from '../pages/mine/game'; // 趣味游戏
+import SettingScreen from '../pages/mine/setting'; // 设置中心
+import BankCardScreen from '../pages/mine/bankCard'; // 银行卡
+import PayPassowrdScreen from '../pages/mine/payPassword'; // 支付密码
+import PassowrdScreen from '../pages/mine/password'; // 登录密码
 const Stack = createStackNavigator();
 
 export default class RootStack extends React.Component {
@@ -28,46 +32,28 @@ export default class RootStack extends React.Component {
 		};
 		console.log(this.state.userToken, '4444');
 	}
+	static getDerivedStateFromProps(nextProps, prevState) {
+		console.log(nextProps, prevState, '55');
+		if (nextProps !== prevState) {
+			return {
+				userToken: nextProps.userToken,
+			};
+		}
+		return null;
+	}
 	render() {
 		return (
 			<Stack.Navigator initialRouteName="Home" mode="modal">
 				{this.state.userToken ? (
 					<>
 						<Stack.Screen
-							name="MessageScreen"
-							options={{
-								headerTitle: '消息中心',
-								headerTintColor: '#fff',
-								headerTitleAlign: 'center',
-								headerBackground: () => {
-									return (
-										<LinearGradient
-											start={{x: 0, y: 0}}
-											end={{x: 0, y: 1}}
-											style={{flex: 1}}
-											colors={['#9BD6D2', '#4CDBC5']}
-										/>
-									);
-								},
-								headerBackImage: () => (
-									<Icon
-										name="chevron-back"
-										size={40}
-										color="white"
-									/>
-								),
-								headerBackTitleVisible: false,
-							}}
-							component={MessageScreen}
-						/>
-					</>
-				) : (
-					<>
-						<Stack.Screen
 							name="Home"
 							options={{headerShown: false}}
 							component={TabNav}
 						/>
+					</>
+				) : (
+					<>
 						<Stack.Screen
 							name="Login"
 							options={{headerTitle: '登录'}}
@@ -80,7 +66,29 @@ export default class RootStack extends React.Component {
 						/>
 					</>
 				)}
-
+				<Stack.Screen
+					name="MessageScreen"
+					options={{
+						headerTitle: '消息中心',
+						headerTintColor: '#fff',
+						headerTitleAlign: 'center',
+						headerBackground: () => {
+							return (
+								<LinearGradient
+									start={{x: 0, y: 0}}
+									end={{x: 0, y: 1}}
+									style={{flex: 1}}
+									colors={['#9BD6D2', '#4CDBC5']}
+								/>
+							);
+						},
+						headerBackImage: () => (
+							<Icon name="chevron-back" size={40} color="white" />
+						),
+						headerBackTitleVisible: false,
+					}}
+					component={MessageScreen}
+				/>
 				<Stack.Screen
 					name="GoodsDetailScreen"
 					options={{
@@ -326,6 +334,98 @@ export default class RootStack extends React.Component {
 						headerBackTitleVisible: false,
 					}}
 					component={GameScreen}
+				/>
+				<Stack.Screen
+					name="SettingScreen"
+					options={{
+						headerTitle: '设置中心',
+						headerTintColor: '#fff',
+						headerTitleAlign: 'center',
+						headerBackground: () => {
+							return (
+								<LinearGradient
+									start={{x: 0, y: 0}}
+									end={{x: 0, y: 1}}
+									style={{flex: 1}}
+									colors={['#9BD6D2', '#4CDBC5']}
+								/>
+							);
+						},
+						headerBackImage: () => (
+							<Icon name="chevron-back" size={40} color="white" />
+						),
+						headerBackTitleVisible: false,
+					}}
+					component={SettingScreen}
+				/>
+				<Stack.Screen
+					name="BankCardScreen"
+					options={{
+						headerTitle: '银行卡',
+						headerTintColor: '#fff',
+						headerTitleAlign: 'center',
+						headerBackground: () => {
+							return (
+								<LinearGradient
+									start={{x: 0, y: 0}}
+									end={{x: 0, y: 1}}
+									style={{flex: 1}}
+									colors={['#9BD6D2', '#4CDBC5']}
+								/>
+							);
+						},
+						headerBackImage: () => (
+							<Icon name="chevron-back" size={40} color="white" />
+						),
+						headerBackTitleVisible: false,
+					}}
+					component={BankCardScreen}
+				/>
+				<Stack.Screen
+					name="PayPassowrdScreen"
+					options={{
+						headerTitle: '支付密码',
+						headerTintColor: '#fff',
+						headerTitleAlign: 'center',
+						headerBackground: () => {
+							return (
+								<LinearGradient
+									start={{x: 0, y: 0}}
+									end={{x: 0, y: 1}}
+									style={{flex: 1}}
+									colors={['#9BD6D2', '#4CDBC5']}
+								/>
+							);
+						},
+						headerBackImage: () => (
+							<Icon name="chevron-back" size={40} color="white" />
+						),
+						headerBackTitleVisible: false,
+					}}
+					component={PayPassowrdScreen}
+				/>
+				<Stack.Screen
+					name="PassowrdScreen"
+					options={{
+						headerTitle: '登录密码',
+						headerTintColor: '#fff',
+						headerTitleAlign: 'center',
+						headerBackground: () => {
+							return (
+								<LinearGradient
+									start={{x: 0, y: 0}}
+									end={{x: 0, y: 1}}
+									style={{flex: 1}}
+									colors={['#9BD6D2', '#4CDBC5']}
+								/>
+							);
+						},
+						headerBackImage: () => (
+							<Icon name="chevron-back" size={40} color="white" />
+						),
+						headerBackTitleVisible: false,
+					}}
+					component={PassowrdScreen}
 				/>
 			</Stack.Navigator>
 		);

@@ -35,8 +35,8 @@ export default class Message extends React.Component {
 						</Text>
 						<Text
 							style={{
-								fontSize: 12,
-								color: '#666',
+								fontSize: 14,
+								color: '#BEBDBD',
 								marginTop: pxSize(2),
 							}}>
 							2018-10-03 10:34:32
@@ -48,8 +48,8 @@ export default class Message extends React.Component {
 						</Text>
 						<Text
 							style={{
-								fontSize: 12,
-								color: '#666',
+								fontSize: 14,
+								color: '#BEBDBD',
 								marginTop: pxSize(2),
 							}}>
 							2018-10-03 10:34:32
@@ -64,9 +64,9 @@ const styles = StyleSheet.create({
 	messageList: {
 		justifyContent: 'space-between',
 		backgroundColor: '#fff',
-		padding: pxSize(5),
-		paddingLeft: pxSize(15),
-		paddingRight: pxSize(15),
-		marginTop: pxSize(5),
+		padding: pxSize(15),
+		marginLeft: pxSize(15),
+		marginRight: pxSize(15),
+		marginTop: pxSize(12),
 	},
 });
