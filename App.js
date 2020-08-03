@@ -91,6 +91,7 @@ export default function App(){
 						isLoading: false,
 					};
 				case 'SIGN_IN':
+					console.log(prevState);
 					return {
 						...prevState,
 						isSignout: false,
@@ -117,7 +118,6 @@ export default function App(){
 
 			try {
 				userToken = await AsyncStorage.getItem('userToken');
-				console.log(userToken,'local');
 			} catch (e) {
 				// Restoring token failed
 			}
@@ -129,7 +129,6 @@ export default function App(){
 		bootstrapAsync();
 	}, []);
 
-	console.log(state.userToken,'app');
 	const authContext = React.useMemo(
 		() => ({
 			signIn: async data => {
@@ -141,7 +140,11 @@ export default function App(){
 				AsyncStorage.setItem('userToken','dummy-auth-token');
 				dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
 			},
-			signOut: () => dispatch({ type: 'SIGN_OUT' }),
+			signOut: () => {
+				// 移除userToken
+				AsyncStorage.removeItem('userToken');
+				dispatch({ type: 'SIGN_OUT' });
+			},
 			signUp: async data => {
 				//在生产应用中，我们需要将用户数据发送到服务器并获得令牌
 				//如果注册失败，我们还将需要处理错误
