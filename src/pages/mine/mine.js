@@ -7,7 +7,9 @@ import {
 	SafeAreaView,
 	ScrollView,
 	TouchableHighlight,
+	Alert,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 import pxSize from '../../assets/js/pxSize';
 import Icon from 'react-native-vector-icons/Ionicons';

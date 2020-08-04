@@ -7,9 +7,11 @@ import {
 	StyleSheet,
 	Image,
 	TextInput,
+	Alert,
 } from 'react-native';
 import React from 'react';
 import {AuthContext} from '../../assets/js/Context';
+import AsyncStorage from '@react-native-community/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import pxSize from '../../assets/js/pxSize';
