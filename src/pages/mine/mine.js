@@ -15,13 +15,11 @@ import pxSize from '../../assets/js/pxSize';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 Icon.loadFont();
+import http from '../../assets/js/http';
 export default class Mine extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			userToken: props.userToken,
-		};
-		console.log(this.state.userToken, '9999');
+		this.state = {};
 	}
 	// 进入订单列表
 	GotoOrderList = () => {
@@ -49,7 +47,17 @@ export default class Mine extends React.Component {
 	};
 	// 我的推广
 	GotoPromote = () => {
-		this.props.navigation.navigate('PromoteScreen');
+		// this.props.navigation.navigate('PromoteScreen');
+		http({
+			method: 'get',
+			url: 'http://hoom.xin:3005/web/article/findArticle',
+		})
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => {
+				console.log(err, '888');
+			});
 	};
 	// 团队佣金
 	GotoCommission = () => {

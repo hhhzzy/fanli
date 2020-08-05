@@ -40,6 +40,7 @@ export default class RootStack extends React.Component {
 		return null;
 	}
 	render() {
+		console.log(this.state.userToken, '888');
 		return (
 			<Stack.Navigator mode="modal">
 				{this.state.userToken == null ? (

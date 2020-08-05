@@ -16,6 +16,7 @@ import {
 	Text,
 	StatusBar,
 	Linking,
+	Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
@@ -40,6 +41,14 @@ import TabNav from './src/navigator/MainTabNavigator';
 import RootStack from './src/navigator/AppNavigator';
 
 import {AuthContext} from './src/assets/js/Context'; // 权限认证context
+
+import {navigationRef} from './src/navigator/RootNavigation';
+
+import appReducer,{initialState} from './src/assets/reducers/reducer';
+import http from './src/assets/js/http'; // 封装的axios
+
+
+
 
 // 侧边抽屉导航
 const Drawer = createDrawerNavigator();
@@ -81,36 +90,37 @@ const DrawerContent = (props) => {
 
 export default function App(){
 	// const [userToken, setUserToken] = React.useState(null);
-	const [state, dispatch] = React.useReducer(
-		(prevState, action) => {
-			switch (action.type) {
-				case 'RESTORE_TOKEN':
-					return {
-						...prevState,
-						userToken: action.token,
-						isLoading: false,
-					};
-				case 'SIGN_IN':
-					console.log(prevState);
-					return {
-						...prevState,
-						isSignout: false,
-						userToken: action.token,
-					};
-				case 'SIGN_OUT':
-					return {
-						...prevState,
-						isSignout: true,
-						userToken: null,
-					};
-			}
-		},
-		{
-			isLoading: true,
-			isSignout: false,
-			userToken: null,
-		}
-	);
+	// const [state, dispatch] = React.useReducer(
+	// 	(prevState, action) => {
+	// 		switch (action.type) {
+	// 			case 'RESTORE_TOKEN':
+	// 				return {
+	// 					...prevState,
+	// 					userToken: action.token,
+	// 					isLoading: false,
+	// 				};
+	// 			case 'SIGN_IN':
+	// 				console.log(prevState);
+	// 				return {
+	// 					...prevState,
+	// 					isSignout: false,
+	// 					userToken: action.token,
+	// 				};
+	// 			case 'SIGN_OUT':
+	// 				return {
+	// 					...prevState,
+	// 					isSignout: true,
+	// 					userToken: null,
+	// 				};
+	// 		}
+	// 	},
+	// 	{
+	// 		isLoading: true,
+	// 		isSignout: false,
+	// 		userToken: null,
+	// 	}
+	// );
+	const [state, dispatch] = React.useReducer(appReducer, initialState);
 	React.useEffect(() => {
 		// 从本地存储中获取userToken
 		const bootstrapAsync = async () => {
@@ -128,7 +138,77 @@ export default function App(){
 
 		bootstrapAsync();
 	}, []);
-
+	// axios返回结果拦截器
+	http.interceptors.response.use(
+		(response) => {
+			return response;
+		},
+		// 状态码提示
+		(err) => {
+			console.log(err,err.response);
+			if (err && err.response) {
+				switch (err.response.status) {
+					case 400:
+						err.message = '请求错误(400)';
+						break;
+					case 401:
+						Alert.alert('提示', '未登录，请登录！', [
+							{
+								text: '去登陆',
+								onPress: () => {
+									dispatch({ type: 'SIGN_OUT' });
+								},
+							},
+						]);
+						err.message = '未授权，请重新登录(401)';
+						break;
+					case 403:
+					// token过期
+					// 删除token，回到登录页面
+						Alert.alert('提示', '登录过期，请重新登录！', [
+							{
+								text: '去登陆',
+								onPress: () => {
+									AsyncStorage.removeItem('userToken');
+									dispatch({ type: 'SIGN_OUT' });
+								},
+							},
+						]);
+						err.message = '拒绝访问(403)';
+						break;
+					case 404:
+						err.message = '请求出错(404)';
+						break;
+					case 408:
+						err.message = '请求超时(408)';
+						break;
+					case 500:
+						err.message = '服务器错误(500)';
+						break;
+					case 501:
+						err.message = '服务未实现(501)';
+						break;
+					case 502:
+						err.message = '网络错误(502)';
+						break;
+					case 503:
+						err.message = '服务不可用(503)';
+						break;
+					case 504:
+						err.message = '网络超时(504)';
+						break;
+					case 505:
+						err.message = 'HTTP版本不受支持(505)';
+						break;
+					default:
+						err.message = `连接出错(${err.response.status})!`;
+				}
+			} else {
+				err.message = '连接服务器失败!';
+			}
+			return Promise.reject(err.message);
+		},
+	);
 	const authContext = React.useMemo(
 		() => ({
 			signIn: async data => {
@@ -158,7 +238,7 @@ export default function App(){
 	);
 	return (
 		<AuthContext.Provider value={authContext}>
-			<NavigationContainer>
+			<NavigationContainer ref={navigationRef}>
 				<RootStack  userToken={state.userToken}/>
 			</NavigationContainer>
 		</AuthContext.Provider>

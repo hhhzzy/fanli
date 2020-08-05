@@ -11,8 +11,11 @@ import {
 	TextInput,
 	Alert,
 } from 'react-native';
-import {AuthContext} from '../../assets/js/Context';
+import * as RootNavigation from '../../navigator/RootNavigation';
 
+import appReducer, {initialState} from '../reducers/reducer';
+import {useReducer, useContext} from 'react';
+import {AuthContext} from './Context'; // 权限认证context
 const ajax = axios.create({
 	baseURL: 'http://www.baidu.com/', // 请求地址
 	timeout: 30000, // 请求超时
@@ -34,46 +37,98 @@ ajax.interceptors.request.use(
 	},
 );
 // 响应拦截
-ajax.interceptors.response.use(
-	(response) => {
-		return response;
-	},
-	// 状态码提示
-	(error) => {
-		console.log(error);
-		if (error.response.status) {
-			// 401: 未登录
-			Alert.alert('提示', '未登录，请登录！', [
-				{
-					text: '取消',
-					onPress: () => console.log('Cancel Pressed'),
-					style: 'cancel',
-				},
-				{text: '去登陆', onPress: () => console.log('OK Pressed')},
-			]);
-			if (error.response.status === 401) {
-				// 到登录页面
-			} else if (error.response.status === 403) {
-				// token过期
-				const {signOut} = AuthContext;
-				// 删除token
-				Alert.alert('提示', '登录过期，请重新登录！', [
-					{
-						text: '取消',
-						onPress: () => console.log('Cancel Pressed'),
-						style: 'cancel',
-					},
-					{text: '去登陆', onPress: () => console.log('OK Pressed')},
-				]);
-				// 跳转到登录页面可以吧当前浏览的页面传过去，登录成功后返回当前页面
-			} else if (error.response.status === 404) {
-				// 接口找不到
-			} else {
-				// 直接抛出错误
-			}
-		}
-		return Promise.reject(error.response);
-	},
-);
+// ajax.interceptors.response.use(
+// 	(response) => {
+// 		return response;
+// 	},
+// 	// 状态码提示
+// 	(err) => {
+// 		console.log(err);
+// 		if (err && err.response) {
+// 			switch (err.response.status) {
+// 				case 400:
+// 					err.message = '请求错误(400)';
+// 					break;
+// 				case 401:
+// 					Alert.alert('提示', '未登录，请登录！', [
+// 						{
+// 							text: '取消',
+// 							onPress: () => console.log('Cancel Pressed'),
+// 							style: 'cancel',
+// 						},
+// 						{
+// 							text: '去登陆',
+// 							onPress: () => console.log('OK Pressed'),
+// 						},
+// 					]);
+// 					err.message = '未授权，请重新登录(401)';
+// 					break;
+// 				case 403:
+// 					// token过期
+// 					// 删除token，回到登录页面
+// 					Alert.alert('提示', '登录过期，请重新登录！', [
+// 						{
+// 							text: '取消',
+// 							onPress: () => console.log('Cancel Pressed'),
+// 							style: 'cancel',
+// 						},
+// 						{
+// 							text: '去登陆',
+// 							onPress: () => console.log('OK Pressed'),
+// 						},
+// 					]);
+// 					err.message = '拒绝访问(403)';
+// 					break;
+// 				case 404:
+// 					AsyncStorage.removeItem('userToken');
+// 					appReducer({}, {type: 'SIGN_OUT', userToken: null});
+// 					console.log('4444');
+// 					// console.log(dispatch);
+// 					// dispatch({type: 'SIGN_OUT'});
+// 					Alert.alert('提示', '登录过期，请重新登录！', [
+// 						{
+// 							text: '取消',
+// 							onPress: () => console.log('Cancel Pressed'),
+// 							style: 'cancel',
+// 						},
+// 						{
+// 							text: '去登陆',
+// 							onPress: () => {
+// 								RootNavigation.navigate('Login');
+// 							},
+// 						},
+// 					]);
+// 					err.message = '请求出错(404)';
+// 					break;
+// 				case 408:
+// 					err.message = '请求超时(408)';
+// 					break;
+// 				case 500:
+// 					err.message = '服务器错误(500)';
+// 					break;
+// 				case 501:
+// 					err.message = '服务未实现(501)';
+// 					break;
+// 				case 502:
+// 					err.message = '网络错误(502)';
+// 					break;
+// 				case 503:
+// 					err.message = '服务不可用(503)';
+// 					break;
+// 				case 504:
+// 					err.message = '网络超时(504)';
+// 					break;
+// 				case 505:
+// 					err.message = 'HTTP版本不受支持(505)';
+// 					break;
+// 				default:
+// 					err.message = `连接出错(${err.response.status})!`;
+// 			}
+// 		} else {
+// 			err.message = '连接服务器失败!';
+// 		}
+// 		return Promise.reject(err.message);
+// 	},
+// );
 
 export default ajax;
