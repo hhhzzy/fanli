@@ -48,16 +48,16 @@ export default class Mine extends React.Component {
 	// 我的推广
 	GotoPromote = () => {
 		// this.props.navigation.navigate('PromoteScreen');
-		http({
-			method: 'get',
-			url: 'http://hoom.xin:3005/web/article/findArticle',
-		})
-			.then((res) => {
-				console.log(res);
-			})
-			.catch((err) => {
-				console.log(err, '888');
-			});
+		// http({
+		// 	method: 'get',
+		// 	url: 'http://hoom.xin:3005/web/article/findArticle',
+		// })
+		// 	.then((res) => {
+		// 		console.log(res);
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err, '888');
+		// 	});
 	};
 	// 团队佣金
 	GotoCommission = () => {
@@ -65,6 +65,7 @@ export default class Mine extends React.Component {
 	};
 	// 设置中心
 	GotoSetting = () => {
+		// AsyncStorage.removeItem('userToken');
 		this.props.navigation.navigate('SettingScreen');
 	};
 	render() {

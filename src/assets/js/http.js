@@ -1,21 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-import {
-	Text,
-	Button,
-	View,
-	TouchableHighlight,
-	SafeAreaView,
-	StyleSheet,
-	Image,
-	TextInput,
-	Alert,
-} from 'react-native';
-import * as RootNavigation from '../../navigator/RootNavigation';
 
-import appReducer, {initialState} from '../reducers/reducer';
-import {useReducer, useContext} from 'react';
-import {AuthContext} from './Context'; // 权限认证context
 const ajax = axios.create({
 	baseURL: 'http://www.baidu.com/', // 请求地址
 	timeout: 30000, // 请求超时
