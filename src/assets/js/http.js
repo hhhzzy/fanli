@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const ajax = axios.create({
-	baseURL: 'http://www.baidu.com/', // 请求地址
+	baseURL: 'http://104.168.214.183/api/', // 请求地址
 	timeout: 30000, // 请求超时
 });
 ajax.defaults.headers.post['Content-Type'] =
@@ -14,7 +14,7 @@ ajax.interceptors.request.use(
 		// 如果存在，则统一在请求的header中加上token，后台判断是否登录
 		// 即使存在token，也有可能过期，所以在响应拦截中也要判断状态
 		const token = AsyncStorage.getItem('userToken');
-		token && (config.headers.Authorization = 'Bearer' + token); // jwt验证
+		token && (config.headers.token = 'Bearer' + token); // jwt验证
 		return config;
 	},
 	(error) => {

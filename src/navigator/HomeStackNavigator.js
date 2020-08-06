@@ -20,7 +20,7 @@ export default class HomeStackScreen extends React.Component {
 					name="Home"
 					component={HomeScreen}
 					options={{
-						headerTitle: '玉汇缘',
+						headerTitle: '返利',
 						headerTintColor: '#fff',
 						headerTitleAlign: 'left',
 						headerBackground: () => {

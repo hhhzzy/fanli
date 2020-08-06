@@ -10,6 +10,7 @@ import {
 	Platform,
 	KeyboardAvoidingView,
 	ScrollView,
+	Alert,
 } from 'react-native';
 import React from 'react';
 import {AuthContext} from '../../assets/js/Context';
@@ -17,17 +18,84 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import pxSize from '../../assets/js/pxSize';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import http from '../../assets/js/http';
 Icon.loadFont();
 export default class Register extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			// userToken: props.userToken,
+			telePhone: '15223681474',
+			nickName: '黄照阳',
+			loginPassWord: '123456',
+			reLoginPassword: '123456',
+			tranPassWord: '123456',
+			reTranPassWord: '123456',
+			recommendCode: '1111',
 		};
 		console.log(props, '222');
 	}
-	login = () => {
-		console.log(11111);
+	onChangeTel = (value) => {
+		this.setState({
+			telePhone: value,
+		});
+	};
+	onChangePwd = (value) => {
+		this.setState({
+			loginPassWord: value,
+		});
+	};
+	onChangeRePwd = (value) => {
+		this.setState({
+			reLoginPassword: value,
+		});
+	};
+	onChangeNick = (value) => {
+		this.setState({
+			nickName: value,
+		});
+	};
+
+	onChangeReTrPwd = (value) => {
+		this.setState({
+			tranPassWord: value,
+		});
+	};
+	onChangeReReTrPwd = (value) => {
+		this.setState({
+			reTranPassWord: value,
+		});
+	};
+	onChangeReRec = (value) => {
+		this.setState({
+			recommendCode: value,
+		});
+	};
+	register = () => {
+		if (!/^1[3456789]\d{9}$/.test(this.state.telePhone)) {
+			Alert.alert('提示', '请输入正确手机号', [
+				{
+					text: '确定',
+				},
+			]);
+			return;
+		}
+		http({
+			method: 'post',
+			url: 'regist',
+			data: this.state,
+		}).then((res) => {
+			if (res.data.code == 1) {
+				Alert.alert('提示', '注册成功，去登录', [
+					{
+						text: '确定',
+						onPress: () => {
+							this.props.navigation.navigate('Login');
+						},
+					},
+				]);
+			}
+		});
+		console.log(this.state);
 	};
 	render() {
 		return (
@@ -63,6 +131,10 @@ export default class Register extends React.Component {
 							<TextInput
 								style={styles.ipt}
 								placeholder="你的手机号"
+								value={this.state.telePhone}
+								onChangeText={(value) =>
+									this.onChangeTel(value)
+								}
 							/>
 						</View>
 						<View style={styles.listInput}>
@@ -70,6 +142,10 @@ export default class Register extends React.Component {
 							<TextInput
 								style={styles.ipt}
 								placeholder="请输入昵称"
+								value={this.state.nickName}
+								onChangeText={(value) =>
+									this.onChangeNick(value)
+								}
 							/>
 						</View>
 						<View style={styles.listInput}>
@@ -77,6 +153,10 @@ export default class Register extends React.Component {
 							<TextInput
 								style={styles.ipt}
 								placeholder="6-12位字母、数字或组合"
+								value={this.state.loginPassWord}
+								onChangeText={(value) =>
+									this.onChangePwd(value)
+								}
 							/>
 						</View>
 						<View style={styles.listInput}>
@@ -84,6 +164,10 @@ export default class Register extends React.Component {
 							<TextInput
 								style={styles.ipt}
 								placeholder="6-12位字母、数字或组合"
+								value={this.state.reLoginPassword}
+								onChangeText={(value) =>
+									this.onChangeRePwd(value)
+								}
 							/>
 						</View>
 						<View style={styles.listInput}>
@@ -91,6 +175,10 @@ export default class Register extends React.Component {
 							<TextInput
 								style={styles.ipt}
 								placeholder="6-12位字母、数字或组合"
+								value={this.state.tranPassWord}
+								onChangeText={(value) =>
+									this.onChangeReTrPwd(value)
+								}
 							/>
 						</View>
 						<View style={styles.listInput}>
@@ -98,6 +186,10 @@ export default class Register extends React.Component {
 							<TextInput
 								style={styles.ipt}
 								placeholder="6-12位字母、数字或组合"
+								value={this.state.reTranPassWord}
+								onChangeText={(value) =>
+									this.onChangeReReTrPwd(value)
+								}
 							/>
 						</View>
 						<View style={styles.listInput}>
@@ -105,11 +197,15 @@ export default class Register extends React.Component {
 							<TextInput
 								style={styles.ipt}
 								placeholder="请输入邀请码"
+								value={this.state.recommendCode}
+								onChangeText={(value) =>
+									this.onChangeReRec(value)
+								}
 							/>
 						</View>
 					</View>
 				</KeyboardAwareScrollView>
-				<TouchableHighlight onPress={() => this.login()}>
+				<TouchableHighlight onPress={() => this.register()}>
 					<View style={styles.footerBox}>
 						<Text style={styles.footerBtn}>立即注册</Text>
 					</View>

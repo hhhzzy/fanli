@@ -13,15 +13,21 @@ import {Carousel} from '@ant-design/react-native';
 import Swiper from 'react-native-swiper';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import pxSize from '../../assets/js/pxSize';
+import http from '../../assets/js/http';
 
 Icon.loadFont();
 AntDesignIcon.loadFont();
 export default class Home extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
+
 	render() {
 		return (
 			<SafeAreaView style={styles.box}>
 				<ScrollView>
-					<ImageBackground
+					{/* <ImageBackground
 						source={{
 							uri: 'https://zh-hans.reactjs.org/logo-og.png',
 						}}
@@ -29,7 +35,20 @@ export default class Home extends React.Component {
 							styles.backImage,
 							{position: 'absolute', left: 0},
 						]}
-					/>
+					/> */}
+					{/* <View
+						style={[
+							styles.backImage,
+							{
+								position: 'absolute',
+								left: 0,
+								backgroundColor: '#4CDBC5',
+								borderBottomLeftRadius: 20,
+								borderBottomRightRadius: 20,
+								flex: 1,
+							},
+						]}
+					/> */}
 					<View
 						style={{
 							flexDirection: 'row',

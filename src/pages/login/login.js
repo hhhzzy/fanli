@@ -15,24 +15,45 @@ import AsyncStorage from '@react-native-community/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import pxSize from '../../assets/js/pxSize';
+import http from '../../assets/js/http';
 Icon.loadFont();
 export default class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			// userToken: props.userToken,
+			telePhone: '17600000000',
+			loginPassWord: '123456',
 		};
 	}
-
 	static contextType = AuthContext; // 才可以使用 this.context
 	login = () => {
 		const {signIn} = this.context;
+		console.log(this.state.telePhone);
+		if (!this.state.telePhone || !this.state.loginPassWord) {
+			Alert.alert('提示', '请输入手机号或密码', [
+				{text: '确定', onPress: () => console.log('OK Pressed')},
+			]);
+			return;
+		}
 		// 把用户名和密码传到app.js中
-		signIn({userName: 'hzy', password: 'hzy'});
+		signIn({
+			userName: this.state.telePhone,
+			password: this.state.loginPassWord,
+		});
 	};
 	// 去注册
 	GotoReg = () => {
 		this.props.navigation.navigate('Register');
+	};
+	onChangeTel = (value) => {
+		this.setState({
+			telePhone: value,
+		});
+	};
+	onChangePwd = (value) => {
+		this.setState({
+			loginPassWord: value,
+		});
 	};
 	render() {
 		return (
@@ -43,13 +64,17 @@ export default class Login extends React.Component {
 						<TextInput
 							style={styles.ipt}
 							placeholder="你的手机号"
+							value={this.state.telePhone}
+							onChangeText={(value) => this.onChangeTel(value)}
 						/>
 					</View>
 					<View style={styles.listInput}>
 						<Text style={styles.txt}>登录密码</Text>
 						<TextInput
 							style={styles.ipt}
-							placeholder="6-12位字母、数字或组合"
+							placeholder="登录密码"
+							value={this.state.loginPassWord}
+							onChangeText={(value) => this.onChangePwd(value)}
 						/>
 					</View>
 					<TouchableHighlight onPress={() => this.GotoReg()}>

@@ -141,6 +141,25 @@ export default function App(){
 	// axios返回结果拦截器
 	http.interceptors.response.use(
 		(response) => {
+			console.log(response.data.msg);
+			if (response.data.code === 0) {
+				Alert.alert('提示', response.data.msg, [
+					{
+						text: '确定',
+					},
+				]);
+			} else if (response.data.code === -1){
+				Alert.alert('提示', '登录过期，请重新登录！', [
+					{
+						text: '去登陆',
+						onPress: () => {
+							AsyncStorage.removeItem('userToken');
+							AsyncStorage.removeItem('userInfo');
+							dispatch({ type: 'SIGN_OUT' });
+						},
+					},
+				]);
+			}
 			return response;
 		},
 		// 状态码提示
@@ -217,8 +236,17 @@ export default function App(){
 				//获得令牌后，我们需要使用`AsyncStorage`来保留令牌
 				//在示例中，我们将使用虚拟令牌
 				console.log(data);
-				AsyncStorage.setItem('userToken','dummy-auth-token');
-				dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+				http({
+					method:'get',
+					url:'login?telePhone=' + data.userName + '&loginPassWord=' + data.password,
+				}).then(res => {
+					console.log(res);
+					if (res.data.token){
+						AsyncStorage.setItem('userToken',res.data.token);
+						AsyncStorage.setItem('userInfo',JSON.stringify(res.data.user));
+						dispatch({ type: 'SIGN_IN', token: res.data.token});
+					}
+				});
 			},
 			signOut: () => {
 				// 移除userToken

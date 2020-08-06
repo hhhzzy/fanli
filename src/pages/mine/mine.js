@@ -47,7 +47,7 @@ export default class Mine extends React.Component {
 	};
 	// 我的推广
 	GotoPromote = () => {
-		// this.props.navigation.navigate('PromoteScreen');
+		this.props.navigation.navigate('PromoteScreen');
 		// http({
 		// 	method: 'get',
 		// 	url: 'http://hoom.xin:3005/web/article/findArticle',
@@ -368,9 +368,9 @@ const styles = StyleSheet.create({
 	list: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: pxSize(44),
+		width: pxSize(55),
 		marginLeft: pxSize(15),
-		marginRight: pxSize(30),
+		marginRight: pxSize(20),
 		marginTop: pxSize(20),
 	},
 	listImg: {
