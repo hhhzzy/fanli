@@ -6,6 +6,9 @@ import {
 	Image,
 	SafeAreaView,
 	ScrollView,
+	FlatList,
+	RefreshControl,
+	TouchableHighlight,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import React from 'react';
@@ -20,10 +23,45 @@ AntDesignIcon.loadFont();
 export default class Home extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			GoodsList: [],
+		};
 	}
-
+	componentDidMount() {
+		// 获取首页轮播图
+		http({
+			method: 'get',
+			url: 'index/getRoundPicture?type=1',
+		}).then((res) => {
+			console.log(res);
+		});
+		// 获取推荐商品
+		http({
+			method: 'get',
+			url: 'index/getRecommonList?type=1',
+		}).then((res) => {
+			this.setState({GoodsList: res.data.rows});
+		});
+	}
+	GotoDetail = (item) => {
+		this.props.navigation.navigate('GoodsDetailScreen', {id: item.id});
+	};
 	render() {
+		const goodsItem = ({item}) => (
+			<View style={styles.goods} key={item.id}>
+				<Image
+					style={styles.goodsImg}
+					source={require('../../assets/image/1.jpeg')}
+				/>
+				<Text style={styles.goodsName}>biaoti</Text>
+				<Text
+					style={[
+						styles.goodsName,
+						{color: '#F12210', fontWeight: 'bold'},
+					]}
+				/>
+			</View>
+		);
 		return (
 			<SafeAreaView style={styles.box}>
 				<ScrollView>
@@ -131,19 +169,60 @@ export default class Home extends React.Component {
 								width: pxSize(345),
 								height: pxSize(28),
 								backgroundColor: '#fff',
-								flexDirection: 'row',
-								alignItems: 'center',
 								paddingLeft: 10,
 								marginLeft: 15,
 								marginRight: 15,
+								paddingTop: 5,
 							}}>
-							<AntDesignIcon
-								name="sound"
-								size={17}
-								color="#F8908A"
-								style={{marginRight: 10}}
-							/>
-							<Text>55555</Text>
+							<Swiper
+								height={pxSize(28)} // 指定高度
+								loop={true} // 是否开启循环
+								showsButtons={false} // 设置控制按钮(左右两侧的箭头)是否可见
+								showsPagination={false}
+								index={0}
+								autoplay={true} // 是否自动跳转
+								horizontal={true} // 是否水平滚动
+							>
+								<View
+									style={{
+										flexDirection: 'row',
+										alignItems: 'center',
+									}}>
+									<AntDesignIcon
+										name="sound"
+										size={17}
+										color="#F8908A"
+										style={{marginRight: 10}}
+									/>
+									<Text>55555</Text>
+								</View>
+								<View
+									style={{
+										flexDirection: 'row',
+										alignItems: 'center',
+									}}>
+									<AntDesignIcon
+										name="sound"
+										size={17}
+										color="#F8908A"
+										style={{marginRight: 10}}
+									/>
+									<Text>666666</Text>
+								</View>
+								<View
+									style={{
+										flexDirection: 'row',
+										alignItems: 'center',
+									}}>
+									<AntDesignIcon
+										name="sound"
+										size={17}
+										color="#F8908A"
+										style={{marginRight: 10}}
+									/>
+									<Text>77777</Text>
+								</View>
+							</Swiper>
 						</View>
 					</View>
 					<View style={styles.goodsBox}>
@@ -151,7 +230,41 @@ export default class Home extends React.Component {
 							<Text style={styles.title}>为你推荐</Text>
 						</View>
 						<View style={styles.goodsList}>
-							<View style={styles.goods}>
+							{/* <FlatList
+								data={this.state.GoodsList}
+								renderItem={goodsItem}
+								keyExtractor={(item) => item.id}
+								numColumns={2}
+								columnWrapperStyle={styles.goodsList}
+								horizontal={false}
+							/> */}
+							{this.state.GoodsList.map((item) => (
+								<TouchableHighlight
+									onPress={() => this.GotoDetail(item)}
+									key={item.id}>
+									<View style={styles.goods}>
+										<Image
+											style={styles.goodsImg}
+											source={require('../../assets/image/1.jpeg')}
+										/>
+										<Text style={styles.goodsName}>
+											{item.productName}
+										</Text>
+										<Text
+											style={[
+												styles.goodsName,
+												{
+													color: '#F12210',
+													fontWeight: 'bold',
+													fontSize: 14,
+												},
+											]}>
+											￥{item.productMoney / 100}
+										</Text>
+									</View>
+								</TouchableHighlight>
+							))}
+							{/* <View style={styles.goods}>
 								<Image
 									style={styles.goodsImg}
 									source={require('../../assets/image/1.jpeg')}
@@ -178,7 +291,7 @@ export default class Home extends React.Component {
 									source={require('../../assets/image/1.jpeg')}
 								/>
 								<Text style={styles.goodsName}>biaoti</Text>
-							</View>
+							</View> */}
 						</View>
 					</View>
 				</ScrollView>
@@ -260,5 +373,7 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		paddingLeft: pxSize(10),
 		marginTop: pxSize(5),
+		overflow: 'hidden',
+		height: pxSize(18),
 	},
 });

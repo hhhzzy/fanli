@@ -6,6 +6,7 @@ import HomeStackScreen from './HomeStackNavigator';
 import MineStackScrenn from './MineStackNavigator';
 import GoodsStackScreen from './GoodsStackNavigator';
 import RebateStackScreen from './RebateStackNavigator';
+import pxSize from '../assets/js/pxSize';
 
 // 底部导航
 const Tab = createBottomTabNavigator();
@@ -40,8 +41,8 @@ export default class TabNav extends React.Component {
 					inactiveTintColor: '#D7D7D7',
 					activeBackgroundColor: '#fff',
 					safeAreaInsets: {bottom: 0},
-					style: {height: 70},
-					tabStyle: {paddingBottom: 15},
+					style: {height: pxSize(50)},
+					tabStyle: {paddingBottom: 5},
 				}}>
 				<Tab.Screen
 					name="Home"
