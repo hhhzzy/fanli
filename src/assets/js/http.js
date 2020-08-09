@@ -1,20 +1,20 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import url from './url';
 const ajax = axios.create({
-	baseURL: 'http://104.168.214.183/api/', // 请求地址
+	baseURL: url, // 请求地址
 	timeout: 30000, // 请求超时
 });
 ajax.defaults.headers.post['Content-Type'] =
 	'application/x-www-form-urlencoded;charset=UTF-8'; // post 的 请求头设置
 // 请求拦截
 ajax.interceptors.request.use(
-	(config) => {
+	async (config) => {
 		// 每次请求之前判断vuex中的token是否存在（也可以存在stroge里面）
 		// 如果存在，则统一在请求的header中加上token，后台判断是否登录
 		// 即使存在token，也有可能过期，所以在响应拦截中也要判断状态
-		const token = AsyncStorage.getItem('userToken');
-		token && (config.headers.token = 'Bearer' + token); // jwt验证
+		const token = await AsyncStorage.getItem('userToken');
+		token && (config.headers.token = token); // jwt验证
 		return config;
 	},
 	(error) => {

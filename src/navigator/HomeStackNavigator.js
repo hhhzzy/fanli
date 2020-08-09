@@ -1,4 +1,8 @@
-import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
+import {
+	createStackNavigator,
+	TransitionPresets,
+	useNavigation,
+} from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 // import {HeaderBackButton} from '@react-navigation/stack';
@@ -8,6 +12,17 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import HomeScreen from '../pages/home/home';
 import DetailScreen from '../pages/home/detail';
+import {
+	Text,
+	SafeAreaView,
+	ScrollView,
+	Image,
+	View,
+	StyleSheet,
+	TouchableHighlight,
+	TextInput,
+	Switch,
+} from 'react-native';
 Icon.loadFont();
 AntDesignIcon.loadFont();
 const Stack = createStackNavigator();
@@ -20,7 +35,7 @@ export default class HomeStackScreen extends React.Component {
 					name="Home"
 					component={HomeScreen}
 					options={{
-						headerTitle: '返利',
+						headerTitle: '聚宝盆',
 						headerTintColor: '#fff',
 						headerTitleAlign: 'left',
 						headerBackground: () => {
@@ -33,14 +48,21 @@ export default class HomeStackScreen extends React.Component {
 								/>
 							);
 						},
-						headerRight: () => {
+						headerRight: (navigation) => {
 							return (
-								<AntDesignIcon
-									name="message1"
-									size={20}
-									color="white"
-									style={{marginRight: 10}}
-								/>
+								<TouchableHighlight
+									onPress={(props) => {
+										console.log(props.navigation);
+										// navigation.push('MessageScreen');
+									}}>
+									{/* <AntDesignIcon
+										name="message1"
+										size={20}
+										color="white"
+										style={{marginRight: 10}}
+									/> */}
+									<Text />
+								</TouchableHighlight>
 							);
 						},
 					}}

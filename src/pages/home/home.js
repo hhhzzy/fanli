@@ -8,6 +8,7 @@ import {
 	ScrollView,
 	FlatList,
 	RefreshControl,
+	Button,
 	TouchableHighlight,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -17,6 +18,7 @@ import Swiper from 'react-native-swiper';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import pxSize from '../../assets/js/pxSize';
 import http from '../../assets/js/http';
+import url from '../../assets/js/url';
 
 Icon.loadFont();
 AntDesignIcon.loadFont();
@@ -25,8 +27,25 @@ export default class Home extends React.Component {
 		super(props);
 		this.state = {
 			GoodsList: [],
+			bannerList: [],
 		};
 	}
+	static navigationOptions = ({navigation}) => {
+		const {state, setParams} = navigation;
+		const isInfo = state.params.mode === 'info';
+		const {user} = state.params;
+		return {
+			title: isInfo
+				? `${user}'s Contact Info`
+				: `Chat with ${state.params.user}`,
+			headerRight: (
+				<Button
+					title={isInfo ? 'Done' : `${user}'s info`}
+					onPress={() => setParams({mode: isInfo ? 'none' : 'info'})}
+				/>
+			),
+		};
+	};
 	componentDidMount() {
 		// 获取首页轮播图
 		http({
@@ -34,17 +53,58 @@ export default class Home extends React.Component {
 			url: 'index/getRoundPicture?type=1',
 		}).then((res) => {
 			console.log(res);
+			if (res.data.data && res.data.data.length) {
+				res.data.data.map((item) => {
+					item.imgUrl =
+						url +
+						'service/upload/getImg?imgUrl=' +
+						encodeURIComponent(item.imgUrl);
+					return item;
+				});
+			}
+			this.setState({
+				bannerList: res.data.data,
+			});
 		});
 		// 获取推荐商品
 		http({
 			method: 'get',
 			url: 'index/getRecommonList?type=1',
 		}).then((res) => {
+			if (res.data.rows && res.data.rows.length) {
+				res.data.rows.map((item) => {
+					item.imgUrl =
+						url +
+						'service/upload/getImg?imgUrl=' +
+						encodeURIComponent(item.imgUrl);
+					return item;
+				});
+			}
+
 			this.setState({GoodsList: res.data.rows});
 		});
 	}
 	GotoDetail = (item) => {
 		this.props.navigation.navigate('GoodsDetailScreen', {id: item.id});
+	};
+	BnnaerToDetail = (value) => {
+		if (value) {
+			let id = value.split('?')[1];
+			this.props.navigation.navigate('GoodsDetailScreen', {id: id});
+		}
+		console.log(value);
+	};
+	GotoGoods = () => {
+		this.props.navigation.navigate('Goods');
+	};
+	GotoGame = () => {
+		this.props.navigation.navigate('GameScreen');
+	};
+	GotoMoney = () => {
+		this.props.navigation.navigate('RechargeScreen');
+	};
+	GotoInvite = () => {
+		this.props.navigation.navigate('InviteScreen');
 	};
 	render() {
 		const goodsItem = ({item}) => (
@@ -102,66 +162,66 @@ export default class Home extends React.Component {
 								autoplay={true} // 是否自动跳转
 								horizontal={true} // 是否水平滚动
 							>
-								<View
-									style={[
-										styles.containerHorizontal,
-										{backgroundColor: 'blue'},
-									]}>
-									<Text>Carousel 1</Text>
-								</View>
-								<View
-									style={[
-										styles.containerHorizontal,
-										{backgroundColor: 'blue'},
-									]}>
-									<Text>Carousel 2</Text>
-								</View>
-								<View
-									style={[
-										styles.containerHorizontal,
-										{backgroundColor: 'yellow'},
-									]}>
-									<Text>Carousel 3</Text>
-								</View>
-								<View
-									style={[
-										styles.containerHorizontal,
-										{backgroundColor: 'aqua'},
-									]}>
-									<Text>Carousel 4</Text>
-								</View>
+								{this.state.bannerList.map((item) => (
+									<TouchableHighlight
+										onPress={() =>
+											this.BnnaerToDetail(item.linkedUrl)
+										}
+										key={item.id}>
+										<View
+											style={[
+												styles.containerHorizontal,
+											]}>
+											<Image
+												source={{uri: item.imgUrl}}
+												style={{
+													width: pxSize(345),
+													height: pxSize(140),
+												}}
+											/>
+										</View>
+									</TouchableHighlight>
+								))}
 							</Swiper>
 						</View>
 					</View>
 					<View style={styles.nav}>
-						<View style={styles.navList}>
-							<Image
-								style={styles.navImg}
-								source={require('../../assets/image/nav1.png')}
-							/>
-							<Text>社区联盟</Text>
-						</View>
-						<View style={styles.navList}>
-							<Image
-								style={styles.navImg}
-								source={require('../../assets/image/nav2.png')}
-							/>
-							<Text>新人手册</Text>
-						</View>
-						<View style={styles.navList}>
-							<Image
-								style={styles.navImg}
-								source={require('../../assets/image/nav3.png')}
-							/>
-							<Text>分享邀请</Text>
-						</View>
-						<View style={styles.navList}>
-							<Image
-								style={styles.navImg}
-								source={require('../../assets/image/nav4.png')}
-							/>
-							<Text>玉石链圈</Text>
-						</View>
+						<TouchableHighlight onPress={() => this.GotoGoods()}>
+							<View style={styles.navList}>
+								<Image
+									style={styles.navImg}
+									source={require('../../assets/image/nav1.png')}
+								/>
+								<Text>全部商品</Text>
+							</View>
+						</TouchableHighlight>
+						<TouchableHighlight onPress={() => this.GotoGame()}>
+							<View style={styles.navList}>
+								<Image
+									style={styles.navImg}
+									source={require('../../assets/image/nav2.png')}
+								/>
+								<Text>趣味游戏</Text>
+							</View>
+						</TouchableHighlight>
+						<TouchableHighlight onPress={() => this.GotoMoney()}>
+							<View style={styles.navList}>
+								<Image
+									style={styles.navImg}
+									source={require('../../assets/image/nav3.png')}
+								/>
+								<Text>立即充值</Text>
+							</View>
+						</TouchableHighlight>
+						<TouchableHighlight onPress={() => this.GotoInvite()}>
+							<View style={styles.navList}>
+								<Image
+									style={styles.navImg}
+									source={require('../../assets/image/nav4.png')}
+								/>
+								<Text>邀请好友</Text>
+							</View>
+						</TouchableHighlight>
 					</View>
 					<View style={styles.announce}>
 						<View
@@ -194,7 +254,9 @@ export default class Home extends React.Component {
 										color="#F8908A"
 										style={{marginRight: 10}}
 									/>
-									<Text>55555</Text>
+									<Text>
+										恭喜用户158****6790获得好友助力，收益倍增。
+									</Text>
 								</View>
 								<View
 									style={{
@@ -207,7 +269,9 @@ export default class Home extends React.Component {
 										color="#F8908A"
 										style={{marginRight: 10}}
 									/>
-									<Text>666666</Text>
+									<Text>
+										恭喜用户135****9078获得好友助力，收益倍增。
+									</Text>
 								</View>
 								<View
 									style={{
@@ -220,7 +284,84 @@ export default class Home extends React.Component {
 										color="#F8908A"
 										style={{marginRight: 10}}
 									/>
-									<Text>77777</Text>
+									<Text>
+										恭喜用户152****1435获得好友助力，收益倍增。
+									</Text>
+								</View>
+								<View
+									style={{
+										flexDirection: 'row',
+										alignItems: 'center',
+									}}>
+									<AntDesignIcon
+										name="sound"
+										size={17}
+										color="#F8908A"
+										style={{marginRight: 10}}
+									/>
+									<Text>
+										恭喜用户199****8645获得好友助力，收益倍增。
+									</Text>
+								</View>
+								<View
+									style={{
+										flexDirection: 'row',
+										alignItems: 'center',
+									}}>
+									<AntDesignIcon
+										name="sound"
+										size={17}
+										color="#F8908A"
+										style={{marginRight: 10}}
+									/>
+									<Text>
+										恭喜用户181****7893获得好友助力，收益倍增。
+									</Text>
+								</View>
+								<View
+									style={{
+										flexDirection: 'row',
+										alignItems: 'center',
+									}}>
+									<AntDesignIcon
+										name="sound"
+										size={17}
+										color="#F8908A"
+										style={{marginRight: 10}}
+									/>
+									<Text>
+										恭喜用户151****2345获得好友助力，收益倍增。
+									</Text>
+								</View>
+								<View
+									style={{
+										flexDirection: 'row',
+										alignItems: 'center',
+									}}>
+									<AntDesignIcon
+										name="sound"
+										size={17}
+										color="#F8908A"
+										style={{marginRight: 10}}
+									/>
+									<Text>
+										恭喜用户136****4567获得好友助力，收益倍增。
+									</Text>
+								</View>
+								<View
+									style={{
+										flexDirection: 'row',
+										alignItems: 'center',
+									}}>
+									<AntDesignIcon
+										name="sound"
+										size={17}
+										color="#F8908A"
+										style={{marginRight: 10}}
+									/>
+									<Text>
+										恭喜用户133****7893获得好友助力，收益倍增。
+									</Text>
 								</View>
 							</Swiper>
 						</View>
@@ -245,7 +386,7 @@ export default class Home extends React.Component {
 									<View style={styles.goods}>
 										<Image
 											style={styles.goodsImg}
-											source={require('../../assets/image/1.jpeg')}
+											source={{uri: item.imgUrl}}
 										/>
 										<Text style={styles.goodsName}>
 											{item.productName}

@@ -15,8 +15,16 @@ import pxSize from '../../assets/js/pxSize';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {AuthContext} from '../../assets/js/Context';
+import AsyncStorage from '@react-native-community/async-storage';
+import http from '../../assets/js/http';
 Icon.loadFont();
 export default class Setting extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			userInfo: {},
+		};
+	}
 	// 进入银行卡
 	GotoBankCard = () => {
 		this.props.navigation.navigate('BankCardScreen');
@@ -28,6 +36,9 @@ export default class Setting extends React.Component {
 	// 进入登录密码
 	GotoPassword = () => {
 		this.props.navigation.navigate('PassowrdScreen');
+	};
+	GotoEdit = () => {
+		this.props.navigation.navigate('EditScreen');
 	};
 	static contextType = AuthContext; // 才可以使用 this.context
 	// 退出登录
@@ -48,6 +59,23 @@ export default class Setting extends React.Component {
 			},
 		]);
 	};
+
+	GetUser = async () => {
+		let usr = JSON.parse(await AsyncStorage.getItem('userInfo'));
+		http({
+			method: 'get',
+			url: 'personal/getMemberInfo?memberId=' + usr.id,
+		}).then((res) => {
+			console.log(res, 999);
+			this.setState({
+				userInfo: res.data.data,
+			});
+		});
+	};
+	componentDidMount() {
+		// 获取用户数据
+		this.GetUser();
+	}
 	render() {
 		return (
 			<Provider>
@@ -63,24 +91,26 @@ export default class Setting extends React.Component {
 								height: pxSize(50),
 								borderRadius: 50,
 							}}
-							source={require('../../assets/image/1.jpeg')}
+							source={require('../../assets/image/header.png')}
 						/>
 					</View>
 					<View style={styles.listBox}>
 						<Text>昵称</Text>
-						<Text style={{}}>我爱老虎油</Text>
+						<Text style={{}}>{this.state.userInfo.nickName}</Text>
 					</View>
 					<View style={styles.listBox}>
 						<Text>绑定手机号</Text>
-						<Text style={{}}>15223681474</Text>
+						<Text style={{}}>{this.state.userInfo.telePhone}</Text>
 					</View>
 					<View style={styles.listBox}>
 						<Text>真实姓名</Text>
-						<Text style={{}}>老张</Text>
+						<Text style={{}}>{this.state.userInfo.alipayName}</Text>
 					</View>
 					<View style={styles.listBox}>
 						<Text>支付宝账号</Text>
-						<Text style={{}}>wwww@qq.com</Text>
+						<Text style={{}}>
+							{this.state.userInfo.alipayAccount}
+						</Text>
 					</View>
 					<View style={styles.listBox}>
 						<Text>银行卡绑定</Text>
@@ -106,6 +136,16 @@ export default class Setting extends React.Component {
 						<Text>支付密码</Text>
 						<TouchableHighlight
 							onPress={() => this.GotoPayPassword()}>
+							<Icon
+								name="chevron-forward"
+								size={20}
+								color="#000"
+							/>
+						</TouchableHighlight>
+					</View>
+					<View style={styles.listBox}>
+						<Text>修改用户信息</Text>
+						<TouchableHighlight onPress={() => this.GotoEdit()}>
 							<Icon
 								name="chevron-forward"
 								size={20}

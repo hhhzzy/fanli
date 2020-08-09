@@ -13,15 +13,52 @@ import {SearchBar} from '@ant-design/react-native';
 import pxSize from '../../assets/js/pxSize';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from '@react-native-community/async-storage';
+import http from '../../assets/js/http';
 Icon.loadFont();
 
 export default class Promote extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			userInfo: {},
+			list: [],
+		};
 	}
 	clear = () => {
 		console.log(1);
 	};
+	GetUser = async () => {
+		return new Promise(async (resolve) => {
+			let userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'));
+			this.setState({
+				userInfo: userInfo,
+			});
+			resolve();
+		});
+	};
+	GetList = () => {
+		http({
+			method: 'get',
+			url:
+				'personal/getMyPromoteList?offset=1&limit=1500&telePhone' +
+				this.state.userInfo.telPhone +
+				'&memberId=' +
+				this.state.userInfo.id,
+		}).then((res) => {
+			console.log(res, '333');
+			this.setState({
+				list: res.data.rows,
+			});
+			console.log(this.state.list);
+		});
+	};
+	async componentDidMount() {
+		// 获取用户数据
+		await this.GetUser();
+		// 获取用户数据
+		this.GetList();
+	}
 	render() {
 		return (
 			<>
@@ -45,7 +82,7 @@ export default class Promote extends React.Component {
 									alignItems: 'center',
 									marginTop: pxSize(2),
 								}}>
-								我爱老虎油
+								{this.state.userInfo.nickName}
 							</Text>
 							<Text style={{fontSize: 14, color: '#fff'}}>
 								我的推荐码
@@ -78,7 +115,7 @@ export default class Promote extends React.Component {
 							直推会员
 						</Text>
 						<Text style={{color: '#222222', fontSize: 14}}>
-							130人
+							{this.state.list.length}人
 						</Text>
 					</View>
 					<View>
@@ -137,316 +174,39 @@ export default class Promote extends React.Component {
 								消费总金额
 							</Text>
 						</View>
-						<View style={styles.listBox}>
-							<Text
-								style={{
-									width: pxSize(100),
-									textAlign: 'center',
-									flex: 2,
-								}}>
-								15223681474
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								522.00
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								262626
-							</Text>
-							<Text
-								style={{
-									flex: 1.5,
-									textAlign: 'center',
-								}}>
-								26156.55
-							</Text>
-						</View>
-						<View style={styles.listBox}>
-							<Text
-								style={{
-									width: pxSize(100),
-									textAlign: 'center',
-									flex: 2,
-								}}>
-								15223681474
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								522.00
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								262626
-							</Text>
-							<Text
-								style={{
-									flex: 1.5,
-									textAlign: 'center',
-								}}>
-								26156.55
-							</Text>
-						</View>
-						<View style={styles.listBox}>
-							<Text
-								style={{
-									width: pxSize(100),
-									textAlign: 'center',
-									flex: 2,
-								}}>
-								15223681474
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								522.00
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								262626
-							</Text>
-							<Text
-								style={{
-									flex: 1.5,
-									textAlign: 'center',
-								}}>
-								26156.55
-							</Text>
-						</View>
-						<View style={styles.listBox}>
-							<Text
-								style={{
-									width: pxSize(100),
-									textAlign: 'center',
-									flex: 2,
-								}}>
-								15223681474
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								522.00
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								262626
-							</Text>
-							<Text
-								style={{
-									flex: 1.5,
-									textAlign: 'center',
-								}}>
-								26156.55
-							</Text>
-						</View>
-						<View style={styles.listBox}>
-							<Text
-								style={{
-									width: pxSize(100),
-									textAlign: 'center',
-									flex: 2,
-								}}>
-								15223681474
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								522.00
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								262626
-							</Text>
-							<Text
-								style={{
-									flex: 1.5,
-									textAlign: 'center',
-								}}>
-								26156.55
-							</Text>
-						</View>
-						<View style={styles.listBox}>
-							<Text
-								style={{
-									width: pxSize(100),
-									textAlign: 'center',
-									flex: 2,
-								}}>
-								15223681474
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								522.00
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								262626
-							</Text>
-							<Text
-								style={{
-									flex: 1.5,
-									textAlign: 'center',
-								}}>
-								26156.55
-							</Text>
-						</View>
-						<View style={styles.listBox}>
-							<Text
-								style={{
-									width: pxSize(100),
-									textAlign: 'center',
-									flex: 2,
-								}}>
-								15223681474
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								522.00
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								262626
-							</Text>
-							<Text
-								style={{
-									flex: 1.5,
-									textAlign: 'center',
-								}}>
-								26156.55
-							</Text>
-						</View>
-						<View style={styles.listBox}>
-							<Text
-								style={{
-									width: pxSize(100),
-									textAlign: 'center',
-									flex: 2,
-								}}>
-								15223681474
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								522.00
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								262626
-							</Text>
-							<Text
-								style={{
-									flex: 1.5,
-									textAlign: 'center',
-								}}>
-								26156.55
-							</Text>
-						</View>
-						<View style={styles.listBox}>
-							<Text
-								style={{
-									width: pxSize(100),
-									textAlign: 'center',
-									flex: 2,
-								}}>
-								15223681474
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								522.00
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								262626
-							</Text>
-							<Text
-								style={{
-									flex: 1.5,
-									textAlign: 'center',
-								}}>
-								26156.55
-							</Text>
-						</View>
-						<View style={styles.listBox}>
-							<Text
-								style={{
-									width: pxSize(100),
-									textAlign: 'center',
-									flex: 2,
-								}}>
-								15223681474
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								522.00
-							</Text>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: 'center',
-								}}>
-								262626
-							</Text>
-							<Text
-								style={{
-									flex: 1.5,
-									textAlign: 'center',
-								}}>
-								26156.55
-							</Text>
-						</View>
+						{this.state.list.map((item) => (
+							<View style={styles.listBox} key={item.id}>
+								<Text
+									style={{
+										width: pxSize(100),
+										textAlign: 'center',
+										flex: 2,
+									}}>
+									{item.telePhone}
+								</Text>
+								<Text
+									style={{
+										flex: 1,
+										textAlign: 'center',
+									}}>
+									{item.consumeMoney}
+								</Text>
+								<Text
+									style={{
+										flex: 1,
+										textAlign: 'center',
+									}}>
+									{item.childNumber}
+								</Text>
+								<Text
+									style={{
+										flex: 1.5,
+										textAlign: 'center',
+									}}>
+									{item.totalConsumeMoney}
+								</Text>
+							</View>
+						))}
 					</View>
 				</ScrollView>
 			</>

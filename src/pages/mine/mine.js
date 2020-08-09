@@ -14,20 +14,74 @@ import React from 'react';
 import pxSize from '../../assets/js/pxSize';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
+import ImagePicker from 'react-native-image-picker';
 Icon.loadFont();
 import http from '../../assets/js/http';
-export default class Mine extends React.Component {
+
+export default class Wallet extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			userInfo: {},
+			unit: '',
+			avatarSource: {},
+		};
 	}
+	// 选择图片或相册
+	onClickChoosePicture = () => {
+		const options = {
+			title: '',
+			cancelButtonTitle: '取消',
+			takePhotoButtonTitle: '拍照',
+			chooseFromLibraryButtonTitle: '选择照片',
+			storageOptions: {
+				skipBackup: true,
+				path: 'images',
+			},
+		};
+
+		ImagePicker.showImagePicker(options, (response) => {
+			console.log('Response = ', response);
+
+			if (response.didCancel) {
+				console.log('User cancelled image picker');
+			} else if (response.error) {
+				console.log('ImagePicker Error: ', response.error);
+			} else if (response.customButton) {
+				console.log(
+					'User tapped custom button: ',
+					response.customButton,
+				);
+			} else {
+				const source = {uri: response.uri};
+				this.setState({
+					avatarSource: source,
+				});
+				let param = new FormData(); //创建form对象
+				param.append('file', response); //通过append向form对象添加数据
+				let config = {
+					headers: {'Content-Type': 'multipart/form-data'},
+				};
+				console.log(response, '99');
+				// http({
+				// 	method: 'post',
+				// 	url: 'service/upload/uploadImage',
+				// 	data: JSON.stringify(param),
+				// }).then((res) => {
+				// 	console.log(res);
+				// });
+				console.warn(this.state.avatarSource.uri);
+			}
+		});
+	};
+
 	// 进入订单列表
-	GotoOrderList = () => {
-		this.props.navigation.navigate('OrderListScreen');
+	GotoOrderList = (type, id) => {
+		this.props.navigation.navigate('OrderListScreen', {type: type, id: id});
 	};
 	// 进入明细
 	GotoMoneyList = () => {
-		this.props.navigation.navigate('MoneyListScreen');
+		this.props.navigation.navigate('MoneyListScreen', {type: 0});
 	};
 	// 在线充值
 	GotoRecharge = () => {
@@ -43,31 +97,59 @@ export default class Mine extends React.Component {
 	};
 	// 推荐好友
 	GotoTj = () => {
-		this.props.navigation.navigate('GameScreen');
+		this.props.navigation.navigate('InviteScreen');
 	};
 	// 我的推广
 	GotoPromote = () => {
 		this.props.navigation.navigate('PromoteScreen');
-		// http({
-		// 	method: 'get',
-		// 	url: 'http://hoom.xin:3005/web/article/findArticle',
-		// })
-		// 	.then((res) => {
-		// 		console.log(res);
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log(err, '888');
-		// 	});
 	};
 	// 团队佣金
 	GotoCommission = () => {
 		this.props.navigation.navigate('CommissionScreen');
+	};
+	GotoYj = () => {
+		this.props.navigation.navigate('YjScreen');
+	};
+	GotoTx = () => {
+		this.props.navigation.navigate('TxScreen');
 	};
 	// 设置中心
 	GotoSetting = () => {
 		// AsyncStorage.removeItem('userToken');
 		this.props.navigation.navigate('SettingScreen');
 	};
+	GetUser = async () => {
+		let usr = JSON.parse(await AsyncStorage.getItem('userInfo'));
+		http({
+			method: 'get',
+			url: 'personal/getMemberInfo?memberId=' + usr.id,
+		}).then((res) => {
+			console.log(res, 999);
+			this.setState({
+				userInfo: res.data.data,
+			});
+		});
+	};
+	// 帮助中心
+	GotoHelp = () => {
+		this.props.navigation.navigate('HelpScreen');
+	};
+	// 我的钱包
+	GotoWallet = () => {
+		this.props.navigation.navigate('WalletScreen');
+	};
+	componentDidMount() {
+		// 获取用户数据
+		this.GetUser();
+		http({
+			method: 'get',
+			url: '/index/getLanguageConfig',
+		}).then((res) => {
+			this.setState({
+				unit: res.data.data.aroundName,
+			});
+		});
+	}
 	render() {
 		return (
 			<>
@@ -80,10 +162,15 @@ export default class Mine extends React.Component {
 							colors={['#4CDBC5', '#4edac4']}>
 							<View style={styles.topBox}>
 								<View style={styles.topHeader}>
-									<Image
-										style={styles.headerImg}
-										source={require('../../assets/image/header.png')}
-									/>
+									<TouchableHighlight
+										onPress={() =>
+											this.onClickChoosePicture()
+										}>
+										<Image
+											style={styles.headerImg}
+											source={require('../../assets/image/header.png')}
+										/>
+									</TouchableHighlight>
 									<View style={styles.headerName}>
 										<Text
 											style={{
@@ -94,22 +181,28 @@ export default class Mine extends React.Component {
 												alignItems: 'center',
 												marginTop: pxSize(2),
 											}}>
-											我爱老虎油
+											{this.state.userInfo.nickName
+												? this.state.userInfo.nickName
+												: '未登录'}
 										</Text>
 										<Text
 											style={{
 												fontSize: 12,
 												color: '#fff',
 											}}>
-											我的元宝：1200个
+											我的{this.state.unit}：
+											{this.state.userInfo.accountMoney
+												? this.state.userInfo
+														.accountMoney / 100
+												: 0}
 										</Text>
 									</View>
-									<Icon
+									{/* <Icon
 										style={{marginLeft: 'auto'}}
 										name="mail-sharp"
 										size={20}
 										color="#fff"
-									/>
+									/> */}
 								</View>
 							</View>
 						</LinearGradient>
@@ -135,13 +228,20 @@ export default class Mine extends React.Component {
 								</Text>
 							</View>
 						</TouchableHighlight>
-						<View style={styles.listView}>
-							<Image
-								style={styles.topListImg}
-								source={require('../../assets/image/top_list_2.png')}
-							/>
-							<Text style={{marginTop: 8}}>提现</Text>
-						</View>
+						<TouchableHighlight
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}
+							onPress={() => this.GotoTx()}>
+							<View style={styles.listView}>
+								<Image
+									style={styles.topListImg}
+									source={require('../../assets/image/top_list_2.png')}
+								/>
+								<Text style={{marginTop: 8}}>提现</Text>
+							</View>
+						</TouchableHighlight>
 						<TouchableHighlight
 							style={{
 								justifyContent: 'center',
@@ -156,13 +256,20 @@ export default class Mine extends React.Component {
 								<Text style={{marginTop: 8}}>明细</Text>
 							</View>
 						</TouchableHighlight>
-						<View style={styles.listView}>
-							<Image
-								style={styles.topListImg}
-								source={require('../../assets/image/top_list_4.png')}
-							/>
-							<Text style={{marginTop: 8}}>我的钱包</Text>
-						</View>
+						<TouchableHighlight
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}
+							onPress={() => this.GotoWallet()}>
+							<View style={styles.listView}>
+								<Image
+									style={styles.topListImg}
+									source={require('../../assets/image/top_list_4.png')}
+								/>
+								<Text style={{marginTop: 8}}>我的钱包</Text>
+							</View>
+						</TouchableHighlight>
 					</View>
 				</View>
 				<ScrollView style={{flex: 1}}>
@@ -172,7 +279,9 @@ export default class Mine extends React.Component {
 							<Text style={styles.otherTitle}>我的订单</Text>
 							<View style={styles.otherList}>
 								<TouchableHighlight
-									onPress={() => this.GotoOrderList()}>
+									onPress={() =>
+										this.GotoOrderList('已付款', 1)
+									}>
 									<View style={styles.list}>
 										<Image
 											style={styles.listImg}
@@ -183,20 +292,34 @@ export default class Mine extends React.Component {
 										</Text>
 									</View>
 								</TouchableHighlight>
-								<View style={styles.list}>
-									<Image
-										style={styles.listImg}
-										source={require('../../assets/image/1_2.png')}
-									/>
-									<Text style={{fontSize: 11}}>已完成</Text>
-								</View>
-								<View style={styles.list}>
-									<Image
-										style={styles.listImg}
-										source={require('../../assets/image/1_3.png')}
-									/>
-									<Text style={{fontSize: 11}}>返利单</Text>
-								</View>
+								<TouchableHighlight
+									onPress={() =>
+										this.GotoOrderList('已完成', 3)
+									}>
+									<View style={styles.list}>
+										<Image
+											style={styles.listImg}
+											source={require('../../assets/image/1_2.png')}
+										/>
+										<Text style={{fontSize: 11}}>
+											已完成
+										</Text>
+									</View>
+								</TouchableHighlight>
+								<TouchableHighlight
+									onPress={() =>
+										this.GotoOrderList('返利订单', 2)
+									}>
+									<View style={styles.list}>
+										<Image
+											style={styles.listImg}
+											source={require('../../assets/image/1_3.png')}
+										/>
+										<Text style={{fontSize: 11}}>
+											返利单
+										</Text>
+									</View>
+								</TouchableHighlight>
 							</View>
 						</View>
 						<View style={styles.otherBox}>
@@ -226,13 +349,18 @@ export default class Mine extends React.Component {
 										</Text>
 									</View>
 								</TouchableHighlight>
-								<View style={styles.list}>
-									<Image
-										style={styles.listImg}
-										source={require('../../assets/image/2_3.png')}
-									/>
-									<Text style={{fontSize: 11}}>佣金政策</Text>
-								</View>
+								<TouchableHighlight
+									onPress={() => this.GotoYj()}>
+									<View style={styles.list}>
+										<Image
+											style={styles.listImg}
+											source={require('../../assets/image/2_3.png')}
+										/>
+										<Text style={{fontSize: 11}}>
+											佣金政策
+										</Text>
+									</View>
+								</TouchableHighlight>
 								<TouchableHighlight
 									onPress={() => this.GotoTj()}>
 									<View style={styles.list}>
@@ -286,13 +414,18 @@ export default class Mine extends React.Component {
 										</Text>
 									</View>
 								</TouchableHighlight>
-								<View style={styles.list}>
-									<Image
-										style={styles.listImg}
-										source={require('../../assets/image/3_4.png')}
-									/>
-									<Text style={{fontSize: 11}}>帮助中心</Text>
-								</View>
+								<TouchableHighlight
+									onPress={() => this.GotoHelp()}>
+									<View style={styles.list}>
+										<Image
+											style={styles.listImg}
+											source={require('../../assets/image/3_4.png')}
+										/>
+										<Text style={{fontSize: 11}}>
+											帮助中心
+										</Text>
+									</View>
+								</TouchableHighlight>
 							</View>
 						</View>
 					</View>

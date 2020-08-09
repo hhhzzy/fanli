@@ -1,4 +1,9 @@
-import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
+import {
+	createStackNavigator,
+	TransitionPresets,
+	HeaderBackButton,
+	navigation,
+} from '@react-navigation/stack';
 import * as React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -22,6 +27,14 @@ import SettingScreen from '../pages/mine/setting'; // 设置中心
 import BankCardScreen from '../pages/mine/bankCard'; // 银行卡
 import PayPassowrdScreen from '../pages/mine/payPassword'; // 支付密码
 import PassowrdScreen from '../pages/mine/password'; // 登录密码
+import HelpScreen from '../pages/mine/help'; // 帮组中心
+import YjScreen from '../pages/mine/yj'; // 佣金政策
+import TxScreen from '../pages/mine/tx'; // 体现
+import WalletScreen from '../pages/mine/wallet'; // 钱包
+import GameResultScreen from '../pages/mine/gameResult'; // 钱包
+import EditScreen from '../pages/mine/edit'; // 钱包
+
+import InfoScreen from '../pages/mine/info'; // 文档详情
 const Stack = createStackNavigator();
 
 export default class RootStack extends React.Component {
@@ -530,6 +543,195 @@ export default class RootStack extends React.Component {
 								headerBackTitleVisible: false,
 							}}
 							component={PassowrdScreen}
+						/>
+						<Stack.Screen
+							name="HelpScreen"
+							options={{
+								headerTitle: '帮助中心',
+								headerTintColor: '#fff',
+								headerTitleAlign: 'center',
+								headerBackground: () => {
+									return (
+										<LinearGradient
+											start={{x: 0, y: 0}}
+											end={{x: 0, y: 1}}
+											style={{flex: 1}}
+											colors={['#9BD6D2', '#4CDBC5']}
+										/>
+									);
+								},
+								headerBackImage: () => (
+									<Icon
+										name="chevron-back"
+										size={40}
+										color="white"
+									/>
+								),
+								headerBackTitleVisible: false,
+							}}
+							component={HelpScreen}
+						/>
+						<Stack.Screen
+							name="InfoScreen"
+							options={{
+								headerTitle: '详情',
+								headerTintColor: '#fff',
+								headerTitleAlign: 'center',
+								headerBackground: () => {
+									return (
+										<LinearGradient
+											start={{x: 0, y: 0}}
+											end={{x: 0, y: 1}}
+											style={{flex: 1}}
+											colors={['#9BD6D2', '#4CDBC5']}
+										/>
+									);
+								},
+								headerBackImage: () => (
+									<Icon
+										name="chevron-back"
+										size={40}
+										color="white"
+									/>
+								),
+								headerBackTitleVisible: false,
+							}}
+							component={InfoScreen}
+						/>
+						<Stack.Screen
+							name="YjScreen"
+							options={{
+								headerTitle: '佣金政策',
+								headerTintColor: '#fff',
+								headerTitleAlign: 'center',
+								headerBackground: () => {
+									return (
+										<LinearGradient
+											start={{x: 0, y: 0}}
+											end={{x: 0, y: 1}}
+											style={{flex: 1}}
+											colors={['#9BD6D2', '#4CDBC5']}
+										/>
+									);
+								},
+								headerBackImage: () => (
+									<Icon
+										name="chevron-back"
+										size={40}
+										color="white"
+									/>
+								),
+								headerBackTitleVisible: false,
+							}}
+							component={YjScreen}
+						/>
+						<Stack.Screen
+							name="TxScreen"
+							options={{
+								headerTitle: '提现',
+								headerTintColor: '#fff',
+								headerTitleAlign: 'center',
+								headerBackground: () => {
+									return (
+										<LinearGradient
+											start={{x: 0, y: 0}}
+											end={{x: 0, y: 1}}
+											style={{flex: 1}}
+											colors={['#9BD6D2', '#4CDBC5']}
+										/>
+									);
+								},
+								headerBackImage: () => (
+									<Icon
+										name="chevron-back"
+										size={40}
+										color="white"
+									/>
+								),
+								headerBackTitleVisible: false,
+							}}
+							component={TxScreen}
+						/>
+						<Stack.Screen
+							name="WalletScreen"
+							options={{
+								headerTitle: '我的钱包',
+								headerTintColor: '#fff',
+								headerTitleAlign: 'center',
+								headerBackground: () => {
+									return (
+										<LinearGradient
+											start={{x: 0, y: 0}}
+											end={{x: 0, y: 1}}
+											style={{flex: 1}}
+											colors={['#9BD6D2', '#4CDBC5']}
+										/>
+									);
+								},
+								headerBackImage: () => (
+									<Icon
+										name="chevron-back"
+										size={40}
+										color="white"
+									/>
+								),
+								headerBackTitleVisible: false,
+							}}
+							component={WalletScreen}
+						/>
+						<Stack.Screen
+							name="GameResultScreen"
+							options={{
+								headerTitle: '中奖纪录',
+								headerTintColor: '#fff',
+								headerTitleAlign: 'center',
+								headerBackground: () => {
+									return (
+										<LinearGradient
+											start={{x: 0, y: 0}}
+											end={{x: 0, y: 1}}
+											style={{flex: 1}}
+											colors={['#9BD6D2', '#4CDBC5']}
+										/>
+									);
+								},
+								headerBackImage: () => (
+									<Icon
+										name="chevron-back"
+										size={40}
+										color="white"
+									/>
+								),
+								headerBackTitleVisible: false,
+							}}
+							component={GameResultScreen}
+						/>
+						<Stack.Screen
+							name="EditScreen"
+							options={{
+								headerTitle: '用户信息',
+								headerTintColor: '#fff',
+								headerTitleAlign: 'center',
+								headerBackground: () => {
+									return (
+										<LinearGradient
+											start={{x: 0, y: 0}}
+											end={{x: 0, y: 1}}
+											style={{flex: 1}}
+											colors={['#9BD6D2', '#4CDBC5']}
+										/>
+									);
+								},
+								headerBackImage: () => (
+									<Icon
+										name="chevron-back"
+										size={40}
+										color="white"
+									/>
+								),
+								headerBackTitleVisible: false,
+							}}
+							component={EditScreen}
 						/>
 					</>
 				)}

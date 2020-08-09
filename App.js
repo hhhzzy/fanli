@@ -141,15 +141,15 @@ export default function App(){
 	// axios返回结果拦截器
 	http.interceptors.response.use(
 		(response) => {
-			console.log(response.data.msg);
 			if (response.data.code === 0) {
+				console.log(response);
 				Alert.alert('提示', response.data.msg, [
 					{
 						text: '确定',
 					},
 				]);
 			} else if (response.data.code === -1){
-				Alert.alert('提示', '登录过期，请重新登录！', [
+				Alert.alert('提示', response.data.msg, [
 					{
 						text: '去登陆',
 						onPress: () => {
@@ -166,6 +166,7 @@ export default function App(){
 		(err) => {
 			console.log(err,err.response);
 			if (err && err.response) {
+				console.log(err);
 				switch (err.response.status) {
 					case 400:
 						err.message = '请求错误(400)';

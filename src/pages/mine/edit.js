@@ -17,70 +17,47 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import http from '../../assets/js/http';
 import AsyncStorage from '@react-native-community/async-storage';
+
+import {AuthContext} from '../../assets/js/Context';
 Icon.loadFont();
-export default class PayPassword extends React.Component {
+export default class Edit extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			oldP: '',
-			newP: '',
-			rNewP: '',
+			nickName: '',
+			memberName: '',
+			alipayAccount: '',
 			userInfo: '',
 		};
 	}
-	GetUser = async () => {
-		return new Promise(async (resolve) => {
-			let userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'));
-			this.setState({
-				userInfo: userInfo,
-			});
-			resolve();
-		});
-	};
 	onChangeOldP = (value) => {
 		this.setState({
-			oldP: value,
+			nickName: value,
 		});
 	};
 	onChangeNewP = (value) => {
 		this.setState({
-			newP: value,
+			memberName: value,
 		});
 	};
 	onChangeRNewP = (value) => {
 		this.setState({
-			rNewP: value,
+			alipayAccount: value,
 		});
 	};
-
-	GetInfo = () => {
-		http({
-			method: 'get',
-			url: 'personal/getMemberInfo?memberId=' + this.state.userInfo.id,
-		}).then((res) => {
-			AsyncStorage.setItem('userInfo', JSON.stringify(res.data.data));
-		});
-	};
+	static contextType = AuthContext; // 才可以使用 this.context
 	save = () => {
-		if (this.state.newP != this.state.rNewP) {
-			Alert.alert('提示', '两次密码输入不一致', [
-				{
-					text: '确定',
-					onPress: () => {},
-				},
-			]);
-			return;
-		}
 		http({
 			method: 'get',
 			url:
-				'personal/updatePassword?memberId=' +
+				'personal/updateMemberUrl?memberId=' +
 				this.state.userInfo.id +
-				'&passWord=' +
-				this.state.newP +
-				'&passType=2' +
-				'&tranPassword =' +
-				this.state.oldP,
+				'&nickName=' +
+				this.state.nickName +
+				'&memberName=' +
+				this.state.memberName +
+				'&alipayAccount=' +
+				this.state.alipayAccount,
 		}).then((res) => {
 			console.log(res);
 			if (res.data.code === 1) {
@@ -88,7 +65,7 @@ export default class PayPassword extends React.Component {
 					{
 						text: '确定',
 						onPress: () => {
-							this.GetInfo();
+							this.props.navigation.navigate('SettingScreen');
 						},
 					},
 				]);
@@ -102,7 +79,24 @@ export default class PayPassword extends React.Component {
 			}
 		});
 	};
+	GetUser = async () => {
+		let usr = JSON.parse(await AsyncStorage.getItem('userInfo'));
+		http({
+			method: 'get',
+			url: 'personal/getMemberInfo?memberId=' + usr.id,
+		}).then((res) => {
+			console.log(res);
+			this.setState({
+				userInfo: res.data.data,
+				nickName: res.data.data.nickName,
+				memberName: res.data.data.alipayName,
+				alipayAccount: res.data.data.alipayAccount,
+			});
+		});
+	};
 	async componentDidMount() {
+		// 获取用户数据
+		this.GetUser();
 		await this.GetUser();
 	}
 	render() {
@@ -115,10 +109,9 @@ export default class PayPassword extends React.Component {
 								fontSize: 16,
 								padding: 0,
 							}}
-							placeholder="请输入原密码"
-							value={this.state.oldP}
+							placeholder="请输入昵称"
+							value={this.state.nickName}
 							onChangeText={(value) => this.onChangeOldP(value)}
-							secureTextEntry={true}
 						/>
 					</View>
 					<View style={styles.addressBox}>
@@ -127,10 +120,9 @@ export default class PayPassword extends React.Component {
 								fontSize: 16,
 								padding: 0,
 							}}
-							placeholder="请输入新密码"
-							value={this.state.newP}
+							placeholder="请输入真实姓名"
+							value={this.state.memberName}
 							onChangeText={(value) => this.onChangeNewP(value)}
-							secureTextEntry={true}
 						/>
 					</View>
 					<View style={styles.addressBox}>
@@ -139,51 +131,11 @@ export default class PayPassword extends React.Component {
 								fontSize: 16,
 								padding: 0,
 							}}
-							placeholder="请重新输入新密码"
-							value={this.state.rNewP}
+							placeholder="请输入支付宝账号"
+							value={this.state.alipayAccount}
 							onChangeText={(value) => this.onChangeRNewP(value)}
-							secureTextEntry={true}
 						/>
 					</View>
-					{/* <View style={styles.addressBox}>
-						<TextInput
-							style={{
-								fontSize: 16,
-								padding: 0,
-							}}
-							placeholder="请设置支付密码"
-						/>
-					</View>
-					<View style={styles.addressBox}>
-						<TextInput
-							style={{
-								fontSize: 16,
-								padding: 0,
-							}}
-							placeholder="请重新输入支付密码"
-						/>
-					</View>
-					<View style={styles.addressBox}>
-						<TextInput
-							style={{
-								fontSize: 16,
-								padding: 0,
-							}}
-							placeholder="请填写验证码"
-						/>
-						<Text
-							style={{
-								backgroundColor: '#4CDBC5',
-								color: '#fff',
-								borderRadius: 20,
-								width: pxSize(95),
-								height: pxSize(28),
-								textAlign: 'center',
-								textAlignVertical: 'center',
-							}}>
-							发送验证码
-						</Text>
-					</View> */}
 				</ScrollView>
 				<TouchableHighlight onPress={() => this.save()}>
 					<View style={styles.footerBox}>

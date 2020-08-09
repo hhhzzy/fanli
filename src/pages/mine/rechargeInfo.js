@@ -15,6 +15,8 @@ import pxSize from '../../assets/js/pxSize';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from '@react-native-community/async-storage';
+import http from '../../assets/js/http';
 Icon.loadFont();
 AntDesign.loadFont();
 export default class RechargeInfo extends React.Component {
@@ -22,6 +24,9 @@ export default class RechargeInfo extends React.Component {
 		super(props);
 		this.state = {
 			isEnabled: false,
+			type: this.props.route.params.type,
+			bankInfo: {},
+			userInfo: {},
 		};
 	}
 
@@ -31,7 +36,33 @@ export default class RechargeInfo extends React.Component {
 	toggleSwitch = () => {
 		this.setState({isEnabled: !this.isEnabled});
 	};
-
+	GetUser = async () => {
+		return new Promise(async (resolve) => {
+			let userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'));
+			this.setState({
+				userInfo: userInfo,
+			});
+			resolve();
+		});
+	};
+	// 获取银行
+	GetBank = () => {
+		http({
+			method: 'get',
+			url: 'personal/queryPayConfig',
+		}).then((res) => {
+			this.setState({
+				bankInfo: res.data.data,
+			});
+			console.log(this.state.bankInfo);
+		});
+	};
+	async componentDidMount() {
+		// 获取用户数据
+		await this.GetUser();
+		this.GetBank();
+		console.log(this.state.type, this.state.userInfo);
+	}
 	render() {
 		return (
 			<SafeAreaView style={{flex: 1}}>
@@ -52,92 +83,166 @@ export default class RechargeInfo extends React.Component {
 						}}>
 						请立即汇款至下列专属账户
 					</Text>
-					<View style={styles.listBox}>
-						<View style={styles.list}>
-							<Text
-								style={{
-									color: '#666',
-									width: pxSize(70),
-									textAlign: 'right',
-								}}>
-								存款备注：
-							</Text>
-							<Text>15223681474</Text>
-							<Text
-								style={{
-									marginLeft: 'auto',
-									backgroundColor: 'red',
-									color: '#fff',
-									paddingLeft: pxSize(5),
-									paddingRight: pxSize(5),
-								}}>
-								复制
-							</Text>
+					{this.state.type == 1 ? (
+						<View style={styles.listBox}>
+							<View style={styles.list}>
+								<Text
+									style={{
+										color: '#666',
+										width: pxSize(70),
+										textAlign: 'right',
+									}}>
+									存款备注：
+								</Text>
+								<Text>{this.state.userInfo.telePhone}</Text>
+								<Text
+									style={{
+										marginLeft: 'auto',
+										backgroundColor: 'red',
+										color: '#fff',
+										paddingLeft: pxSize(5),
+										paddingRight: pxSize(5),
+									}}>
+									复制
+								</Text>
+							</View>
+							<View style={styles.list}>
+								<Text
+									style={{
+										color: '#666',
+										width: pxSize(70),
+										textAlign: 'right',
+									}}>
+									收款账号：
+								</Text>
+								<Text>{this.state.bankInfo.zfbAccount}</Text>
+								<Text
+									style={{
+										marginLeft: 'auto',
+										backgroundColor: 'red',
+										color: '#fff',
+										paddingLeft: pxSize(5),
+										paddingRight: pxSize(5),
+									}}>
+									复制
+								</Text>
+							</View>
+							<View style={[styles.list, {borderBottomWidth: 0}]}>
+								<Text
+									style={{
+										color: '#666',
+										width: pxSize(70),
+										textAlign: 'right',
+									}}>
+									收款人：
+								</Text>
+								<Text>{this.state.bankInfo.zfbName}</Text>
+								<Text
+									style={{
+										marginLeft: 'auto',
+										backgroundColor: 'red',
+										color: '#fff',
+										paddingLeft: pxSize(5),
+										paddingRight: pxSize(5),
+									}}>
+									复制
+								</Text>
+							</View>
 						</View>
-						<View style={styles.list}>
-							<Text
-								style={{
-									color: '#666',
-									width: pxSize(70),
-									textAlign: 'right',
-								}}>
-								银行名称：
-							</Text>
-							<Text>15223681474</Text>
-							<Text
-								style={{
-									marginLeft: 'auto',
-									backgroundColor: 'red',
-									color: '#fff',
-									paddingLeft: pxSize(5),
-									paddingRight: pxSize(5),
-								}}>
-								复制
-							</Text>
+					) : (
+						<View style={styles.listBox}>
+							<View style={styles.list}>
+								<Text
+									style={{
+										color: '#666',
+										width: pxSize(70),
+										textAlign: 'right',
+									}}>
+									存款备注：
+								</Text>
+								<Text>
+									<Text>{this.state.userInfo.telePhone}</Text>
+								</Text>
+								<Text
+									style={{
+										marginLeft: 'auto',
+										backgroundColor: 'red',
+										color: '#fff',
+										paddingLeft: pxSize(5),
+										paddingRight: pxSize(5),
+									}}>
+									复制
+								</Text>
+							</View>
+							<View style={styles.list}>
+								<Text
+									style={{
+										color: '#666',
+										width: pxSize(70),
+										textAlign: 'right',
+									}}>
+									银行名称：
+								</Text>
+								<Text>{this.state.bankInfo.bankName}</Text>
+								<Text
+									style={{
+										marginLeft: 'auto',
+										backgroundColor: 'red',
+										color: '#fff',
+										paddingLeft: pxSize(5),
+										paddingRight: pxSize(5),
+									}}>
+									复制
+								</Text>
+							</View>
+							<View style={styles.list}>
+								<Text
+									style={{
+										color: '#666',
+										width: pxSize(70),
+										textAlign: 'right',
+									}}>
+									收款账号：
+								</Text>
+								<Text>
+									{this.state.bankInfo.bankAccountNumber}
+								</Text>
+								<Text
+									style={{
+										marginLeft: 'auto',
+										backgroundColor: 'red',
+										color: '#fff',
+										paddingLeft: pxSize(5),
+										paddingRight: pxSize(5),
+									}}>
+									复制
+								</Text>
+							</View>
+							<View style={[styles.list, {borderBottomWidth: 0}]}>
+								<Text
+									style={{
+										color: '#666',
+										width: pxSize(70),
+										textAlign: 'right',
+									}}>
+									收款人：
+								</Text>
+								<Text>
+									{this.state.bankInfo.bankAccountName}
+								</Text>
+								<Text
+									style={{
+										marginLeft: 'auto',
+										backgroundColor: 'red',
+										color: '#fff',
+										paddingLeft: pxSize(5),
+										paddingRight: pxSize(5),
+									}}>
+									复制
+								</Text>
+							</View>
 						</View>
-						<View style={styles.list}>
-							<Text
-								style={{
-									color: '#666',
-									width: pxSize(70),
-									textAlign: 'right',
-								}}>
-								收款账号：
-							</Text>
-							<Text>6223 3145 6789 1192 231</Text>
-							<Text
-								style={{
-									marginLeft: 'auto',
-									backgroundColor: 'red',
-									color: '#fff',
-									paddingLeft: pxSize(5),
-									paddingRight: pxSize(5),
-								}}>
-								复制
-							</Text>
-						</View>
-						<View style={[styles.list, {borderBottomWidth: 0}]}>
-							<Text
-								style={{
-									color: '#666',
-									width: pxSize(70),
-									textAlign: 'right',
-								}}>
-								收款人：
-							</Text>
-							<Text>15223681474</Text>
-							<Text
-								style={{
-									marginLeft: 'auto',
-									backgroundColor: 'red',
-									color: '#fff',
-									paddingLeft: pxSize(5),
-									paddingRight: pxSize(5),
-								}}>
-								复制
-							</Text>
-						</View>
-					</View>
+					)}
 					<View style={styles.tipsBox}>
 						<Text style={{color: '#666'}}>提示</Text>
 						<Text style={{color: '#666'}}>

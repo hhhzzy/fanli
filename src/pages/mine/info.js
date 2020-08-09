@@ -16,58 +16,52 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import LinearGradient from 'react-native-linear-gradient';
 import http from '../../assets/js/http';
+import HTMLView from 'react-native-htmlview';
 Icon.loadFont();
 AntDesign.loadFont();
-export default class Message extends React.Component {
+export default class Info extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			isEnabled: false,
-			list: [],
+			info: {},
+			id: this.props.route.params.id,
 		};
 	}
-	GetList = () => {
+	GetInfo = () => {
 		http({
 			method: 'get',
-			url: 'personal/queryMessage?messageType=5',
+			url: 'personal/queryMessageDetail?messageId=' + this.state.id,
 		}).then((res) => {
 			console.log(res);
 			this.setState({
-				list: res.data.data,
+				info: res.data.data,
 			});
 		});
 	};
-	GotoDetail = (id) => {
-		this.props.navigation.navigate('InfoScreen', {id: id});
-	};
 	async componentDidMount() {
 		// 获取数据
-		this.GetList();
+		this.GetInfo();
 	}
 	render() {
 		return (
-			<SafeAreaView style={{flex: 1}}>
-				<ScrollView>
-					{this.state.list.map((item) => (
-						<TouchableHighlight
-							key={item.id}
-							onPress={() => this.GotoDetail(item.id)}>
-							<View style={styles.messageList}>
-								<Text style={{fontSize: 16, color: '#000'}}>
-									{item.titleName}
-								</Text>
-								<Text
-									style={{
-										fontSize: 14,
-										color: '#BEBDBD',
-										marginTop: pxSize(2),
-									}}>
-									{item.createTime}
-								</Text>
-							</View>
-						</TouchableHighlight>
-					))}
-				</ScrollView>
+			<SafeAreaView
+				style={{
+					flex: 1,
+					backgroundColor: '#fff',
+					paddingLeft: pxSize(15),
+					paddingRight: pxSize(15),
+				}}>
+				<Text
+					style={{
+						fontSize: 18,
+						fontWeight: 'bold',
+						marginBottom: 10,
+						marginTop: 10,
+					}}>
+					{this.state.info.titleName}
+				</Text>
+				<HTMLView value={this.state.info.titleContent} />
 			</SafeAreaView>
 		);
 	}

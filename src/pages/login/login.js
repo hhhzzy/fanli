@@ -21,8 +21,8 @@ export default class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			telePhone: '17600000000',
-			loginPassWord: '123456',
+			telePhone: '',
+			loginPassWord: '',
 		};
 	}
 	static contextType = AuthContext; // 才可以使用 this.context
@@ -75,6 +75,7 @@ export default class Login extends React.Component {
 							placeholder="登录密码"
 							value={this.state.loginPassWord}
 							onChangeText={(value) => this.onChangePwd(value)}
+							secureTextEntry={true}
 						/>
 					</View>
 					<TouchableHighlight onPress={() => this.GotoReg()}>
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
 	ipt: {
 		borderBottomColor: '#F5F5F5',
 		borderBottomWidth: 1,
-		height: pxSize(35),
+		height: pxSize(45),
 	},
 	footerBox: {
 		justifyContent: 'center',

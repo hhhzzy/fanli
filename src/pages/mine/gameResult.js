@@ -18,22 +18,25 @@ import LinearGradient from 'react-native-linear-gradient';
 import http from '../../assets/js/http';
 Icon.loadFont();
 AntDesign.loadFont();
-export default class Message extends React.Component {
+export default class GameResult extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			isEnabled: false,
 			list: [],
+			type: this.props.route.params.type,
 		};
 	}
 	GetList = () => {
 		http({
 			method: 'get',
-			url: 'personal/queryMessage?messageType=5',
+			url:
+				'personal/getGamePeriodList?offset=1&limit=1500&gameType=' +
+				this.state.type,
 		}).then((res) => {
 			console.log(res);
 			this.setState({
-				list: res.data.data,
+				list: res.data.rows,
 			});
 		});
 	};
@@ -54,15 +57,15 @@ export default class Message extends React.Component {
 							onPress={() => this.GotoDetail(item.id)}>
 							<View style={styles.messageList}>
 								<Text style={{fontSize: 16, color: '#000'}}>
-									{item.titleName}
+									第{item.periodsNumber}期
 								</Text>
 								<Text
 									style={{
-										fontSize: 14,
-										color: '#BEBDBD',
+										fontSize: 16,
+										color: '#000',
 										marginTop: pxSize(2),
 									}}>
-									{item.createTime}
+									{item.openResult ? item.openResult : '---'}
 								</Text>
 							</View>
 						</TouchableHighlight>
@@ -76,6 +79,7 @@ const styles = StyleSheet.create({
 	messageList: {
 		justifyContent: 'space-between',
 		backgroundColor: '#fff',
+		flexDirection: 'row',
 		padding: pxSize(15),
 		marginLeft: pxSize(15),
 		marginRight: pxSize(15),

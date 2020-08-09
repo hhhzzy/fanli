@@ -18,7 +18,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import http from '../../assets/js/http';
 Icon.loadFont();
 AntDesign.loadFont();
-export default class Message extends React.Component {
+export default class Help extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -29,7 +29,7 @@ export default class Message extends React.Component {
 	GetList = () => {
 		http({
 			method: 'get',
-			url: 'personal/queryMessage?messageType=5',
+			url: 'personal/queryMessage?messageType=1',
 		}).then((res) => {
 			console.log(res);
 			this.setState({
@@ -50,8 +50,8 @@ export default class Message extends React.Component {
 				<ScrollView>
 					{this.state.list.map((item) => (
 						<TouchableHighlight
-							key={item.id}
-							onPress={() => this.GotoDetail(item.id)}>
+							onPress={() => this.GotoDetail(item.id)}
+							key={item.id}>
 							<View style={styles.messageList}>
 								<Text style={{fontSize: 16, color: '#000'}}>
 									{item.titleName}

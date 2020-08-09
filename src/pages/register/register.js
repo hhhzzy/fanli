@@ -24,15 +24,14 @@ export default class Register extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			telePhone: '15223681474',
-			nickName: '黄照阳',
-			loginPassWord: '123456',
-			reLoginPassword: '123456',
-			tranPassWord: '123456',
-			reTranPassWord: '123456',
-			recommendCode: '1111',
+			telePhone: '',
+			nickName: '',
+			loginPassWord: '',
+			reLoginPassword: '',
+			tranPassWord: '',
+			reTranPassWord: '',
+			recommendCode: '',
 		};
-		console.log(props, '222');
 	}
 	onChangeTel = (value) => {
 		this.setState({
@@ -157,6 +156,7 @@ export default class Register extends React.Component {
 								onChangeText={(value) =>
 									this.onChangePwd(value)
 								}
+								secureTextEntry={true}
 							/>
 						</View>
 						<View style={styles.listInput}>
@@ -168,6 +168,7 @@ export default class Register extends React.Component {
 								onChangeText={(value) =>
 									this.onChangeRePwd(value)
 								}
+								secureTextEntry={true}
 							/>
 						</View>
 						<View style={styles.listInput}>
@@ -179,6 +180,7 @@ export default class Register extends React.Component {
 								onChangeText={(value) =>
 									this.onChangeReTrPwd(value)
 								}
+								secureTextEntry={true}
 							/>
 						</View>
 						<View style={styles.listInput}>
@@ -190,6 +192,7 @@ export default class Register extends React.Component {
 								onChangeText={(value) =>
 									this.onChangeReReTrPwd(value)
 								}
+								secureTextEntry={true}
 							/>
 						</View>
 						<View style={styles.listInput}>
@@ -242,7 +245,7 @@ const styles = StyleSheet.create({
 	ipt: {
 		borderBottomColor: '#F5F5F5',
 		borderBottomWidth: 1,
-		height: pxSize(35),
+		height: pxSize(45),
 	},
 	footerBox: {
 		justifyContent: 'center',
