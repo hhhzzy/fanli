@@ -46,9 +46,9 @@ export default class Goods extends React.Component {
 			this.setState({
 				bannerList: res.data.data,
 			});
-			setTimeout(() => {
-				this.setState({bannerVisible: true});
-			}, 10);
+			// setTimeout(() => {
+			this.setState({bannerVisible: true});
+			// }, 10);
 		});
 	};
 	// 获取商品类别
@@ -126,13 +126,14 @@ export default class Goods extends React.Component {
 													styles.containerHorizontal,
 												]}
 												key={item.id}>
-												<ImageBackground
+												<Image
 													source={{uri: item.imgUrl}}
 													style={{
 														width: pxSize(345),
 														height: pxSize(200),
 													}}
 												/>
+												<Text>{item.imgUrl}</Text>
 											</View>
 										))
 									) : (

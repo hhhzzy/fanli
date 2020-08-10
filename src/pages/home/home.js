@@ -19,6 +19,7 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import pxSize from '../../assets/js/pxSize';
 import http from '../../assets/js/http';
 import url from '../../assets/js/url';
+import SplashScreen from 'react-native-splash-screen';
 
 Icon.loadFont();
 AntDesignIcon.loadFont();
@@ -47,6 +48,7 @@ export default class Home extends React.Component {
 		};
 	};
 	componentDidMount() {
+		SplashScreen.hide();
 		// 获取首页轮播图
 		http({
 			method: 'get',

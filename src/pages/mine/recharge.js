@@ -30,6 +30,7 @@ export default class Recharge extends React.Component {
 			userInfo: {},
 			bankInfo: {},
 			selectYh: 1,
+			info: '',
 		};
 	}
 

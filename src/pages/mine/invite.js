@@ -18,10 +18,33 @@ import pxSize from '../../assets/js/pxSize';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import LinearGradient from 'react-native-linear-gradient';
-import a from '@ant-design/react-native/lib/modal/alert';
+import http from '../../assets/js/http';
+import AsyncStorage from '@react-native-community/async-storage';
 Icon.loadFont();
 AntDesign.loadFont();
 export default class Invite extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			userInfo: {},
+		};
+	}
+	GetUser = async () => {
+		let usr = JSON.parse(await AsyncStorage.getItem('userInfo'));
+		http({
+			method: 'get',
+			url: 'personal/getMemberInfo?memberId=' + usr.id,
+		}).then((res) => {
+			console.log(res, 999);
+			this.setState({
+				userInfo: res.data.data,
+			});
+		});
+	};
+	componentDidMount() {
+		// 获取用户数据
+		this.GetUser();
+	}
 	render() {
 		return (
 			<View style={{flex: 1, backgroundColor: '#63cc94'}}>
@@ -35,7 +58,7 @@ export default class Invite extends React.Component {
 				/> */}
 				<Image
 					style={{
-						resizeMode: 'stretch',
+						resizeMode: 'cover',
 						backgroundColor: 'transparent',
 						position: 'absolute',
 						width: '100%',
@@ -77,7 +100,7 @@ export default class Invite extends React.Component {
 								fontSize: 30,
 								textAlign: 'center',
 							}}>
-							45164156
+							{this.state.userInfo.recommendCode}
 						</Text>
 					</ImageBackground>
 					<Text

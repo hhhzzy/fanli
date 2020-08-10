@@ -36,6 +36,7 @@ export default class Tx extends React.Component {
 			isEnabled: false,
 			selectYh: '',
 			userInfo: {},
+			info: '',
 		};
 	}
 
@@ -94,18 +95,28 @@ export default class Tx extends React.Component {
 		);
 	};
 	GetUser = async () => {
-		return new Promise(async (resolve) => {
-			let userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'));
+		let usr = JSON.parse(await AsyncStorage.getItem('userInfo'));
+		http({
+			method: 'get',
+			url: 'personal/getMemberInfo?memberId=' + usr.id,
+		}).then((res) => {
+			console.log(res, 999);
 			this.setState({
-				userInfo: userInfo,
-				selectYh: userInfo.bankAccountNumber,
+				userInfo: res.data.data,
+				selectYh: res.data.data.bankAccountNumber,
 			});
-			resolve();
 		});
 	};
 	onChangeMon = (value) => {
 		this.setState({
 			mon: value,
+		});
+	};
+	GotoBank = () => {
+		this.props.navigation.navigate('BankCardScreen', {
+			refresh: () => {
+				this.GetUser();
+			},
 		});
 	};
 	async componentDidMount() {
@@ -149,7 +160,9 @@ export default class Tx extends React.Component {
 								textAlignVertical: 'center',
 								flex: 1,
 							}}>
-							{this.state.userInfo.accountMoney / 100}
+							{this.state.userInfo.accountMoney
+								? this.state.userInfo.accountMoney / 100
+								: '0'}
 						</Text>
 						<View style={styles.payList}>
 							<Text
@@ -163,27 +176,50 @@ export default class Tx extends React.Component {
 								}}>
 								请确定绑定银行卡可正常使用
 							</Text>
+
 							<List style={{marginTop: 12, marginBottom: 12}}>
-								<RadioItem
-									checked={
-										this.state.selectYh ===
-										this.state.userInfo.bankAccountNumber
-									}
-									onChange={(event) => {
-										if (event.target.checked) {
-											this.setState({
-												selectYh: this.state.userInfo
-													.bankAccountNumber,
-											});
-										}
-									}}>
-									<Text style={{fontSize: 16}}>
-										{this.state.userInfo.bankName}：
-									</Text>
-									<Text>
-										{this.state.userInfo.bankAccountNumber}
-									</Text>
-								</RadioItem>
+								{this.state.userInfo.bankAccountNumber ? (
+									<View>
+										<RadioItem
+											checked={
+												this.state.selectYh ===
+												this.state.userInfo
+													.bankAccountNumber
+											}
+											onChange={(event) => {
+												if (event.target.checked) {
+													this.setState({
+														selectYh: this.state
+															.userInfo
+															.bankAccountNumber,
+													});
+												}
+											}}>
+											<Text style={{fontSize: 16}}>
+												{this.state.userInfo.bankName}：
+											</Text>
+											<Text>
+												{
+													this.state.userInfo
+														.bankAccountNumber
+												}
+											</Text>
+										</RadioItem>
+									</View>
+								) : (
+									<TouchableHighlight
+										onPress={() => this.GotoBank()}>
+										<Text
+											style={{
+												marginTop: 5,
+												marginBottom: 5,
+												paddingLeft: 15,
+												paddingRight: 15,
+											}}>
+											点击添加银行卡信息
+										</Text>
+									</TouchableHighlight>
+								)}
 							</List>
 						</View>
 						<View

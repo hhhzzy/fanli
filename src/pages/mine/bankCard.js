@@ -31,17 +31,20 @@ export default class BankCard extends React.Component {
 		};
 	}
 	GetUser = async () => {
-		return new Promise(async (resolve) => {
-			let userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'));
+		let usr = JSON.parse(await AsyncStorage.getItem('userInfo'));
+		http({
+			method: 'get',
+			url: 'personal/getMemberInfo?memberId=' + usr.id,
+		}).then((res) => {
+			console.log(res, 999);
 			this.setState({
-				userInfo: userInfo,
-				selectYh: userInfo.bankAccountNumber,
-				bankName: userInfo.bankName,
-				bankAddress: userInfo.bankAddress,
-				bankAccountNumber: userInfo.bankAccountNumber,
-				bankAccountName: userInfo.bankAccountName,
+				userInfo: res.data.data,
+				selectYh: res.data.data.bankAccountNumber,
+				bankName: res.data.data.bankName,
+				bankAddress: res.data.data.bankAddress,
+				bankAccountNumber: res.data.data.bankAccountNumber,
+				bankAccountName: res.data.data.bankAccountName,
 			});
-			resolve();
 		});
 	};
 	onChangeBn = (value) => {
@@ -80,7 +83,15 @@ export default class BankCard extends React.Component {
 				this.state.bankName,
 		}).then((res) => {
 			Alert.alert('提示', '修改成功', [
-				{text: '确定', onPress: () => this.GetInfo()},
+				{
+					text: '确定',
+					onPress: () => {
+						this.props.navigation.goBack();
+						if (this.props.route.params) {
+							this.props.route.params.refresh();
+						}
+					},
+				},
 			]);
 		});
 	};

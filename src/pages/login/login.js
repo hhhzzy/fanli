@@ -16,13 +16,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import pxSize from '../../assets/js/pxSize';
 import http from '../../assets/js/http';
+import SplashScreen from 'react-native-splash-screen';
 Icon.loadFont();
 export default class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			telePhone: '17600000000',
-			loginPassWord: '111111',
+			telePhone: '',
+			loginPassWord: '',
 		};
 	}
 	static contextType = AuthContext; // 才可以使用 this.context
@@ -54,6 +55,9 @@ export default class Login extends React.Component {
 			loginPassWord: value,
 		});
 	};
+	componentDidMount() {
+		SplashScreen.hide();
+	}
 	render() {
 		return (
 			<View style={{flex: 1}}>

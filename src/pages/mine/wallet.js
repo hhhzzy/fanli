@@ -108,7 +108,7 @@ export default class Mine extends React.Component {
 											我的{this.state.unit}：
 											{this.state.userInfo.accountMoney
 												? this.state.userInfo
-														.accountMoney / 100
+													.accountMoney / 100
 												: 0}
 										</Text>
 									</View>
@@ -128,8 +128,10 @@ export default class Mine extends React.Component {
 												fontSize: 16,
 												fontWeight: 'bold',
 											}}>
-											{this.state.userInfo.rechargeMoney /
-												100}
+											{this.state.userInfo.rechargeMoney
+												? this.state.userInfo
+													.rechargeMoney / 100
+												: '0'}
 										</Text>
 									</View>
 									<View>
@@ -142,8 +144,10 @@ export default class Mine extends React.Component {
 												fontSize: 16,
 												fontWeight: 'bold',
 											}}>
-											{this.state.userInfo.consumeMoney /
-												100}
+											{this.state.userInfo.consumeMoney
+												? this.state.userInfo
+														.consumeMoney / 100
+												: '0'}
 										</Text>
 									</View>
 								</View>
