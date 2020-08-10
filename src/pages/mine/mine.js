@@ -53,20 +53,34 @@ export default class Wallet extends React.Component {
 					response.customButton,
 				);
 			} else {
-				const source = {uri: response.uri};
+				const source = {
+					uri: response.uri,
+					type: response.type,
+					fileName: response.fileName,
+				};
 				this.setState({
 					avatarSource: source,
 				});
 				let param = new FormData(); //创建form对象
-				param.append('file', response); //通过append向form对象添加数据
+				param.append('file', source); //通过append向form对象添加数据
 				let config = {
 					headers: {'Content-Type': 'multipart/form-data'},
 				};
 				console.log(response, '99');
+				fetch('http://104.168.214.183/api/service/upload/uploadImage', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+					body: param,
+				}).then((res) => {
+					console.log(res);
+				});
+
 				// http({
 				// 	method: 'post',
 				// 	url: 'service/upload/uploadImage',
-				// 	data: JSON.stringify(param),
+				// 	data: {file: param},
 				// }).then((res) => {
 				// 	console.log(res);
 				// });
@@ -193,7 +207,7 @@ export default class Wallet extends React.Component {
 											我的{this.state.unit}：
 											{this.state.userInfo.accountMoney
 												? this.state.userInfo
-														.accountMoney / 100
+													.accountMoney / 100
 												: 0}
 										</Text>
 									</View>

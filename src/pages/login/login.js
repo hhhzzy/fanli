@@ -21,14 +21,13 @@ export default class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			telePhone: '',
-			loginPassWord: '',
+			telePhone: '17600000000',
+			loginPassWord: '111111',
 		};
 	}
 	static contextType = AuthContext; // 才可以使用 this.context
 	login = () => {
 		const {signIn} = this.context;
-		console.log(this.state.telePhone);
 		if (!this.state.telePhone || !this.state.loginPassWord) {
 			Alert.alert('提示', '请输入手机号或密码', [
 				{text: '确定', onPress: () => console.log('OK Pressed')},

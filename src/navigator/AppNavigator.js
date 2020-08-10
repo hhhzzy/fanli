@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import TabNav from './MainTabNavigator';
 import Login from '../pages/login/login';
 import Register from '../pages/register/register';
+import Middle from '../pages/home/middle';
 import GoodsDetailScreen from '../pages/goods/goodsDetail'; // 商品详情
 import OrderListScreen from '../pages/mine/orderList'; // 订单列表
 import OrderDetailScreen from '../pages/mine/orderInfo'; // 订单列表
@@ -50,6 +51,7 @@ export default class RootStack extends React.Component {
 				userToken: nextProps.userToken,
 			};
 		}
+		console.log(445);
 		return null;
 	}
 	render() {
@@ -732,6 +734,33 @@ export default class RootStack extends React.Component {
 								headerBackTitleVisible: false,
 							}}
 							component={EditScreen}
+						/>
+						<Stack.Screen
+							name="Middle"
+							options={{
+								headerTitle: '用户信息',
+								headerTintColor: '#fff',
+								headerTitleAlign: 'center',
+								headerBackground: () => {
+									return (
+										<LinearGradient
+											start={{x: 0, y: 0}}
+											end={{x: 0, y: 1}}
+											style={{flex: 1}}
+											colors={['#9BD6D2', '#4CDBC5']}
+										/>
+									);
+								},
+								headerBackImage: () => (
+									<Icon
+										name="chevron-back"
+										size={40}
+										color="white"
+									/>
+								),
+								headerBackTitleVisible: false,
+							}}
+							component={Middle}
 						/>
 					</>
 				)}

@@ -294,31 +294,40 @@ export default class Game extends React.Component {
 							alignItems: 'center',
 							backgroundColor: '#F9F9F9',
 						}}>
-						<Text
-							style={{
-								fontSize: 15,
-								color: '#989898',
-								marginLeft: pxSize(15),
-							}}>
-							第{this.state.gameInfo.periodsNumber}期
-						</Text>
-						<Text
-							style={{
-								fontSize: 15,
-								color: '#989898',
-								marginLeft: pxSize(15),
-							}}>
-							距离开奖还有：
-						</Text>
-						<Text
-							style={{
-								fontSize: 15,
-								color: '#F12210',
-							}}>
-							{this.state.gameInfo.state == 0
-								? this.state.eT
-								: ''}
-						</Text>
+						{this.state.gameInfo.state == 0 ? (
+							<View>
+								<Text
+									style={{
+										fontSize: 15,
+										color: '#989898',
+										marginLeft: pxSize(15),
+									}}>
+									第{this.state.gameInfo.periodsNumber}期
+								</Text>
+								<Text
+									style={{
+										fontSize: 15,
+										color: '#989898',
+										marginLeft: pxSize(15),
+									}}>
+									距离开奖还有：
+								</Text>
+								<Text
+									style={{
+										fontSize: 15,
+										color: '#F12210',
+									}}>
+									{this.state.gameInfo.state == 0
+										? this.state.eT
+										: ''}
+								</Text>
+							</View>
+						) : (
+							<Text style={{paddingLeft: 15}}>
+								本期已完成，敬请期待下期
+							</Text>
+						)}
+
 						<TouchableHighlight onPress={() => this.GotoR()}>
 							<Text
 								style={{
@@ -346,6 +355,7 @@ export default class Game extends React.Component {
 									paddingBottom: pxSize(20),
 									borderBottomColor: '#f5f5f5',
 									borderBottomWidth: 1,
+									paddingTop: pxSize(20),
 								}}>
 								<View
 									style={{

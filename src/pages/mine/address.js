@@ -75,6 +75,19 @@ export default class Address extends React.Component {
 		});
 	};
 	AddAddress = () => {
+		// if (
+		// 	!this.state.receiveAddress ||
+		// 	!this.state.receiveName ||
+		// 	!this.state.receivePhone
+		// ) {
+		// 	Alert.alert('提示', '以上信息请必填', [
+		// 		{
+		// 			text: '确定',
+		// 			onPress: () => {},
+		// 		},
+		// 	]);
+		// 	return;
+		// }
 		http({
 			method: 'get',
 			url:

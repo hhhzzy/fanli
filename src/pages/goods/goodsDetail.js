@@ -141,14 +141,17 @@ export default class GoodsDtail extends React.Component {
 		});
 	};
 	BuyPwd = async () => {
-		if (!this.state.selectAddress) {
-			Alert.alert('提示', '请选择用户地址', [
+		console.log(this.state.addressList[0].receiveAddress);
+		if (
+			!this.state.selectAddress ||
+			!this.state.addressList[0].receiveAddress
+		) {
+			Alert.alert('提示', '请添加并选择用户地址', [
 				{text: '确定', onPress: () => console.log('OK Pressed')},
 			]);
 			return;
 		}
 
-		let userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'));
 		Modal.prompt(
 			'输入支付密码',
 			'',
@@ -175,7 +178,6 @@ export default class GoodsDtail extends React.Component {
 						'&tranPassword=' +
 						password,
 				}).then((res) => {
-					console.log(res);
 					this.setState({
 						addressVisible: false,
 					});
@@ -183,7 +185,11 @@ export default class GoodsDtail extends React.Component {
 						Alert.alert('提示', res.data.msg, [
 							{
 								text: '确定',
-								onPress: () => console.log('OK Pressed'),
+								onPress: () => {
+									this.setState({
+										popupVisible: false,
+									});
+								},
 							},
 						]);
 					}
@@ -457,7 +463,8 @@ export default class GoodsDtail extends React.Component {
 						<View>
 							<List style={{marginTop: 12, marginBottom: 12}}>
 								{this.state.addressList.map((item) =>
-									item.receiveAddress != '未设置' ? (
+									item.receiveName != '未设置' &&
+									item.receiveName != '' ? (
 										<RadioItem
 											key={item.id}
 											checked={
