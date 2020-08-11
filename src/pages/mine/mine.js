@@ -55,8 +55,8 @@ export default class Wallet extends React.Component {
 			} else {
 				const source = {
 					uri: response.uri,
-					type: response.type,
 					fileName: response.fileName,
+					type: 'multipart/form-data',
 				};
 				this.setState({
 					avatarSource: source,
@@ -67,23 +67,35 @@ export default class Wallet extends React.Component {
 					headers: {'Content-Type': 'multipart/form-data'},
 				};
 				console.log(response, '99');
-				fetch('http://104.168.214.183/api/service/upload/uploadImage', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'multipart/form-data',
-					},
-					body: param,
-				}).then((res) => {
-					console.log(res);
-				});
-
-				// http({
-				// 	method: 'post',
-				// 	url: 'service/upload/uploadImage',
-				// 	data: {file: param},
+				// fetch('http://104.168.214.183/api/service/upload/uploadImage', {
+				// 	method: 'POST',
+				// 	headers: {
+				// 		'Content-Type': 'multipart/form-data',
+				// 	},
+				// 	body: param,
 				// }).then((res) => {
 				// 	console.log(res);
 				// });
+				// let xhr = new XMLHttpRequest();
+				// xhr.open(
+				// 	'POST',
+				// 	'http://104.168.214.183/api/service/upload/uploadImage',
+				// );
+				// xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+				// xhr.onreadystatechange = () => {
+				// 	console.log(xhr);
+				// 	if (xhr.readyState == 4 && xhr.status == 200) {
+				// 		console.log('res', xhr.response);
+				// 	}
+				// };
+				// xhr.send(param);
+				http({
+					method: 'post',
+					url: 'service/upload/uploadImage',
+					data: param,
+				}).then((res) => {
+					console.log(res);
+				});
 				console.warn(this.state.avatarSource.uri);
 			}
 		});

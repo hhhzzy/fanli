@@ -55,6 +55,12 @@ export default class Tx extends React.Component {
 			]);
 			return;
 		}
+		if (!this.state.userInfo.bankAccountNumber) {
+			Alert.alert('提示', '请选择银行卡号信息', [
+				{text: '确定', onPress: () => console.log('OK Pressed')},
+			]);
+			return;
+		}
 		Modal.prompt(
 			'输入支付密码',
 			'',

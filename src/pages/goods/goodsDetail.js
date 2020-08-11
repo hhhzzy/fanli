@@ -60,6 +60,16 @@ export default class GoodsDtail extends React.Component {
 			method: 'get',
 			url: 'index/getProductDetail?productId=' + this.state.id,
 		}).then((res) => {
+			console.log(res);
+			res.data.data.imgUrl =
+				url +
+				'service/upload/getImg?imgUrl=' +
+				encodeURIComponent(res.data.data.imgUrl);
+			res.data.data.productDetail = res.data.data.productDetail.replace(
+				/[\r\n\s]/g,
+				'',
+			);
+			console.log(res.data.data.productDetail);
 			this.setState({
 				DataInfo: res.data.data,
 				totalMoney: res.data.data.productMoney / 100,
@@ -339,7 +349,11 @@ export default class GoodsDtail extends React.Component {
 							</Text>
 							<Text style={{fontSize: 14, color: '#4D4D4D'}}>
 								<HTMLView
-									value={this.state.DataInfo.productDetail}
+									value={
+										this.state.DataInfo.productDetail
+											? this.state.DataInfo.productDetail
+											: ''
+									}
 								/>
 								{/* {this.state.DataInfo.} */}
 							</Text>
@@ -366,7 +380,7 @@ export default class GoodsDtail extends React.Component {
 										width: pxSize(70),
 										height: pxSize(66),
 									}}
-									source={require('../../assets/image/1.jpeg')}
+									source={{uri: this.state.DataInfo.imgUrl}}
 								/>
 							</View>
 							<View style={{justifyContent: 'space-around'}}>
@@ -467,35 +481,35 @@ export default class GoodsDtail extends React.Component {
 								{this.state.addressList.map((item) =>
 									item.receiveName != '未设置' &&
 									item.receiveName != '' ? (
-											<RadioItem
-												key={item.id}
-												checked={
-													this.state.selectAddress ===
+										<RadioItem
+											key={item.id}
+											checked={
+												this.state.selectAddress ===
 												item.id
+											}
+											onChange={(event) => {
+												if (event.target.checked) {
+													this.setState({
+														selectAddress: item.id,
+													});
 												}
-												onChange={(event) => {
-													if (event.target.checked) {
-														this.setState({
-															selectAddress: item.id,
-														});
-													}
+											}}>
+											<Text style={{fontSize: 16}}>
+												{item.receiveAddress}
+											</Text>
+										</RadioItem>
+									) : (
+										<TouchableHighlight
+											onPress={() => this.GotoAddress()}>
+											<Text
+												style={{
+													marginBottom: pxSize(5),
+													marginTop: pxSize(5),
 												}}>
-												<Text style={{fontSize: 16}}>
-													{item.receiveAddress}
-												</Text>
-											</RadioItem>
-										) : (
-											<TouchableHighlight
-												onPress={() => this.GotoAddress()}>
-												<Text
-													style={{
-														marginBottom: pxSize(5),
-														marginTop: pxSize(5),
-													}}>
 												请点击添加地址
-												</Text>
-											</TouchableHighlight>
-										),
+											</Text>
+										</TouchableHighlight>
+									),
 								)}
 							</List>
 						</View>

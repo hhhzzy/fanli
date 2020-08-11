@@ -295,7 +295,7 @@ export default class Game extends React.Component {
 							backgroundColor: '#F9F9F9',
 						}}>
 						{this.state.gameInfo.state == 0 ? (
-							<View>
+							<View style={{flexDirection: 'row'}}>
 								<Text
 									style={{
 										fontSize: 15,
@@ -304,23 +304,34 @@ export default class Game extends React.Component {
 									}}>
 									第{this.state.gameInfo.periodsNumber}期
 								</Text>
-								<Text
-									style={{
-										fontSize: 15,
-										color: '#989898',
-										marginLeft: pxSize(15),
-									}}>
-									距离开奖还有：
-								</Text>
-								<Text
-									style={{
-										fontSize: 15,
-										color: '#F12210',
-									}}>
-									{this.state.gameInfo.state == 0
-										? this.state.eT
-										: ''}
-								</Text>
+								{this.state.gameInfo.state == 0 ? (
+									<Text
+										style={{
+											fontSize: 15,
+											color: '#F12210',
+											marginLeft: 10,
+										}}>
+										已开奖
+									</Text>
+								) : (
+									<>
+										<Text
+											style={{
+												fontSize: 15,
+												color: '#989898',
+												marginLeft: pxSize(15),
+											}}>
+											距离开奖还有：
+										</Text>
+										<Text
+											style={{
+												fontSize: 15,
+												color: '#F12210',
+											}}>
+											{this.state.eT}
+										</Text>
+									</>
+								)}
 							</View>
 						) : (
 							<Text style={{paddingLeft: 15}}>
@@ -622,6 +633,7 @@ export default class Game extends React.Component {
 											paddingLeft: pxSize(45),
 											paddingRight: pxSize(30),
 											paddingBottom: pxSize(18),
+											paddingTop: pxSize(15),
 										}}>
 										<TouchableHighlight
 											onPress={() => this.Buy('1')}>

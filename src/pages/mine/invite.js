@@ -10,7 +10,9 @@ import {
 	Switch,
 	ImageBackground,
 	Dimensions,
+	Alert,
 } from 'react-native';
+import Clipboard from '@react-native-community/clipboard';
 import {Button, Modal, Provider} from '@ant-design/react-native';
 import React from 'react';
 
@@ -20,6 +22,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import LinearGradient from 'react-native-linear-gradient';
 import http from '../../assets/js/http';
 import AsyncStorage from '@react-native-community/async-storage';
+import QRCode from 'react-native-qrcode-svg';
 Icon.loadFont();
 AntDesign.loadFont();
 export default class Invite extends React.Component {
@@ -40,6 +43,13 @@ export default class Invite extends React.Component {
 				userInfo: res.data.data,
 			});
 		});
+	};
+	Copy = async () => {
+		Clipboard.setString(this.state.userInfo.recommendCode);
+		await Clipboard.getString();
+		Alert.alert('提示', '复制成功', [
+			{text: '确定', onPress: () => console.log('OK Pressed')},
+		]);
 	};
 	componentDidMount() {
 		// 获取用户数据
@@ -67,15 +77,23 @@ export default class Invite extends React.Component {
 					source={require('../../assets/image/tj_bk.png')}
 				/>
 				<View>
-					<Image
+					<View
 						style={{
 							width: pxSize(132),
 							height: pxSize(132),
 							marginLeft: pxSize(120),
 							marginTop: pxSize(290),
-						}}
-						source={require('../../assets/image/1.jpeg')}
-					/>
+						}}>
+						<QRCode
+							value="http://104.168.214.183:8900/resource/jbp.apk"
+							logo={require('../../assets/image/logo.png')}
+							logoBorderRadius={1}
+							color={'#191919'}
+							backgroundColor={'#ffffff'}
+							logoSize={30}
+							size={132}
+						/>
+					</View>
 					<View
 						style={{
 							borderBottomColor: '#85D9AB',
@@ -128,21 +146,23 @@ export default class Invite extends React.Component {
 					<Text style={{fontSize: 19, color: '#137139'}}>
 						我的链接
 					</Text>
-					<Text
-						style={{
-							width: pxSize(88),
-							height: pxSize(34),
-							borderStyle: 'solid',
-							borderColor: '#137139',
-							borderWidth: 1,
-							borderRadius: 10,
-							textAlign: 'center',
-							fontSize: 19,
-							color: '#137139',
-							paddingTop: pxSize(5),
-						}}>
-						复制
-					</Text>
+					<TouchableHighlight onPress={() => this.Copy()}>
+						<Text
+							style={{
+								width: pxSize(88),
+								height: pxSize(34),
+								borderStyle: 'solid',
+								borderColor: '#137139',
+								borderWidth: 1,
+								borderRadius: 10,
+								textAlign: 'center',
+								fontSize: 19,
+								color: '#137139',
+								paddingTop: pxSize(5),
+							}}>
+							复制
+						</Text>
+					</TouchableHighlight>
 				</View>
 			</View>
 		);
