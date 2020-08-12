@@ -189,7 +189,7 @@ export default class Promote extends React.Component {
 										flex: 1,
 										textAlign: 'center',
 									}}>
-									{item.consumeMoney}
+									{item.consumeMoney / 100}
 								</Text>
 								<Text
 									style={{
@@ -203,7 +203,7 @@ export default class Promote extends React.Component {
 										flex: 1.5,
 										textAlign: 'center',
 									}}>
-									{item.totalConsumeMoney}
+									{item.totalConsumeMoney / 100}
 								</Text>
 							</View>
 						))}

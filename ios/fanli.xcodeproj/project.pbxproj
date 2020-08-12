@@ -17,6 +17,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* fanliTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* fanliTests.m */; };
 		585AC33F79544F988B465ED9 /* antfill.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0F784D72B714F0992A7860F /* antfill.ttf */; };
+		7BF2C61224E4364C00FDDDB7 /* bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7BF2C61124E4364C00FDDDB7 /* bundle */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		99AEFBD8B9C3C958CF9CFC38 /* libPods-fanli-fanliTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F2DFEC0A623AD3EDBCAF1D /* libPods-fanli-fanliTests.a */; };
 		B8A45D89426A11FF6E905C96 /* libPods-fanli-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D9EF414297FF8F115F447CB /* libPods-fanli-tvOS.a */; };
@@ -62,12 +63,13 @@
 		5F83261D931D562423505ECB /* libPods-fanli.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fanli.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A94C5152460A3414313CE87 /* Pods-fanli-fanliTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fanli-fanliTests.debug.xcconfig"; path = "Target Support Files/Pods-fanli-fanliTests/Pods-fanli-fanliTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6D9EF414297FF8F115F447CB /* libPods-fanli-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fanli-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BF2C61124E4364C00FDDDB7 /* bundle */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bundle; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = fanli/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		A102C6A0E30342F1A0D160DC /* antoutline.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = antoutline.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; };
+		A102C6A0E30342F1A0D160DC /* antoutline.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = antoutline.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; };
 		B2F2DFEC0A623AD3EDBCAF1D /* libPods-fanli-fanliTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fanli-fanliTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B766F4E16B750E39D3AD3A73 /* Pods-fanli-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fanli-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-fanli-tvOSTests/Pods-fanli-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BA2BA02F328FC9C8A8AE3790 /* Pods-fanli-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fanli-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-fanli-tvOS/Pods-fanli-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		D0F784D72B714F0992A7860F /* antfill.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = antfill.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; };
+		D0F784D72B714F0992A7860F /* antfill.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = antfill.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		EEC97857B29B9EECF1DF6431 /* Pods-fanli-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fanli-tvOS.release.xcconfig"; path = "Target Support Files/Pods-fanli-tvOS/Pods-fanli-tvOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		13B07FAE1A68108700A75B9A /* fanli */ = {
 			isa = PBXGroup;
 			children = (
+				7BF2C61124E4364C00FDDDB7 /* bundle */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -199,7 +202,6 @@
 				B766F4E16B750E39D3AD3A73 /* Pods-fanli-tvOSTests.debug.xcconfig */,
 				5C8200E4031DF1435F550FCF /* Pods-fanli-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -210,7 +212,6 @@
 				A102C6A0E30342F1A0D160DC /* antoutline.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -355,6 +356,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BF2C61224E4364C00FDDDB7 /* bundle in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				585AC33F79544F988B465ED9 /* antfill.ttf in Resources */,
