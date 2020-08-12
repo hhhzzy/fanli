@@ -281,10 +281,10 @@ export default class Tx extends React.Component {
 								marginRight: pxSize(15),
 								marginBottom: pxSize(20),
 							}}>
-							<Text
+							<View
 								style={{paddingLeft: pxSize(10), fontSize: 14}}>
 								<HTMLView value={this.state.info} />
-							</Text>
+							</View>
 						</View>
 					</ScrollView>
 					<TouchableHighlight onPress={() => this.GotoTx()}>

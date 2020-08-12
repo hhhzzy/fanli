@@ -48,6 +48,7 @@ import appReducer,{initialState} from './src/assets/reducers/reducer';
 import http from './src/assets/js/http'; // 封装的axios
 
 import SplashScreen from 'react-native-splash-screen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 // 侧边抽屉导航
@@ -179,7 +180,9 @@ export default function App(){
 	return (
 		<AuthContext.Provider value={authContext}>
 			<NavigationContainer ref={navigationRef}>
-				<RootStack  userToken={state.userToken}/>
+				<SafeAreaProvider>
+					<RootStack  userToken={state.userToken}/>
+				</SafeAreaProvider>
 			</NavigationContainer>
 		</AuthContext.Provider>
 	);

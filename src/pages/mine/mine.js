@@ -54,9 +54,9 @@ export default class Wallet extends React.Component {
 				);
 			} else {
 				const source = {
-					uri: response.uri,
+					uri: 'file:/' + response.uri,
 					fileName: response.fileName,
-					type: 'multipart/form-data',
+					type: response.type,
 				};
 				this.setState({
 					avatarSource: source,

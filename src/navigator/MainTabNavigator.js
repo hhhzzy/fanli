@@ -37,7 +37,7 @@ export default class TabNav extends React.Component {
 					tabBarLabel: () => {},
 				})}
 				tabBarOptions={{
-					activeTintColor: '#2B7E4B',
+					activeTintColor: '#4CDBC5',
 					inactiveTintColor: '#D7D7D7',
 					activeBackgroundColor: '#fff',
 					safeAreaInsets: {bottom: 0},

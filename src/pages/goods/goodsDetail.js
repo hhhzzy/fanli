@@ -347,7 +347,10 @@ export default class GoodsDtail extends React.Component {
 								}}>
 								产品介绍
 							</Text>
-							<Text style={{fontSize: 14, color: '#4D4D4D'}}>
+							<View
+								style={{
+									fontSize: 14,
+								}}>
 								<HTMLView
 									value={
 										this.state.DataInfo.productDetail
@@ -356,7 +359,7 @@ export default class GoodsDtail extends React.Component {
 									}
 								/>
 								{/* {this.state.DataInfo.} */}
-							</Text>
+							</View>
 						</View>
 					</ScrollView>
 
@@ -481,35 +484,35 @@ export default class GoodsDtail extends React.Component {
 								{this.state.addressList.map((item) =>
 									item.receiveName != '未设置' &&
 									item.receiveName != '' ? (
-										<RadioItem
-											key={item.id}
-											checked={
-												this.state.selectAddress ===
+											<RadioItem
+												key={item.id}
+												checked={
+													this.state.selectAddress ===
 												item.id
-											}
-											onChange={(event) => {
-												if (event.target.checked) {
-													this.setState({
-														selectAddress: item.id,
-													});
 												}
-											}}>
-											<Text style={{fontSize: 16}}>
-												{item.receiveAddress}
-											</Text>
-										</RadioItem>
-									) : (
-										<TouchableHighlight
-											onPress={() => this.GotoAddress()}>
-											<Text
-												style={{
-													marginBottom: pxSize(5),
-													marginTop: pxSize(5),
+												onChange={(event) => {
+													if (event.target.checked) {
+														this.setState({
+															selectAddress: item.id,
+														});
+													}
 												}}>
+												<Text style={{fontSize: 16}}>
+													{item.receiveAddress}
+												</Text>
+											</RadioItem>
+										) : (
+											<TouchableHighlight
+												onPress={() => this.GotoAddress()}>
+												<Text
+													style={{
+														marginBottom: pxSize(5),
+														marginTop: pxSize(5),
+													}}>
 												请点击添加地址
-											</Text>
-										</TouchableHighlight>
-									),
+												</Text>
+											</TouchableHighlight>
+										),
 								)}
 							</List>
 						</View>
