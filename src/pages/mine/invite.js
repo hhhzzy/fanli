@@ -30,6 +30,7 @@ export default class Invite extends React.Component {
 		super(props);
 		this.state = {
 			userInfo: {},
+			qrValue: 'aa',
 		};
 	}
 	GetUser = async () => {
@@ -38,15 +39,21 @@ export default class Invite extends React.Component {
 			method: 'get',
 			url: 'personal/getMemberInfo?memberId=' + usr.id,
 		}).then((res) => {
-			console.log(res, 999);
 			this.setState({
 				userInfo: res.data.data,
+				qrValue:
+					'http://104.168.214.183:8900/resource/register.html?rid=' +
+					res.data.data.recommendCode,
 			});
+			console.log(res.data.data, 999);
 		});
 	};
 	Copy = async () => {
-		Clipboard.setString(this.state.userInfo.recommendCode);
-		await Clipboard.getString();
+		Clipboard.setString(
+			'http://104.168.214.183:8900/resource/register.html?rid=' +
+				this.state.userInfo.recommendCode,
+		);
+		let str = await Clipboard.getString();
 		Alert.alert('提示', '复制成功', [
 			{text: '确定', onPress: () => console.log('OK Pressed')},
 		]);
@@ -84,15 +91,19 @@ export default class Invite extends React.Component {
 							marginLeft: pxSize(120),
 							marginTop: pxSize(290),
 						}}>
-						<QRCode
-							value="http://104.168.214.183:8900/resource/jbp.apk"
-							logo={require('../../assets/image/logo.png')}
-							logoBorderRadius={1}
-							color={'#191919'}
-							backgroundColor={'#ffffff'}
-							logoSize={30}
-							size={132}
-						/>
+						{this.state.qrValue ? (
+							<QRCode
+								value={this.state.qrValue}
+								logo={require('../../assets/image/logo.png')}
+								logoBorderRadius={1}
+								color={'#191919'}
+								backgroundColor={'#ffffff'}
+								logoSize={30}
+								size={132}
+							/>
+						) : (
+							<Text />
+						)}
 					</View>
 					<View
 						style={{
