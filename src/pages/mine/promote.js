@@ -7,6 +7,8 @@ import {
 	SafeAreaView,
 	ScrollView,
 	TouchableHighlight,
+	Alert,
+	TouchableWithoutFeedback,
 } from 'react-native';
 import React from 'react';
 import {SearchBar} from '@ant-design/react-native';
@@ -15,6 +17,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-community/async-storage';
 import http from '../../assets/js/http';
+import Clipboard from '@react-native-community/clipboard';
 Icon.loadFont();
 
 export default class Promote extends React.Component {
@@ -36,6 +39,16 @@ export default class Promote extends React.Component {
 			});
 			resolve();
 		});
+	};
+	Copy = async () => {
+		Clipboard.setString(
+			'http://104.168.214.183:8900/resource/register.html?rid=' +
+				this.state.userInfo.recommendCode,
+		);
+		let str = await Clipboard.getString();
+		Alert.alert('提示', '复制成功', [
+			{text: '确定', onPress: () => console.log('OK Pressed')},
+		]);
 	};
 	GetList = () => {
 		http({
@@ -85,18 +98,23 @@ export default class Promote extends React.Component {
 								{this.state.userInfo.nickName}
 							</Text>
 							<Text style={{fontSize: 14, color: '#fff'}}>
-								我的推荐码
+								我的推荐码：{this.state.userInfo.recommendCode}
 							</Text>
 						</View>
-						<Image
-							style={{
-								width: pxSize(20),
-								height: pxSize(20),
-								marginLeft: 'auto',
-								marginTop: pxSize(5),
-							}}
-							source={require('../../assets/image/share.png')}
-						/>
+
+						<TouchableWithoutFeedback
+							onPress={() => this.Copy()}
+							style={{flex: 1}}>
+							<Image
+								style={{
+									width: pxSize(20),
+									height: pxSize(20),
+									marginLeft: 'auto',
+									marginTop: pxSize(5),
+								}}
+								source={require('../../assets/image/share.png')}
+							/>
+						</TouchableWithoutFeedback>
 					</View>
 				</LinearGradient>
 				<View style={styles.tjBox}>
@@ -118,7 +136,7 @@ export default class Promote extends React.Component {
 							{this.state.list.length}人
 						</Text>
 					</View>
-					<View>
+					{/* <View>
 						<View
 							style={{
 								width: pxSize(335),
@@ -135,7 +153,7 @@ export default class Promote extends React.Component {
 								placeholder="输入好友手机号进行搜索"
 							/>
 						</View>
-					</View>
+					</View> */}
 				</View>
 				<ScrollView style={{flex: 1}}>
 					<View
@@ -228,7 +246,7 @@ const styles = StyleSheet.create({
 		marginLeft: pxSize(10),
 	},
 	tjBox: {
-		height: pxSize(110),
+		height: pxSize(50),
 		backgroundColor: '#fff',
 		borderTopRightRadius: 8,
 		borderTopLeftRadius: 8,

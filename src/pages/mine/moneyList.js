@@ -7,6 +7,7 @@ import {
 	StyleSheet,
 	TouchableHighlight,
 	TextInput,
+	Platform,
 } from 'react-native';
 import React from 'react';
 import pxSize from '../../assets/js/pxSize';
@@ -69,7 +70,7 @@ export default class MoneyList extends React.Component {
 	render() {
 		return (
 			<SafeAreaView>
-				<ScrollView horizontal={true} style={{backgroundColor: '#fff'}}>
+				<View style={{backgroundColor: '#fff'}}>
 					<View style={styles.navBox}>
 						<TouchableHighlight onPress={() => this.SwitchTah(0)}>
 							<Text
@@ -127,66 +128,77 @@ export default class MoneyList extends React.Component {
 							</Text>
 						</TouchableHighlight>
 					</View>
-				</ScrollView>
-				<ScrollView>
-					{this.state.list.map((item) => (
-						<TouchableHighlight
-							key={item.tranNumber}
-							onPress={() => this.GotoOrderInfo()}>
-							<View style={styles.orderList}>
-								<View>
-									<Text style={{fontSize: 16, color: '#000'}}>
-										{item.tranName}
-									</Text>
-									<Text
-										style={{
-											fontSize: 12,
-											color: '#666',
-											marginTop: pxSize(2),
-										}}>
-										{item.tranNumber}
-									</Text>
-									<Text
-										style={{
-											fontSize: 12,
-											color: '#666',
-											marginTop: pxSize(2),
-										}}>
-										{item.createTime}
-									</Text>
-								</View>
-								<View>
-									<Text
-										style={{
-											fontWeight: 'bold',
-											fontSize: 16,
-											color: '#000',
-											marginBottom: 3,
-										}}>
-										{item.tranMoney / 100}元
-									</Text>
-									{item.type === 1 ? (
-										item.state === 0 ? (
-											<Text style={{color: '#666'}}>
-												待审核
-											</Text>
-										) : item.state === 1 ? (
-											<Text style={{color: '#666'}}>
-												已审核
-											</Text>
+				</View>
+				<View>
+					<ScrollView>
+						{this.state.list.map((item) => (
+							<TouchableHighlight
+								key={item.tranNumber}
+								onPress={() => this.GotoOrderInfo()}>
+								<View style={styles.orderList}>
+									<View>
+										<Text
+											style={{
+												fontSize: 16,
+												color: '#000',
+											}}>
+											{item.tranName}
+										</Text>
+										<Text
+											style={{
+												fontSize: 12,
+												color: '#666',
+												marginTop: pxSize(2),
+											}}>
+											{item.tranNumber}
+										</Text>
+										<Text
+											style={{
+												fontSize: 12,
+												color: '#666',
+												marginTop: pxSize(2),
+											}}>
+											{item.createTime}
+										</Text>
+									</View>
+									<View>
+										<Text
+											style={{
+												fontWeight: 'bold',
+												fontSize: 16,
+												color: '#000',
+												marginBottom: 3,
+											}}>
+											{item.tranMoney / 100}元
+										</Text>
+										{item.type === 1 ? (
+											item.state === 0 ? (
+												<Text style={{color: '#666'}}>
+													待审核
+												</Text>
+											) : item.state === 1 ? (
+												<Text style={{color: '#666'}}>
+													已审核
+												</Text>
+											) : (
+												<Text style={{color: '#666'}}>
+													未通过
+												</Text>
+											)
 										) : (
-											<Text style={{color: '#666'}}>
-												未通过
-											</Text>
-										)
-									) : (
-										<Text />
-									)}
+											<Text />
+										)}
+									</View>
 								</View>
-							</View>
-						</TouchableHighlight>
-					))}
-				</ScrollView>
+							</TouchableHighlight>
+						))}
+						<View
+							style={{
+								height: Platform.OS == 'ios' ? 0 : pxSize(130),
+							}}
+						/>
+					</ScrollView>
+				</View>
 			</SafeAreaView>
 		);
 	}

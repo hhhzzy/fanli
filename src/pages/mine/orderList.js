@@ -152,7 +152,7 @@ export default class OrderList extends React.Component {
 									</Text>
 									{this.state.SelTab === '已付款' ? (
 										<Text style={{color: '#50DBC6'}}>
-											代发货
+											待发货
 										</Text>
 									) : this.state.SelTab === '已完成' ? (
 										<Text>已完成</Text>

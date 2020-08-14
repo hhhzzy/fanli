@@ -53,50 +53,29 @@ export default class Wallet extends React.Component {
 					response.customButton,
 				);
 			} else {
+				let base64 = 'data:image/jpeg;base64,' + response.data;
+				this.setState({
+					base64: 'data:image/jpeg;base64,' + response.data,
+				});
 				const source = {
-					uri: 'file:/' + response.uri,
-					fileName: response.fileName,
+					uri: response.uri,
+					name: response.fileName,
 					type: response.type,
 				};
 				this.setState({
 					avatarSource: source,
 				});
-				let param = new FormData(); //创建form对象
-				param.append('file', source); //通过append向form对象添加数据
-				let config = {
-					headers: {'Content-Type': 'multipart/form-data'},
-				};
-				console.log(response, '99');
-				// fetch('http://104.168.214.183/api/service/upload/uploadImage', {
-				// 	method: 'POST',
-				// 	headers: {
-				// 		'Content-Type': 'multipart/form-data',
-				// 	},
-				// 	body: param,
-				// }).then((res) => {
-				// 	console.log(res);
-				// });
-				// let xhr = new XMLHttpRequest();
-				// xhr.open(
-				// 	'POST',
-				// 	'http://104.168.214.183/api/service/upload/uploadImage',
-				// );
-				// xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-				// xhr.onreadystatechange = () => {
-				// 	console.log(xhr);
-				// 	if (xhr.readyState == 4 && xhr.status == 200) {
-				// 		console.log('res', xhr.response);
-				// 	}
-				// };
-				// xhr.send(param);
 				http({
 					method: 'post',
 					url: 'service/upload/uploadImage',
-					data: param,
+					data: JSON.stringify({
+						imgBase64: base64,
+						suffix: '.' + response.type.split('/')[1],
+					}),
 				}).then((res) => {
 					console.log(res);
 				});
-				console.warn(this.state.avatarSource.uri);
+				// console.warn(this.state.avatarSource.uri);
 			}
 		});
 	};
@@ -192,10 +171,19 @@ export default class Wallet extends React.Component {
 										onPress={() =>
 											this.onClickChoosePicture()
 										}>
-										<Image
-											style={styles.headerImg}
-											source={require('../../assets/image/header.png')}
-										/>
+										{!this.state.base64 ? (
+											<Image
+												style={styles.headerImg}
+												source={require('../../assets/image/header.png')}
+											/>
+										) : (
+											<Image
+												style={styles.headerImg}
+												source={{
+													uri: this.state.base64,
+												}}
+											/>
+										)}
 									</TouchableHighlight>
 									<View style={styles.headerName}>
 										<Text
@@ -476,6 +464,7 @@ const styles = StyleSheet.create({
 	headerImg: {
 		width: pxSize(52),
 		height: pxSize(52),
+		borderRadius: 200,
 	},
 	headerName: {
 		marginLeft: pxSize(10),
