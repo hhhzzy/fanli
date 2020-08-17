@@ -15,6 +15,7 @@ import pxSize from '../../assets/js/pxSize';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
+import url from '../../assets/js/url';
 Icon.loadFont();
 import http from '../../assets/js/http';
 
@@ -34,6 +35,18 @@ export default class Wallet extends React.Component {
 			cancelButtonTitle: '取消',
 			takePhotoButtonTitle: '拍照',
 			chooseFromLibraryButtonTitle: '选择照片',
+			scameraType: 'back',
+			mediaType: 'photo',
+			videoQuality: 'high',
+			durationLimit: 10,
+			maxWidth: 600,
+			maxHeight: 600,
+			aspectX: 2,
+			aspectY: 1,
+			quality: 0.8,
+			angle: 0,
+			allowsEditing: false,
+			noData: false,
 			storageOptions: {
 				skipBackup: true,
 				path: 'images',
@@ -54,9 +67,9 @@ export default class Wallet extends React.Component {
 				);
 			} else {
 				let base64 = 'data:image/jpeg;base64,' + response.data;
-				this.setState({
-					base64: 'data:image/jpeg;base64,' + response.data,
-				});
+				// this.setState({
+				// 	base64: 'data:image/jpeg;base64,' + response.data,
+				// });
 				const source = {
 					uri: response.uri,
 					name: response.fileName,
@@ -67,13 +80,47 @@ export default class Wallet extends React.Component {
 				});
 				http({
 					method: 'post',
-					url: 'service/upload/uploadImage',
-					data: JSON.stringify({
-						imgBase64: base64,
+					url: 'service/upload/uploadImageBase64',
+					data: {
+						imgBase64: response.data,
 						suffix: '.' + response.type.split('/')[1],
-					}),
+					},
 				}).then((res) => {
 					console.log(res);
+					if (res.data.code == 1) {
+						console.log(
+							res.data.data,
+							url +
+								'service/upload/getImg?imgUrl=' +
+								encodeURIComponent(res.data.data),
+						);
+						this.setState({
+							base64:
+								url +
+								'service/upload/getImg?imgUrl=' +
+								encodeURIComponent(res.data.data),
+						});
+						http({
+							method: 'get',
+							url:
+								'personal/updateMemberImgUrl?memberId=' +
+								this.state.userInfo.id +
+								'&imgUrl=' +
+								res.data.data,
+						}).then((data) => {
+							console.log(data);
+							if (data.data.code == 1) {
+								Alert.alert('提示', '上传成功', [
+									{
+										text: '确定',
+										onPress: () => {
+											this.GetUser();
+										},
+									},
+								]);
+							}
+						});
+					}
 				});
 				// console.warn(this.state.avatarSource.uri);
 			}
@@ -129,9 +176,17 @@ export default class Wallet extends React.Component {
 			method: 'get',
 			url: 'personal/getMemberInfo?memberId=' + usr.id,
 		}).then((res) => {
-			console.log(res, 999);
+			console.log(
+				url +
+					'service/upload/getImg?imgUrl=' +
+					encodeURIComponent(res.data.data.imgUrl),
+			);
 			this.setState({
 				userInfo: res.data.data,
+				base64:
+					url +
+					'service/upload/getImg?imgUrl=' +
+					encodeURIComponent(res.data.data.imgUrl),
 			});
 		});
 	};
@@ -177,12 +232,14 @@ export default class Wallet extends React.Component {
 												source={require('../../assets/image/header.png')}
 											/>
 										) : (
-											<Image
-												style={styles.headerImg}
-												source={{
-													uri: this.state.base64,
-												}}
-											/>
+											<>
+												<Image
+													style={[styles.headerImg]}
+													source={{
+														uri: this.state.base64,
+													}}
+												/>
+											</>
 										)}
 									</TouchableHighlight>
 									<View style={styles.headerName}>
@@ -207,7 +264,7 @@ export default class Wallet extends React.Component {
 											我的{this.state.unit}：
 											{this.state.userInfo.accountMoney
 												? this.state.userInfo
-														.accountMoney / 100
+													.accountMoney / 100
 												: 0}
 										</Text>
 									</View>
