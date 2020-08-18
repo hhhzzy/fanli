@@ -17,6 +17,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {AuthContext} from '../../assets/js/Context';
 import AsyncStorage from '@react-native-community/async-storage';
 import http from '../../assets/js/http';
+import url from '../../assets/js/url';
 Icon.loadFont();
 export default class Setting extends React.Component {
 	constructor(props) {
@@ -69,6 +70,10 @@ export default class Setting extends React.Component {
 			console.log(res, 999);
 			this.setState({
 				userInfo: res.data.data,
+				base64:
+					url +
+					'service/upload/getImg?imgUrl=' +
+					encodeURIComponent(res.data.data.imgUrl),
 			});
 		});
 	};
@@ -85,14 +90,28 @@ export default class Setting extends React.Component {
 					}}>
 					<View style={styles.listBox}>
 						<Text>头像</Text>
-						<Image
-							style={{
-								width: pxSize(50),
-								height: pxSize(50),
-								borderRadius: 50,
-							}}
-							source={require('../../assets/image/header.png')}
-						/>
+
+						{!this.state.base64 ? (
+							<Image
+								style={{
+									width: pxSize(50),
+									height: pxSize(50),
+									borderRadius: 50,
+								}}
+								source={require('../../assets/image/header.png')}
+							/>
+						) : (
+							<Image
+								style={{
+									width: pxSize(50),
+									height: pxSize(50),
+									borderRadius: 50,
+								}}
+								source={{
+									uri: this.state.base64,
+								}}
+							/>
+						)}
 					</View>
 					<View style={styles.listBox}>
 						<Text>昵称</Text>

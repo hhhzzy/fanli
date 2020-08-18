@@ -178,12 +178,12 @@ export default function App(){
 		[]
 	);
 	return (
-		<AuthContext.Provider value={authContext}>
-			<NavigationContainer ref={navigationRef}>
-				<SafeAreaProvider>
+		<SafeAreaProvider>
+			<AuthContext.Provider value={authContext}>
+				<NavigationContainer ref={navigationRef}>
 					<RootStack  userToken={state.userToken}/>
-				</SafeAreaProvider>
-			</NavigationContainer>
-		</AuthContext.Provider>
+				</NavigationContainer>
+			</AuthContext.Provider>
+		</SafeAreaProvider>
 	);
 }
