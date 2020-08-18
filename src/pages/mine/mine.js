@@ -207,7 +207,7 @@ export default class Wallet extends React.Component {
 											我的{this.state.unit}：
 											{this.state.userInfo.accountMoney
 												? this.state.userInfo
-														.accountMoney / 100
+													.accountMoney / 100
 												: 0}
 										</Text>
 									</View>
