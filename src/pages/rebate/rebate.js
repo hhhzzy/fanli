@@ -15,6 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Progress} from '@ant-design/react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import http from '../../assets/js/http';
+import url from '../../assets/js/url';
 export default class Rebate extends React.Component {
 	constructor(props) {
 		super(props);
@@ -52,7 +53,16 @@ export default class Rebate extends React.Component {
 				'&type=' +
 				type,
 		}).then((res) => {
-			console.log(res, '888');
+			if (res.data.rows && res.data.rows.length) {
+				res.data.rows.map((item) => {
+					item.imgUrl =
+						url +
+						'service/upload/getImg?imgUrl=' +
+						encodeURIComponent(item.imgUrl);
+					return item;
+				});
+			}
+			console.log(res.data.rows, '9999999');
 			this.setState({
 				list: res.data.rows,
 			});
@@ -105,13 +115,23 @@ export default class Rebate extends React.Component {
 								style={styles.listBox}
 								key={item.productOrder}>
 								<View>
-									<Image
-										style={{
-											width: pxSize(78),
-											height: pxSize(78),
-										}}
-										source={require('../../assets/image/1.jpeg')}
-									/>
+									{item.imgUrl ? (
+										<Image
+											style={{
+												width: pxSize(78),
+												height: pxSize(78),
+											}}
+											source={{uri: item.imgUrl}}
+										/>
+									) : (
+										<Image
+											style={{
+												width: pxSize(78),
+												height: pxSize(78),
+											}}
+											source={require('../../assets/image/1.jpeg')}
+										/>
+									)}
 									<Text style={styles.name}>
 										{item.productName}
 									</Text>

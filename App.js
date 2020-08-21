@@ -30,6 +30,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 
+import {Provider} from '@ant-design/react-native';
 
 import Home from './src/pages/home/home.js';
 import Mine from './src/pages/mine/mine.js';
@@ -181,7 +182,9 @@ export default function App(){
 		<SafeAreaProvider>
 			<AuthContext.Provider value={authContext}>
 				<NavigationContainer ref={navigationRef}>
-					<RootStack  userToken={state.userToken}/>
+					<Provider>
+						<RootStack  userToken={state.userToken}/>
+					</Provider>
 				</NavigationContainer>
 			</AuthContext.Provider>
 		</SafeAreaProvider>

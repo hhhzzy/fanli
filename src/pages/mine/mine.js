@@ -176,17 +176,14 @@ export default class Wallet extends React.Component {
 			method: 'get',
 			url: 'personal/getMemberInfo?memberId=' + usr.id,
 		}).then((res) => {
-			console.log(
-				url +
-					'service/upload/getImg?imgUrl=' +
-					encodeURIComponent(res.data.data.imgUrl),
-			);
+			console.log(res);
 			this.setState({
 				userInfo: res.data.data,
-				base64:
-					url +
-					'service/upload/getImg?imgUrl=' +
-					encodeURIComponent(res.data.data.imgUrl),
+				base64: res.data.data.imgUrl
+					? url +
+					  'service/upload/getImg?imgUrl=' +
+					  encodeURIComponent(res.data.data.imgUrl)
+					: '',
 			});
 		});
 	};

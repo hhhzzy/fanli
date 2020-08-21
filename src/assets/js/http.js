@@ -6,10 +6,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 import * as RootNavigation from '../../navigator/RootNavigation';
 import url from './url';
 import reducer from '../reducers/reducer';
+import {Toast, Portal} from '@ant-design/react-native';
 const ajax = axios.create({
 	baseURL: url, // 请求地址
 	timeout: 30000, // 请求超时
 });
+let requestNum = 0; // 请求的数量
+let taostKey = null;
 ajax.defaults.headers.post['Content-Type'] =
 	'application/x-www-form-urlencoded;charset=UTF-8'; // post 的 请求头设置
 // 请求拦截
@@ -18,8 +21,17 @@ ajax.interceptors.request.use(
 		// 每次请求之前判断vuex中的token是否存在（也可以存在stroge里面）
 		// 如果存在，则统一在请求的header中加上token，后台判断是否登录
 		// 即使存在token，也有可能过期，所以在响应拦截中也要判断状态
+		console.log(1111111);
 		const token = await AsyncStorage.getItem('userToken');
 		token && (config.headers.token = token); // jwt验证
+		// 全局loading
+		if (requestNum == 0) {
+			console.log('展示loading');
+			taostKey = Toast.loading('loading', 0, () => {
+				console.log('Load complete !!!');
+			});
+		}
+		requestNum++;
 		return config;
 	},
 	(error) => {
@@ -29,6 +41,12 @@ ajax.interceptors.request.use(
 // 响应拦截
 ajax.interceptors.response.use(
 	(response) => {
+		// 隐藏loading
+		requestNum--;
+		if (requestNum == 0) {
+			console.log('隐藏loading');
+			Portal.remove(taostKey);
+		}
 		if (typeof response.data === 'string') {
 			if (response.data.indexOf('code=-1') >= 0) {
 				Alert.alert('提示', '登录过期，请重新登录', [

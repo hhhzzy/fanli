@@ -141,7 +141,7 @@ export default class Tx extends React.Component {
 	}
 	render() {
 		return (
-			<Provider>
+			<>
 				<View style={{flex: 1}}>
 					<ScrollView>
 						<Text
@@ -293,7 +293,7 @@ export default class Tx extends React.Component {
 						</View>
 					</TouchableHighlight>
 				</View>
-			</Provider>
+			</>
 		);
 	}
 }

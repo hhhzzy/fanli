@@ -70,10 +70,11 @@ export default class Setting extends React.Component {
 			console.log(res, 999);
 			this.setState({
 				userInfo: res.data.data,
-				base64:
-					url +
-					'service/upload/getImg?imgUrl=' +
-					encodeURIComponent(res.data.data.imgUrl),
+				base64: res.data.data.imgUrl
+					? url +
+					  'service/upload/getImg?imgUrl=' +
+					  encodeURIComponent(res.data.data.imgUrl)
+					: '',
 			});
 		});
 	};
@@ -83,7 +84,7 @@ export default class Setting extends React.Component {
 	}
 	render() {
 		return (
-			<Provider>
+			<>
 				<View
 					style={{
 						backgroundColor: '#fff',
@@ -183,7 +184,7 @@ export default class Setting extends React.Component {
 						</View>
 					</TouchableHighlight>
 				</View>
-			</Provider>
+			</>
 		);
 	}
 }
